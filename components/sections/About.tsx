@@ -2,122 +2,112 @@
 
 import { motion } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
-import { GlassCard } from "../shared/GlassCard";
-import { CheckCircle2, MapPin, Mail, Award, GraduationCap, Laptop } from "lucide-react";
+import { Check, Cpu, Layout, Sparkles } from "lucide-react";
 import { AboutInfo } from "@/lib/data";
 
 interface AboutProps {
   data: AboutInfo;
+  profileImg?: string;
+  name?: string;
 }
 
-export function About({ data }: AboutProps) {
-  const cardItems = [
-    {
-      icon: <GraduationCap className="text-primary" size={24} />,
-      title: "Education",
-      desc: "BSc (Hons) in Computer Engineering",
-    },
-    {
-      icon: <Laptop className="text-secondary" size={24} />,
-      title: "Focus Areas",
-      desc: "Full-Stack, Cloud, AI & Vision",
-    },
-    {
-      icon: <MapPin className="text-accent" size={24} />,
-      title: "Location",
-      desc: "Sri Lanka",
-    },
-  ];
+export function About({ data, profileImg = "/profile.jpg", name = "Heshani" }: AboutProps) {
+  const getHighlightIcon = (index: number) => {
+    const icons = [
+      <Cpu key={0} className="text-primary" size={16} />,
+      <Layout key={1} className="text-primary" size={16} />,
+      <Sparkles key={2} className="text-primary" size={16} />,
+    ];
+    return icons[index % icons.length] || <Check className="text-primary" size={16} />;
+  };
 
   return (
-    <section id="about" className="py-20 bg-background relative overflow-hidden">
-      {/* Decorative Orbs */}
-      <div className="absolute top-1/2 left-2/3 w-80 h-80 rounded-full bg-accent/10 blur-3xl pointer-events-none" />
-
+    <section id="about" className="py-20 bg-background relative overflow-hidden grid-bg">
       <div className="container mx-auto px-4 md:px-8">
-        <SectionHeader
-          title="About Me"
-          subtitle="My professional journey, academic background, and what drives me as a software engineer."
-          badge="Profile"
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mt-8">
-          {/* Left Column: Story text and Highlights */}
-          <div className="lg:col-span-7 space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h3 className="text-2xl font-bold mb-4 text-foreground">
-                Engineering Custom, Scalable Software Solutions
-              </h3>
-              <p className="text-muted-foreground font-medium text-base md:text-lg leading-relaxed">
-                {data.story}
-              </p>
-            </motion.div>
-
-            {/* Highlights Grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="pt-6 border-t border-border"
-            >
-              <h4 className="text-base font-bold uppercase tracking-wider text-primary mb-4">
-                Core Strengths
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {data.highlights.map((highlight, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <CheckCircle2 className="text-secondary shrink-0" size={20} />
-                    <span className="font-semibold text-foreground text-sm sm:text-base">
-                      {highlight}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right Column: Key Details cards */}
-          <div className="lg:col-span-5 grid grid-cols-1 gap-4">
-            {cardItems.map((item, index) => (
-              <GlassCard
-                key={index}
-                delay={index * 0.15}
-                hoverEffect
-                className="flex items-start gap-4 p-5 hover:translate-x-[4px] duration-300 transition-all border border-border"
-              >
-                <div className="p-3 rounded-2xl bg-card border border-border shadow-sm">
-                  {item.icon}
-                </div>
-                <div className="flex flex-col">
-                  <h4 className="text-base font-bold text-foreground">{item.title}</h4>
-                  <p className="text-sm font-semibold text-muted-foreground mt-1">
-                    {item.desc}
-                  </p>
-                </div>
-              </GlassCard>
-            ))}
-
-            {/* Quote Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Image with Teal Duotone */}
+          <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="rounded-2xl border border-primary/20 bg-primary/5 p-6 mt-2 relative overflow-hidden"
+              transition={{ duration: 0.6 }}
+              className="relative w-72 h-80 sm:w-80 sm:h-96 md:w-[350px] md:h-[420px] overflow-hidden group border border-primary/30 p-2 bg-card shadow-[0_0_50px_rgba(0,212,180,0.05)] rounded-none"
             >
-              <div className="absolute top-0 right-0 transform translate-x-4 -translate-y-4 text-9xl font-serif font-black text-primary/10 select-none pointer-events-none">
-                “
+              <div className="relative w-full h-full overflow-hidden bg-muted flex items-center justify-center rounded-none">
+                {profileImg && profileImg !== "/profile.jpg" ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={profileImg}
+                    alt={name}
+                    className="w-full h-full object-cover teal-duotone"
+                  />
+                ) : (
+                  <div className="text-center p-8 flex flex-col items-center justify-center h-full bg-card select-none">
+                    <div className="w-20 h-20 border border-primary/45 flex items-center justify-center text-primary text-3xl font-black mb-4">
+                      HT
+                    </div>
+                    <span className="text-sm font-bold tracking-widest text-foreground font-mono uppercase">{name}</span>
+                  </div>
+                )}
               </div>
-              <p className="text-sm font-semibold text-primary leading-relaxed relative z-10 italic">
-                &quot;The only way to write great software is to love what you build, practice clean code, and embrace a lifelong learning attitude.&quot;
+              <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-primary" />
+              <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-primary" />
+              <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-primary" />
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-primary" />
+            </motion.div>
+          </div>
+
+          {/* Right Column: Copy */}
+          <div className="lg:col-span-7 flex flex-col justify-center order-1 lg:order-2">
+            <SectionHeader
+              title="Who Am I?"
+              badge="About Me"
+              align="left"
+              className="mb-6"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="space-y-4"
+            >
+              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base font-normal">
+                {data.story}
               </p>
             </motion.div>
+
+            {/* Flat Card Core Strengths */}
+            {data.highlights && data.highlights.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="mt-8 pt-8 border-t border-border"
+              >
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-4 block font-mono">
+                  // CORE STRENGTHS
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {data.highlights.map((highlight, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 p-3 bg-card border border-border rounded-none hover:border-primary/40 transition-colors"
+                    >
+                      <div className="p-1.5 bg-background border border-border">
+                        {getHighlightIcon(index)}
+                      </div>
+                      <span className="font-semibold text-foreground text-xs md:text-sm font-mono uppercase tracking-wider">
+                        {highlight}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>

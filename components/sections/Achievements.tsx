@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
 import { Achievements } from "@/lib/data";
-import { Trophy, Users, Award, ShieldCheck } from "lucide-react";
+import { Trophy, Users, Award } from "lucide-react";
 
 interface AchievementsProps {
   data: Achievements;
@@ -14,28 +14,22 @@ export function AchievementsSection({ data }: AchievementsProps) {
     {
       title: "Leadership Roles",
       items: data.leadership,
-      icon: <Users className="text-primary" size={24} />,
-      gradient: "from-primary/10 to-transparent",
+      icon: <Users className="text-primary" size={20} />,
     },
     {
       title: "Sports & Athletics",
       items: data.sports,
-      icon: <Trophy className="text-secondary" size={24} />,
-      gradient: "from-secondary/10 to-transparent",
+      icon: <Trophy className="text-primary" size={20} />,
     },
     {
-      title: "Professional Activities",
+      title: "Professional",
       items: data.professional,
-      icon: <Award className="text-accent" size={24} />,
-      gradient: "from-accent/10 to-transparent",
+      icon: <Award className="text-primary" size={20} />,
     },
   ];
 
   return (
-    <section id="achievements" className="py-20 bg-background relative overflow-hidden">
-      {/* Decorative Orbs */}
-      <div className="absolute top-1/3 left-1/10 w-72 h-72 rounded-full bg-secondary/5 blur-3xl pointer-events-none" />
-
+    <section id="achievements" className="py-20 bg-background relative overflow-hidden grid-bg">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="Achievements & Leadership"
@@ -43,22 +37,22 @@ export function AchievementsSection({ data }: AchievementsProps) {
           badge="Highlights"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
           {categories.map((cat, idx) => (
             <motion.div
               key={cat.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.15 }}
-              className="rounded-3xl border border-border bg-card/40 overflow-hidden flex flex-col hover:border-primary/20 transition-all duration-300 hover:shadow-xl group"
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="border border-border bg-card overflow-hidden flex flex-col hover:border-primary/50 transition-all duration-300 shadow-sm rounded-none group"
             >
-              {/* Card Header with Category Gradient */}
-              <div className={`p-6 border-b border-border bg-gradient-to-b ${cat.gradient} flex items-center gap-4`}>
-                <div className="p-3 rounded-2xl bg-background border border-border shadow-sm group-hover:scale-110 transition-transform duration-300">
+              {/* Card Header with Category Icon */}
+              <div className="p-6 border-b border-border bg-background flex items-center gap-4">
+                <div className="p-3 border border-primary/20 bg-primary/5 rounded-none flex items-center justify-center shrink-0">
                   {cat.icon}
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                <h3 className="text-base font-bold text-foreground font-mono uppercase tracking-wider">
                   {cat.title}
                 </h3>
               </div>
@@ -68,8 +62,8 @@ export function AchievementsSection({ data }: AchievementsProps) {
                 <ul className="space-y-4">
                   {cat.items.map((item, itemIdx) => (
                     <li key={itemIdx} className="flex items-start gap-3">
-                      <ShieldCheck className="text-primary shrink-0 mt-0.5" size={16} />
-                      <span className="text-sm font-semibold text-foreground leading-relaxed">
+                      <span className="text-primary font-bold font-mono shrink-0 mt-0.5">&gt;</span>
+                      <span className="text-xs sm:text-sm font-semibold text-muted-foreground leading-relaxed">
                         {item}
                       </span>
                     </li>

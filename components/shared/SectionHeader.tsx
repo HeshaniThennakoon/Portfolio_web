@@ -21,6 +21,11 @@ export function SectionHeader({
   const isCenter = align === "center";
   const isRight = align === "right";
 
+  const words = title.split(" ");
+  const hasMultipleWords = words.length > 1;
+  const lastWord = hasMultipleWords ? words[words.length - 1] : "";
+  const firstPart = hasMultipleWords ? words.slice(0, words.length - 1).join(" ") : title;
+
   return (
     <div
       className={cn(
@@ -32,13 +37,13 @@ export function SectionHeader({
     >
       {badge && (
         <motion.span
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: -5 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary bg-primary/10 rounded-full border border-primary/20 mb-3 inline-block"
+          className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-primary mb-2 inline-block font-mono"
         >
-          {badge}
+          // {badge}
         </motion.span>
       )}
       
@@ -47,9 +52,16 @@ export function SectionHeader({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-3xl md:text-5xl font-bold tracking-tight text-foreground"
+        className="text-3xl md:text-5xl font-black tracking-tight text-foreground uppercase"
       >
-        {title}
+        {hasMultipleWords ? (
+          <>
+            <span className="text-foreground/90">{firstPart} </span>
+            <span className="text-primary">{lastWord}</span>
+          </>
+        ) : (
+          <span className="text-primary">{title}</span>
+        )}
       </motion.h2>
 
       {/* Decorative gradient line */}
@@ -59,7 +71,7 @@ export function SectionHeader({
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
         className={cn(
-          "h-[4px] rounded-full bg-gradient-to-r from-primary to-secondary mt-4 mb-5",
+          "h-[3px] rounded-full bg-primary mt-4 mb-5 opacity-80",
           isCenter && "mx-auto",
           isRight && "ml-auto"
         )}
@@ -71,7 +83,7 @@ export function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="max-w-2xl text-base md:text-lg text-muted-foreground font-medium leading-relaxed"
+          className="max-w-2xl text-sm md:text-base text-muted-foreground font-medium leading-relaxed"
         >
           {subtitle}
         </motion.p>

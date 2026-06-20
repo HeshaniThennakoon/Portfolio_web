@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { Menu, X, Sun, Moon, Download } from "lucide-react";
+import { Menu, X, Sun, Moon, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavLink {
@@ -13,6 +13,7 @@ interface NavLink {
 const navLinks: NavLink[] = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
+  { label: "Services", href: "#why-hire-me" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
@@ -46,7 +47,6 @@ export function Navbar() {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // If the section top is close to the top of the viewport
           if (rect.top <= 120 && rect.bottom >= 120) {
             currentSection = section;
             break;
@@ -76,10 +76,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
-        isScrolled
-          ? "bg-background/80 backdrop-blur-md shadow-lg border-white/10 dark:border-white/5 py-4"
-          : "bg-transparent py-6"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b py-4 bg-card border-border shadow-sm"
       )}
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
@@ -90,18 +87,16 @@ export function Navbar() {
             e.preventDefault();
             handleLinkClick("#home");
           }}
-          className="text-2xl font-bold tracking-wider text-foreground hover:opacity-80 flex items-center gap-2"
+          className="text-xl md:text-2xl font-black tracking-wider text-foreground hover:opacity-80 flex items-center gap-2 font-mono uppercase"
         >
-          <span className="bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text font-extrabold">
-            HT
-          </span>
-          <span className="hidden sm:inline text-sm font-medium tracking-normal text-muted-foreground">
-            | Portfolio
+          <span className="text-primary font-black">HT</span>
+          <span className="hidden sm:inline text-xs font-semibold tracking-widest text-foreground/80 font-sans">
+            // HESHANI
           </span>
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-6">
           <ul className="flex items-center gap-6">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -112,9 +107,9 @@ export function Navbar() {
                     handleLinkClick(link.href);
                   }}
                   className={cn(
-                    "text-sm font-semibold transition-colors duration-200 py-2 hover:text-primary",
+                    "text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-200 py-1 hover:text-primary",
                     activeSection === link.href.substring(1)
-                      ? "text-primary font-bold border-b-2 border-primary"
+                      ? "text-primary border-b border-primary"
                       : "text-muted-foreground"
                   )}
                 >
@@ -124,27 +119,25 @@ export function Navbar() {
             ))}
           </ul>
 
-          <div className="h-6 w-[1px] bg-border" />
+          <div className="h-4 w-[1px] bg-border mx-2" />
+
+          {/* Search Icon (visual parity) */}
+          <button 
+            className="p-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+            aria-label="Search"
+          >
+            <Search size={16} />
+          </button>
 
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full border border-border bg-card/50 hover:bg-border text-foreground hover:text-primary transition-all cursor-pointer"
+            className="p-2 rounded border border-border bg-background hover:bg-muted text-foreground hover:text-primary transition-all cursor-pointer"
             aria-label="Toggle theme"
           >
-            {mounted && (resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />)}
-            {!mounted && <div className="w-[18px] h-[18px]" />}
+            {mounted && (resolvedTheme === "dark" ? <Sun size={15} /> : <Moon size={15} />)}
+            {!mounted && <div className="w-[15px] h-[15px]" />}
           </button>
-
-          {/* CV Download Button */}
-          <a
-            href="/resume.pdf"
-            download
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary border border-primary/30 hover:border-primary/80 bg-primary/5 hover:bg-primary/10 rounded-full px-4 py-2 transition-all"
-          >
-            <Download size={14} />
-            Resume
-          </a>
         </nav>
 
         {/* Mobile menu trigger */}
@@ -152,19 +145,19 @@ export function Navbar() {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full border border-border bg-card/50 hover:bg-border text-foreground transition-all cursor-pointer"
+            className="p-2 rounded border border-border bg-background text-foreground transition-all cursor-pointer"
             aria-label="Toggle theme"
           >
-            {mounted && (resolvedTheme === "dark" ? <Sun size={16} /> : <Moon size={16} />)}
-            {!mounted && <div className="w-[16px] h-[16px]" />}
+            {mounted && (resolvedTheme === "dark" ? <Sun size={15} /> : <Moon size={15} />)}
+            {!mounted && <div className="w-[15px] h-[15px]" />}
           </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg border border-border text-foreground hover:bg-card transition-all cursor-pointer"
+            className="p-2 rounded border border-border text-foreground hover:bg-muted transition-all cursor-pointer"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
@@ -172,11 +165,11 @@ export function Navbar() {
       {/* Mobile Drawer */}
       <div
         className={cn(
-          "fixed inset-0 top-[73px] z-40 bg-background/95 backdrop-blur-lg flex flex-col p-6 border-t border-border lg:hidden transition-transform duration-300 ease-in-out",
+          "fixed inset-0 top-[65px] z-40 bg-card/98 flex flex-col p-6 border-t border-border lg:hidden transition-transform duration-300 ease-in-out shadow-lg",
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <ul className="flex flex-col gap-5 my-auto text-center">
+        <ul className="flex flex-col gap-6 my-auto text-center">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
@@ -186,7 +179,7 @@ export function Navbar() {
                   handleLinkClick(link.href);
                 }}
                 className={cn(
-                  "text-xl font-bold tracking-wide transition-colors block py-2",
+                  "text-base font-bold uppercase tracking-widest transition-colors block py-2",
                   activeSection === link.href.substring(1)
                     ? "text-primary"
                     : "text-muted-foreground hover:text-primary"
@@ -197,17 +190,6 @@ export function Navbar() {
             </li>
           ))}
         </ul>
-
-        <div className="mt-auto flex flex-col gap-4">
-          <a
-            href="/resume.pdf"
-            download
-            className="w-full text-center inline-flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-wider text-primary border border-primary bg-primary/10 rounded-xl py-3.5 hover:bg-primary/20 transition-all"
-          >
-            <Download size={16} />
-            Download Resume
-          </a>
-        </div>
       </div>
     </header>
   );

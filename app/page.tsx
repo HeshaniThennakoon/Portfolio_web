@@ -8,6 +8,7 @@ import { Projects } from "@/components/sections/Projects";
 import { EducationSection } from "@/components/sections/Education";
 import { AchievementsSection } from "@/components/sections/Achievements";
 import { Contact } from "@/components/sections/Contact";
+import { Stats } from "@/components/sections/Stats";
 import { Footer } from "@/components/layout/Footer";
 import {
   getHero,
@@ -36,7 +37,7 @@ export default async function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero data={heroData} />
-        <About data={aboutData} />
+        <About data={aboutData} profileImg={heroData.profileImg} name={heroData.name} />
         <WhyHireMe />
         <Skills data={skillsData} />
         <ExperienceSection data={experienceData} />
@@ -44,6 +45,7 @@ export default async function Home() {
         <EducationSection data={educationData} />
         <AchievementsSection data={achievementsData} />
         <Contact />
+        <Stats stats={heroData.stats} />
       </main>
       <Footer />
     </>

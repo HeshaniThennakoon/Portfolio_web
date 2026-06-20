@@ -11,62 +11,73 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full bg-slate-950 dark:bg-[#080808] text-white border-t border-white/5 py-12 mt-auto">
+    <footer className="w-full bg-card text-foreground border-t border-border py-12 mt-auto relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-        {/* Left text */}
+        
+        {/* Left Column: Brand */}
         <div className="text-center md:text-left">
-          <p className="text-lg font-bold bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
-            Heshani Thennakoon
+          <p className="text-xl font-black font-mono uppercase tracking-wider text-primary">
+            HT MONOGRAM
           </p>
-          <p className="text-xs text-slate-400 mt-1">
-            © {currentYear} | All Rights Reserved. Built with Next.js, Tailwind & Framer Motion.
+          <p className="text-[10px] font-bold font-mono uppercase tracking-widest text-muted-foreground mt-2">
+            © {currentYear} | ALL RIGHTS RESERVED
           </p>
         </div>
 
-        {/* Social Icons */}
-        <div className="flex items-center gap-4">
+        {/* Center: Scroll to Top */}
+        <div className="flex flex-col items-center justify-center gap-2">
+          <button
+            onClick={handleBackToTop}
+            className="p-3 border border-border bg-background text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 rounded-none cursor-pointer"
+            aria-label="Back to top"
+          >
+            <ChevronUp size={16} />
+          </button>
+        </div>
+
+        {/* Right Column: Social Icons */}
+        <div className="flex items-center gap-2">
           <a
             href="https://github.com/HeshaniThennakoon"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded-full bg-slate-900 border border-slate-800 hover:border-primary/50 text-slate-400 hover:text-white transition-all hover:scale-105"
+            className="p-3 border border-border bg-background text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 rounded-none"
             aria-label="GitHub"
           >
-            <Github size={18} />
+            <Github size={15} />
           </a>
           <a
             href="https://www.linkedin.com/in/heshani-thennakoon-46538a2b7/"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded-full bg-slate-900 border border-slate-800 hover:border-primary/50 text-slate-400 hover:text-white transition-all hover:scale-105"
+            className="p-3 border border-border bg-background text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 rounded-none"
             aria-label="LinkedIn"
           >
-            <Linkedin size={18} />
+            <Linkedin size={15} />
           </a>
           <a
             href="mailto:thennakoonghm@gmail.com"
-            className="p-3 rounded-full bg-slate-900 border border-slate-800 hover:border-primary/50 text-slate-400 hover:text-white transition-all hover:scale-105"
+            className="p-3 border border-border bg-background text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 rounded-none"
             aria-label="Email"
           >
-            <Mail size={18} />
+            <Mail size={15} />
           </a>
           <a
             href="tel:+94758167490"
-            className="p-3 rounded-full bg-slate-900 border border-slate-800 hover:border-primary/50 text-slate-400 hover:text-white transition-all hover:scale-105"
+            className="p-3 border border-border bg-background text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 rounded-none"
             aria-label="Phone"
           >
-            <Phone size={18} />
+            <Phone size={15} />
           </a>
         </div>
 
-        {/* Back to top */}
-        <button
-          onClick={handleBackToTop}
-          className="p-3 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground transition-all cursor-pointer"
-          aria-label="Back to top"
-        >
-          <ChevronUp size={20} />
-        </button>
+      </div>
+
+      {/* Sub tagline at the absolute bottom */}
+      <div className="w-full text-center border-t border-border/30 mt-8 pt-6">
+        <p className="text-[9px] font-bold font-mono tracking-[0.25em] text-primary uppercase">
+          // DESIGN BY HESHANI THENNAKOON // NEXT.JS + TAILWIND V4
+        </p>
       </div>
     </footer>
   );

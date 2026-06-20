@@ -37,18 +37,24 @@ export default async function RootLayout({
       <head>
         <style dangerouslySetInnerHTML={{ __html: `
           :root {
-            --primary: ${theme.primary};
+            --primary: ${theme.primary === "#00D4B4" ? "#008B76" : theme.primary};
             --secondary: ${theme.secondary};
             --accent: ${theme.accent};
-            --background: ${theme.lightBg};
+            --background: ${theme.lightBg || "#FFFFFF"};
+            --card: #FFFFFF;
+            --card-foreground: #0A0A0A;
+            --border: #E5E7EB;
+            --input: #F3F4F6;
           }
           .dark {
             --primary: ${theme.primary};
             --secondary: ${theme.secondary};
             --accent: ${theme.accent};
-            --background: ${theme.darkBg};
+            --background: ${theme.darkBg || "#0A0A0A"};
             --card: #111111;
             --popover: #111111;
+            --border: rgba(255, 255, 255, 0.07);
+            --input: rgba(255, 255, 255, 0.09);
           }
         `}} />
       </head>
