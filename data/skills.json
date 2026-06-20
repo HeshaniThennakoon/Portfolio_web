@@ -1,0 +1,77 @@
+[
+  {
+    "category": "Programming Languages",
+    "skills": [
+      "C++",
+      "C#",
+      "Java",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "PHP",
+      "HTML"
+    ]
+  },
+  {
+    "category": "Frontend Development",
+    "skills": [
+      "Angular",
+      "React",
+      "Next.js",
+      "Blazor",
+      "Tailwind CSS",
+      "JavaScript"
+    ]
+  },
+  {
+    "category": "Backend Development",
+    "skills": [
+      "ASP.NET Core",
+      "Node.js",
+      "Express.js",
+      "Entity Framework"
+    ]
+  },
+  {
+    "category": "Databases",
+    "skills": [
+      "MySQL",
+      "PostgreSQL",
+      "SQL Server",
+      "MongoDB",
+      "Firebase Realtime Database"
+    ]
+  },
+  {
+    "category": "Cloud & DevOps",
+    "skills": [
+      "AWS S3",
+      "Docker",
+      "Jenkins",
+      "GitHub",
+      "GitLab",
+      "CI/CD"
+    ]
+  },
+  {
+    "category": "AI & Machine Learning",
+    "skills": [
+      "OpenCV",
+      "TensorFlow",
+      "NumPy",
+      "Pandas",
+      "NLP"
+    ]
+  },
+  {
+    "category": "Software Engineering",
+    "skills": [
+      "OOP",
+      "MVC",
+      "Clean Architecture",
+      "REST APIs",
+      "Microservices",
+      "Agile/Scrum"
+    ]
+  }
+]

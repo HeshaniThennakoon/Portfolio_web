@@ -1,0 +1,25 @@
+[
+  {
+    "id": "edu-1",
+    "degree": "BSc (Hons) in Computer Engineering",
+    "institution": "University of Ruhuna",
+    "period": "2021 – 2026",
+    "focusAreas": [
+      "Software Engineering",
+      "Artificial Intelligence",
+      "Database Systems",
+      "Computer Vision",
+      "Cloud Computing",
+      "System Design"
+    ]
+  },
+  {
+    "id": "edu-1781982361219",
+    "degree": "Ku/Maliyadeva Balika M.V.",
+    "institution": "Kurunegale",
+    "period": "2011 – 2019",
+    "focusAreas": [
+      "AdvancedALAdvancedOL"
+    ]
+  }
+]

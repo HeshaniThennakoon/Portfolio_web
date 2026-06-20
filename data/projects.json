@@ -1,0 +1,149 @@
+[
+  {
+    "id": "proj-1",
+    "title": "AI Classroom Engagement Monitoring System",
+    "description": "AI-powered classroom monitoring platform that analyzes student engagement, emotions, and drowsiness in real-time.",
+    "technologies": [
+      "Python",
+      "OpenCV",
+      "CNN",
+      "Firebase",
+      "MongoDB",
+      "JavaScript"
+    ],
+    "features": [
+      "Face Recognition Login",
+      "Emotion Detection",
+      "Drowsiness Monitoring",
+      "Real-Time Alerts",
+      "Analytics Dashboard"
+    ],
+    "githubUrl": "https://github.com/HeshaniThennakoon",
+    "demoUrl": "",
+    "imageUrl": "/uploads/classroom_monitoring.jpg",
+    "featured": true
+  },
+  {
+    "id": "proj-2",
+    "title": "Book Stall Reservation System",
+    "description": "Full-stack reservation platform with QR code generation and email notifications.",
+    "technologies": [
+      "React",
+      "Node.js",
+      "Express",
+      "TypeScript",
+      "MongoDB",
+      "JWT"
+    ],
+    "features": [
+      "Reservation Management",
+      "Authentication",
+      "QR Generation",
+      "Email Notifications"
+    ],
+    "githubUrl": "https://github.com/HeshaniThennakoon",
+    "demoUrl": "",
+    "imageUrl": "/uploads/book_stall.jpg",
+    "featured": false
+  },
+  {
+    "id": "proj-3",
+    "title": "Tourism Website (Fantasy Personal Tours)",
+    "description": "SEO-optimized tourism website for a travel business with maps and contact portals.",
+    "technologies": [
+      "PHP",
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "features": [
+      "Responsive Design",
+      "SEO Optimization",
+      "Sitemap Integration",
+      "Hosting Deployment"
+    ],
+    "githubUrl": "https://github.com/HeshaniThennakoon",
+    "demoUrl": "",
+    "imageUrl": "/uploads/tourism.jpg",
+    "featured": false
+  },
+  {
+    "id": "proj-4",
+    "title": "Travel CRM with AI Chatbot (GH Travelers)",
+    "description": "CRM-enabled travel platform with AI chatbot assistance.",
+    "technologies": [
+      "PHP",
+      "JavaScript",
+      "CRM Concepts",
+      "ERP Student Portal"
+    ],
+    "features": [
+      "Lead Tracking",
+      "Booking Management",
+      "User Roles",
+      "Ticket Management",
+      "AI Chatbot"
+    ],
+    "githubUrl": "https://github.com/HeshaniThennakoon",
+    "demoUrl": "",
+    "imageUrl": "/uploads/travel_crm.jpg",
+    "featured": false
+  },
+  {
+    "id": "proj-5",
+    "title": "ERP Student Portal",
+    "description": "Student portal for module registration, results, requests, and feedback.",
+    "technologies": [
+      "Blazor",
+      "PostgreSQL",
+      "C#"
+    ],
+    "features": [
+      "Module Registration",
+      "Results & Requests",
+      "Feedback System"
+    ],
+    "githubUrl": "https://github.com/HeshaniThennakoon",
+    "demoUrl": "",
+    "imageUrl": "/uploads/student_portal.jpg",
+    "featured": false
+  },
+  {
+    "id": "proj-6",
+    "title": "Healthcare Mobile Application",
+    "description": "Flutter-based healthcare mobile application for appointment bookings and diagnostics.",
+    "technologies": [
+      "Flutter",
+      "Dart",
+      "Firebase"
+    ],
+    "features": [
+      "Appointment Booking",
+      "Diagnostics Integration",
+      "Real-time Messaging"
+    ],
+    "githubUrl": "https://github.com/HeshaniThennakoon",
+    "demoUrl": "",
+    "imageUrl": "/uploads/healthcare.jpg",
+    "featured": false
+  },
+  {
+    "id": "proj-7",
+    "title": "Face Detection & Recognition System",
+    "description": "Real-time face recognition system integrated with Firebase.",
+    "technologies": [
+      "Python",
+      "OpenCV",
+      "Firebase"
+    ],
+    "features": [
+      "Real-time Face Detection",
+      "Face Recognition",
+      "Firebase DB Integration"
+    ],
+    "githubUrl": "https://github.com/HeshaniThennakoon",
+    "demoUrl": "",
+    "imageUrl": "/uploads/face_rec.jpg",
+    "featured": false
+  }
+]

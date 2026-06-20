@@ -1,0 +1,32 @@
+{
+  "name": "Heshani Thennakoon",
+  "headline": "Building Scalable Software Solutions with Modern Technologies",
+  "subheadline": "Passionate Software Engineer specializing in full-stack development, cloud technologies, AI-powered applications, and modern web solutions.",
+  "roles": [
+    "Software Engineer",
+    "Full-Stack Developer",
+    "Backend Engineer",
+    "Frontend Engineer",
+    "Computer Engineering Graduate"
+  ],
+  "stats": [
+    {
+      "label": "Projects Completed",
+      "value": "10+"
+    },
+    {
+      "label": "Experience",
+      "value": "1+ Years"
+    },
+    {
+      "label": "Internship Experience",
+      "value": "1"
+    },
+    {
+      "label": "Leadership Roles",
+      "value": "Multiple"
+    }
+  ],
+  "resumeUrl": "/resume.pdf",
+  "profileImg": "/profile.jpg"
+}

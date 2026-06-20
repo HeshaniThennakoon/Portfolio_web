@@ -1,0 +1,20 @@
+{
+  "theme": {
+    "primary": "#2563EB",
+    "secondary": "#06B6D4",
+    "accent": "#8B5CF6",
+    "darkBg": "#0F172A",
+    "lightBg": "#F8FAFC"
+  },
+  "admin": {
+    "username": "admin",
+    "passwordHash": "$2b$10$FmxyTxEWvLGktOEfew6XdOC4n0iPyS6xoMm7yQKupsLqozIjfbshS"
+  },
+  "emailConfig": {
+    "smtpHost": "smtp.gmail.com",
+    "smtpPort": 465,
+    "smtpUser": "",
+    "smtpPass": "",
+    "toEmail": "thennakoonghm@gmail.com"
+  }
+}
