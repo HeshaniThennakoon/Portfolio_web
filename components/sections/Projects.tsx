@@ -48,7 +48,7 @@ export function Projects({ data }: ProjectsProps) {
               onClick={() => setFilter(category)}
               className={`px-5 py-2 text-xs sm:text-sm font-bold rounded-full border transition-all cursor-pointer capitalize ${
                 filter === category
-                  ? "bg-primary border-primary text-white shadow-lg shadow-primary/20"
+                  ? "bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20"
                   : "bg-card border-border text-muted-foreground hover:text-foreground hover:bg-border"
               }`}
             >
@@ -102,7 +102,7 @@ export function Projects({ data }: ProjectsProps) {
 
                     {/* Featured Ribbon */}
                     {isFeatured && (
-                      <span className="absolute top-4 left-4 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white bg-primary px-3 py-1 rounded-full shadow-lg">
+                      <span className="absolute top-4 left-4 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-primary-foreground bg-primary px-3 py-1 rounded-full shadow-lg">
                         <Sparkles size={12} />
                         Featured
                       </span>

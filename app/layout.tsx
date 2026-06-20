@@ -47,8 +47,8 @@ export default async function RootLayout({
             --secondary: ${theme.secondary};
             --accent: ${theme.accent};
             --background: ${theme.darkBg};
-            --card: color-mix(in srgb, ${theme.darkBg} 90%, white);
-            --popover: color-mix(in srgb, ${theme.darkBg} 90%, white);
+            --card: #111111;
+            --popover: #111111;
           }
         `}} />
       </head>

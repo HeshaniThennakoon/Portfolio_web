@@ -1,9 +1,9 @@
 {
   "theme": {
-    "primary": "#2563EB",
-    "secondary": "#06B6D4",
+    "primary": "#00D4B4",
+    "secondary": "#1DE9D6",
     "accent": "#8B5CF6",
-    "darkBg": "#0F172A",
+    "darkBg": "#0A0A0A",
     "lightBg": "#F8FAFC"
   },
   "admin": {

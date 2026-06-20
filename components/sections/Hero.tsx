@@ -103,7 +103,7 @@ export function Hero({ data }: HeroProps) {
           >
             <button
               onClick={() => handleScrollTo("projects")}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer bg-primary hover:bg-primary/90 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all hover:translate-y-[-2px]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 py-3 rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl transition-all hover:translate-y-[-2px]"
             >
               View Projects
               <ArrowRight size={18} />
@@ -171,7 +171,7 @@ export function Hero({ data }: HeroProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-white/60 dark:bg-slate-900/40 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-white/60 dark:bg-card/40 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl"
         >
           {data.stats.map((stat, i) => (
             <div

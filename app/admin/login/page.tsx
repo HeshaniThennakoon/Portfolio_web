@@ -38,14 +38,14 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
+    <main className="min-h-screen flex items-center justify-center bg-[#0A0A0A] px-4">
       {/* Decorative Orbs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none" />
 
       <GlassCard hoverEffect={false} className="w-full max-w-md p-8 border border-white/10 dark:border-white/5 relative z-10">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center mx-auto text-white text-2xl font-black mb-4 shadow-lg shadow-primary/20">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center mx-auto text-primary-foreground text-2xl font-black mb-4 shadow-lg shadow-primary/20">
             HT
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Admin Portal</h1>
@@ -69,7 +69,7 @@ export default function LoginPage() {
                 placeholder="admin"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 focus:border-primary focus:outline-none rounded-xl pl-11 pr-4 py-3 text-sm text-white"
+                className="w-full bg-[#1A1A1A] border border-white/5 focus:border-primary focus:outline-none rounded-xl pl-11 pr-4 py-3 text-sm text-white"
               />
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 focus:border-primary focus:outline-none rounded-xl pl-11 pr-4 py-3 text-sm text-white"
+                className="w-full bg-[#1A1A1A] border border-white/5 focus:border-primary focus:outline-none rounded-xl pl-11 pr-4 py-3 text-sm text-white"
               />
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full cursor-pointer bg-primary hover:bg-primary/95 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 text-sm uppercase tracking-wider mt-2"
+            className="w-full cursor-pointer bg-primary hover:bg-primary/95 text-primary-foreground font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 text-sm uppercase tracking-wider mt-2"
           >
             {loading ? (
               <>

@@ -52,7 +52,7 @@ export function WhyHireMe() {
   ];
 
   return (
-    <section id="why-hire-me" className="py-20 bg-slate-50 dark:bg-slate-900/30 relative">
+    <section id="why-hire-me" className="py-20 bg-slate-50 dark:bg-[#0D0D0D] relative">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="Why Hire Me?"
@@ -72,7 +72,7 @@ export function WhyHireMe() {
             >
               <div className={`h-full rounded-2xl border backdrop-blur-md p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:translate-y-[-4px] ${card.bgClass}`}>
                 <div>
-                  <div className="p-3 rounded-2xl bg-white dark:bg-slate-900 w-fit border border-border shadow-sm mb-4">
+                  <div className="p-3 rounded-2xl bg-white dark:bg-[#111111] w-fit border border-border shadow-sm mb-4">
                     {card.icon}
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">

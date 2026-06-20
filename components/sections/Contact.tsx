@@ -69,7 +69,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-slate-50 dark:bg-slate-900/30 relative">
+    <section id="contact" className="py-20 bg-slate-50 dark:bg-[#0D0D0D] relative">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="Get In Touch"
@@ -171,7 +171,7 @@ export function Contact() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full cursor-pointer inline-flex items-center justify-center gap-2 bg-primary text-white font-bold py-3.5 rounded-xl hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all text-sm uppercase tracking-wider"
+                  className="w-full cursor-pointer inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold py-3.5 rounded-xl hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all text-sm uppercase tracking-wider"
                 >
                   {loading ? (
                     <>

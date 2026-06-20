@@ -11,7 +11,7 @@ interface EducationProps {
 
 export function EducationSection({ data }: EducationProps) {
   return (
-    <section id="education" className="py-20 bg-slate-50 dark:bg-slate-900/30 relative">
+    <section id="education" className="py-20 bg-slate-50 dark:bg-[#0D0D0D] relative">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="Education"

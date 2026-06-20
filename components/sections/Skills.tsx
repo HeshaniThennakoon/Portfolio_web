@@ -51,7 +51,7 @@ export function Skills({ data }: SkillsProps) {
               onClick={() => setActiveCategory(cat.category)}
               className={`flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-bold rounded-full border transition-all cursor-pointer ${
                 activeCategory === cat.category
-                  ? "bg-primary border-primary text-white shadow-lg shadow-primary/25"
+                  ? "bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/25"
                   : "bg-card border-border text-muted-foreground hover:text-foreground hover:bg-border"
               }`}
             >

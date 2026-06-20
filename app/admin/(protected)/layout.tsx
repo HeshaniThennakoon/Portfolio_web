@@ -58,11 +58,11 @@ export default async function ProtectedAdminLayout({
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#0A0A0A] text-slate-100 flex flex-col md:flex-row">
       {/* Sidebar navigation */}
-      <aside className="w-full md:w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0">
+      <aside className="w-full md:w-64 bg-[#0D0D0D] border-r border-white/5 flex flex-col justify-between shrink-0">
         <div className="p-6">
-          <div className="flex items-center justify-between pb-6 border-b border-slate-800">
+          <div className="flex items-center justify-between pb-6 border-b border-white/5">
             <Link href="/admin" className="flex items-center gap-2">
               <span className="bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text font-black text-2xl">
                 HT
@@ -71,7 +71,7 @@ export default async function ProtectedAdminLayout({
                 Admin Panel
               </span>
             </Link>
-            <Link href="/" target="_blank" className="p-1.5 rounded-lg border border-slate-800 text-slate-400 hover:text-white" title="View Portfolio Website">
+            <Link href="/" target="_blank" className="p-1.5 rounded-lg border border-white/5 text-slate-400 hover:text-white" title="View Portfolio Website">
               <ExternalLink size={16} />
             </Link>
           </div>
@@ -81,7 +81,7 @@ export default async function ProtectedAdminLayout({
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all"
+                className="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
               >
                 {link.icon}
                 {link.label}
@@ -90,7 +90,7 @@ export default async function ProtectedAdminLayout({
           </nav>
         </div>
 
-        <div className="p-6 border-t border-slate-800">
+        <div className="p-6 border-t border-white/5">
           <form action={handleLogout}>
             <button
               type="submit"
@@ -105,7 +105,7 @@ export default async function ProtectedAdminLayout({
 
       {/* Workspace container */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 border-b border-slate-800 bg-slate-900/50 backdrop-blur flex items-center justify-between px-6 sm:px-8">
+        <header className="h-16 border-b border-white/5 bg-[#0D0D0D]/50 backdrop-blur flex items-center justify-between px-6 sm:px-8">
           <h2 className="text-base font-bold text-slate-300">Management Workspace</h2>
           <div className="flex items-center gap-3">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />

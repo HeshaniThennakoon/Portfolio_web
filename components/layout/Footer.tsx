@@ -11,7 +11,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full bg-slate-950 text-white border-t border-white/5 py-12 mt-auto">
+    <footer className="w-full bg-slate-950 dark:bg-[#080808] text-white border-t border-white/5 py-12 mt-auto">
       <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left text */}
         <div className="text-center md:text-left">
@@ -62,7 +62,7 @@ export function Footer() {
         {/* Back to top */}
         <button
           onClick={handleBackToTop}
-          className="p-3 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white transition-all cursor-pointer"
+          className="p-3 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground transition-all cursor-pointer"
           aria-label="Back to top"
         >
           <ChevronUp size={20} />

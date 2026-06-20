@@ -11,7 +11,7 @@ interface ExperienceProps {
 
 export function ExperienceSection({ data }: ExperienceProps) {
   return (
-    <section id="experience" className="py-20 bg-slate-50 dark:bg-slate-900/30 relative">
+    <section id="experience" className="py-20 bg-slate-50 dark:bg-[#0D0D0D] relative">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="Work Experience"

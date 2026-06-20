@@ -19,7 +19,7 @@ export function GlassCard({
   ...props
 }: GlassCardProps) {
   const cardClasses = cn(
-    "relative overflow-hidden rounded-2xl border border-white/10 dark:border-white/5 bg-white/60 dark:bg-black/30 backdrop-blur-md p-6 shadow-xl shadow-black/5 dark:shadow-black/20",
+    "relative overflow-hidden rounded-2xl border border-white/10 dark:border-white/5 bg-white/60 dark:bg-card backdrop-blur-md p-6 shadow-xl shadow-black/5 dark:shadow-black/20",
     hoverEffect && "hover:border-primary/20 dark:hover:border-primary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:translate-y-[-4px]",
     className
   );
