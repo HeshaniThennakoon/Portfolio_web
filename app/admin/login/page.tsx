@@ -38,29 +38,29 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#0A0A0A] px-4">
+    <main className="min-h-screen flex items-center justify-center bg-background grid-bg px-4 relative overflow-hidden">
       {/* Decorative Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-secondary/5 blur-3xl pointer-events-none" />
 
-      <GlassCard hoverEffect={false} className="w-full max-w-md p-8 border border-white/10 dark:border-white/5 relative z-10">
+      <GlassCard hoverEffect={true} className="w-full max-w-md p-8 border border-border/80 relative z-10 bg-card/40 backdrop-blur-md">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center mx-auto text-primary-foreground text-2xl font-black mb-4 shadow-lg shadow-primary/20">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center mx-auto text-primary-foreground text-xl font-black mb-4 shadow-lg shadow-primary/20 select-none">
             HT
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Admin Portal</h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Sign in to manage your portfolio content
+          <h1 className="text-xl font-bold text-foreground uppercase tracking-wider">Admin Portal</h1>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">
+            Sign in to manage your workspace
           </p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="login-username" className="text-xs font-bold text-slate-300">
+            <label htmlFor="login-username" className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               Username
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
                 <User size={16} />
               </span>
               <input
@@ -69,17 +69,17 @@ export default function LoginPage() {
                 placeholder="admin"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-[#1A1A1A] border border-white/5 focus:border-primary focus:outline-none rounded-xl pl-11 pr-4 py-3 text-sm text-white"
+                className="w-full bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl pl-11 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 transition-all"
               />
             </div>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="login-password" className="text-xs font-bold text-slate-300">
+            <label htmlFor="login-password" className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               Password
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
                 <Lock size={16} />
               </span>
               <input
@@ -88,7 +88,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#1A1A1A] border border-white/5 focus:border-primary focus:outline-none rounded-xl pl-11 pr-4 py-3 text-sm text-white"
+                className="w-full bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl pl-11 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 transition-all"
               />
             </div>
           </div>
@@ -96,11 +96,11 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full cursor-pointer bg-primary hover:bg-primary/95 text-primary-foreground font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 text-sm uppercase tracking-wider mt-2"
+            className="w-full cursor-pointer bg-primary hover:bg-primary/95 text-primary-foreground font-bold py-3.5 rounded-xl transition-all shadow-md hover:shadow-primary/20 flex items-center justify-center gap-2 text-xs uppercase tracking-wider mt-4"
           >
             {loading ? (
               <>
-                <Loader2 className="animate-spin" size={16} />
+                <Loader2 className="animate-spin" size={14} />
                 Authenticating...
               </>
             ) : (

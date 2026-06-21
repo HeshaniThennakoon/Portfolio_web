@@ -5,6 +5,7 @@ import { updateEducationAction, getEducationAction } from "@/app/actions";
 import type { Education } from "@/lib/data";
 import { toast } from "sonner";
 import { Loader2, Save, Trash2, Plus } from "lucide-react";
+import { GlassCard } from "@/components/shared/GlassCard";
 
 export default function AdminEducationPage() {
   const [loading, setLoading] = useState(true);
@@ -78,93 +79,93 @@ export default function AdminEducationPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white">Education History</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <h1 className="text-3xl font-black text-foreground uppercase tracking-wider">Education History</h1>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">
             Display your academic background, university degrees, and specialization focus areas.
           </p>
         </div>
         <button
           onClick={handleAddSchool}
-          className="cursor-pointer bg-slate-900 hover:bg-slate-800 border border-slate-800 text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
+          className="cursor-pointer bg-card hover:bg-muted border border-border text-foreground hover:text-primary font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all shadow-sm"
         >
-          <Plus size={16} />
+          <Plus size={14} />
           Add Education
         </button>
       </div>
 
       <div className="space-y-6 max-w-4xl">
         {schools.map((edu, index) => (
-          <div key={edu.id} className="p-6 rounded-2xl border border-slate-800 bg-slate-900 space-y-6 shadow-md relative group">
+          <GlassCard key={edu.id} hoverEffect={false} animate={true} delay={index * 0.05} className="p-6 border border-border/80 bg-card/30 backdrop-blur-md rounded-3xl space-y-6 shadow-md relative group animate-in slide-in-from-bottom-2 duration-300">
             <button
               type="button"
               onClick={() => handleRemoveSchool(edu.id)}
-              className="absolute top-6 right-6 p-2 rounded-lg bg-slate-950 border border-slate-850 text-rose-400 hover:bg-rose-500 hover:text-white transition-all cursor-pointer opacity-0 group-hover:opacity-100 duration-300"
+              className="absolute top-6 right-6 p-2 rounded-xl bg-background border border-border text-rose-500 hover:bg-rose-500 hover:text-white transition-all cursor-pointer opacity-0 group-hover:opacity-100 duration-300 shadow-sm"
               title="Remove Entry"
             >
-              <Trash2 size={14} />
+              <Trash2 size={13} />
             </button>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-450">Degree Title</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Degree Title</label>
                 <input
                   type="text"
                   value={edu.degree}
                   onChange={(e) => handleChange(index, "degree", e.target.value)}
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-450">Institution Name</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Institution Name</label>
                 <input
                   type="text"
                   value={edu.institution}
                   onChange={(e) => handleChange(index, "institution", e.target.value)}
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-450">Study Period Dates</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Study Period Dates</label>
                 <input
                   type="text"
                   value={edu.period}
                   onChange={(e) => handleChange(index, "period", e.target.value)}
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-450">Specialization & Focus Areas (Comma separated)</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Specialization & Focus Areas (Comma separated)</label>
                 <input
                   type="text"
                   value={edu.focusAreas.join(", ")}
                   onChange={(e) => handleFocusAreasChange(index, e.target.value)}
                   placeholder="Software Engineering, Computer Vision"
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
             </div>
-          </div>
+          </GlassCard>
         ))}
 
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-3.5 rounded-xl shadow-md hover:shadow-primary/20 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
         >
           {saving ? (
             <>
-              <Loader2 className="animate-spin" size={16} />
+              <Loader2 className="animate-spin" size={14} />
               Saving Changes...
             </>
           ) : (
             <>
-              <Save size={16} />
+              <Save size={14} />
               Save Education History
             </>
           )}

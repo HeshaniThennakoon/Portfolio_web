@@ -5,6 +5,7 @@ import { updateExperienceAction, getExperienceAction } from "@/app/actions";
 import type { Experience } from "@/lib/data";
 import { toast } from "sonner";
 import { Loader2, Save, Trash2, Plus, ArrowUp, ArrowDown } from "lucide-react";
+import { GlassCard } from "@/components/shared/GlassCard";
 
 export default function AdminExperiencePage() {
   const [loading, setLoading] = useState(true);
@@ -98,135 +99,135 @@ export default function AdminExperiencePage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white">Work Experience</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <h1 className="text-3xl font-black text-foreground uppercase tracking-wider">Work Experience</h1>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">
             Manage your employment history, responsibilities, and associated tech stacks.
           </p>
         </div>
         <button
           onClick={handleAddRole}
-          className="cursor-pointer bg-slate-900 hover:bg-slate-800 border border-slate-800 text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
+          className="cursor-pointer bg-card hover:bg-muted border border-border text-foreground hover:text-primary font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all shadow-sm"
         >
-          <Plus size={16} />
+          <Plus size={14} />
           Add Experience
         </button>
       </div>
 
       <div className="space-y-8 max-w-4xl">
         {roles.map((exp, index) => (
-          <div key={exp.id} className="p-6 rounded-2xl border border-slate-800 bg-slate-900 space-y-6 shadow-md relative group">
+          <GlassCard key={exp.id} hoverEffect={false} animate={true} delay={index * 0.05} className="p-6 border border-border/80 bg-card/30 backdrop-blur-md rounded-3xl space-y-6 shadow-md relative group">
             {/* Action Row */}
             <div className="absolute top-6 right-6 flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => moveRole(index, "up")}
                 disabled={index === 0}
-                className="p-2 rounded-lg bg-slate-950 border border-slate-850 text-slate-400 hover:text-white disabled:opacity-30 cursor-pointer"
+                className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm"
                 title="Move Up"
               >
-                <ArrowUp size={14} />
+                <ArrowUp size={13} />
               </button>
               <button
                 type="button"
                 onClick={() => moveRole(index, "down")}
                 disabled={index === roles.length - 1}
-                className="p-2 rounded-lg bg-slate-950 border border-slate-850 text-slate-400 hover:text-white disabled:opacity-30 cursor-pointer"
+                className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm"
                 title="Move Down"
               >
-                <ArrowDown size={14} />
+                <ArrowDown size={13} />
               </button>
               <button
                 type="button"
                 onClick={() => handleRemoveRole(exp.id)}
-                className="p-2 rounded-lg bg-slate-950 border border-slate-850 text-rose-400 hover:bg-rose-500 hover:text-white transition-all cursor-pointer"
+                className="p-2 rounded-xl bg-background border border-border text-rose-500 hover:bg-rose-500 hover:text-white transition-all cursor-pointer shadow-sm"
                 title="Remove Role"
               >
-                <Trash2 size={14} />
+                <Trash2 size={13} />
               </button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-400">Job Title / Role</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Job Title / Role</label>
                 <input
                   type="text"
                   value={exp.role}
                   onChange={(e) => handleChange(index, "role", e.target.value)}
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-400">Company Name</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Company Name</label>
                 <input
                   type="text"
                   value={exp.company}
                   onChange={(e) => handleChange(index, "company", e.target.value)}
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-400">Location</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Location</label>
                 <input
                   type="text"
                   value={exp.location}
                   onChange={(e) => handleChange(index, "location", e.target.value)}
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-400">Employment Period</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Employment Period</label>
                 <input
                   type="text"
                   value={exp.period}
                   onChange={(e) => handleChange(index, "period", e.target.value)}
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold text-slate-400">Responsibilities (One bullet per line)</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Responsibilities (One bullet per line)</label>
               <textarea
                 rows={6}
                 value={exp.responsibilities.join("\n")}
                 onChange={(e) => handleResponsibilitiesChange(index, e.target.value)}
                 placeholder="Developed enterprise web web apps..."
-                className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white resize-none"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold text-slate-400">Tech Stack tags (Comma separated)</label>
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Tech Stack tags (Comma separated)</label>
               <input
                 type="text"
                 value={exp.techStack.join(", ")}
                 onChange={(e) => handleTechChange(index, e.target.value)}
                 placeholder="Next.js, Prisma, PostgreSQL"
-                className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
-          </div>
+          </GlassCard>
         ))}
 
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-3.5 rounded-xl shadow-md hover:shadow-primary/20 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
         >
           {saving ? (
             <>
-              <Loader2 className="animate-spin" size={16} />
+              <Loader2 className="animate-spin" size={14} />
               Saving Changes...
             </>
           ) : (
             <>
-              <Save size={16} />
+              <Save size={14} />
               Save Experience timeline
             </>
           )}

@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { updateProjectsAction, uploadFileAction, getProjectsAction } from "@/app/actions";
 import type { Project } from "@/lib/data";
 import { toast } from "sonner";
-import { Loader2, Save, Trash2, Plus, ArrowUp, ArrowDown, Upload, Image as ImageIcon, CheckSquare, Square, ExternalLink } from "lucide-react";
+import { Loader2, Save, Trash2, Plus, ArrowUp, ArrowDown, Upload, Image as ImageIcon, CheckSquare, Square } from "lucide-react";
+import { GlassCard } from "@/components/shared/GlassCard";
+import { cn } from "@/lib/utils";
 
 export default function AdminProjectsPage() {
   const [loading, setLoading] = useState(true);
@@ -130,19 +132,19 @@ export default function AdminProjectsPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white">Project Showcase</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <h1 className="text-3xl font-black text-foreground uppercase tracking-wider">Project Showcase</h1>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">
             Display your software achievements with custom descriptions, screenshot assets, and link anchors.
           </p>
         </div>
         <button
           onClick={handleAddProject}
-          className="cursor-pointer bg-slate-900 hover:bg-slate-800 border border-slate-800 text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
+          className="cursor-pointer bg-card hover:bg-muted border border-border text-foreground hover:text-primary font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all shadow-sm"
         >
-          <Plus size={16} />
+          <Plus size={14} />
           Add Project
         </button>
       </div>
@@ -151,11 +153,15 @@ export default function AdminProjectsPage() {
         {projects.map((proj, index) => {
           const isEditing = editingId === proj.id;
           return (
-            <div
+            <GlassCard
               key={proj.id}
-              className={`p-6 rounded-2xl border bg-slate-900 space-y-6 shadow-md transition-all relative group ${
-                isEditing ? "border-primary" : "border-slate-800"
-              }`}
+              hoverEffect={!isEditing}
+              animate={true}
+              delay={index * 0.05}
+              className={cn(
+                "p-6 border bg-card/30 backdrop-blur-md space-y-6 shadow-md transition-all relative group rounded-3xl",
+                isEditing ? "border-primary/50" : "border-border/80"
+              )}
             >
               {/* Action Buttons */}
               <div className="absolute top-6 right-6 flex items-center gap-2">
@@ -163,27 +169,27 @@ export default function AdminProjectsPage() {
                   type="button"
                   onClick={() => moveProject(index, "up")}
                   disabled={index === 0}
-                  className="p-2 rounded-lg bg-slate-950 border border-slate-850 text-slate-400 hover:text-white disabled:opacity-30 cursor-pointer"
+                  className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm"
                   title="Move Up"
                 >
-                  <ArrowUp size={14} />
+                  <ArrowUp size={13} />
                 </button>
                 <button
                   type="button"
                   onClick={() => moveProject(index, "down")}
                   disabled={index === projects.length - 1}
-                  className="p-2 rounded-lg bg-slate-950 border border-slate-850 text-slate-400 hover:text-white disabled:opacity-30 cursor-pointer"
+                  className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm"
                   title="Move Down"
                 >
-                  <ArrowDown size={14} />
+                  <ArrowDown size={13} />
                 </button>
                 <button
                   type="button"
                   onClick={() => handleRemoveProject(proj.id)}
-                  className="p-2 rounded-lg bg-slate-950 border border-slate-850 text-rose-400 hover:bg-rose-500 hover:text-white transition-all cursor-pointer"
+                  className="p-2 rounded-xl bg-background border border-border text-rose-500 hover:bg-rose-500 hover:text-white transition-all cursor-pointer shadow-sm"
                   title="Remove Project"
                 >
-                  <Trash2 size={14} />
+                  <Trash2 size={13} />
                 </button>
               </div>
 
@@ -194,30 +200,30 @@ export default function AdminProjectsPage() {
                   onClick={() => setEditingId(proj.id)}
                 >
                   <div className="flex flex-col sm:flex-row gap-6 items-start">
-                    <div className="w-32 h-20 bg-slate-950 border border-slate-850 rounded-xl overflow-hidden flex items-center justify-center shrink-0">
+                    <div className="w-32 h-20 bg-background border border-border/80 rounded-xl overflow-hidden flex items-center justify-center shrink-0 p-1">
                       {proj.imageUrl && proj.imageUrl.startsWith("/uploads/") && !proj.imageUrl.includes("placeholder") ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={proj.imageUrl} alt={proj.title} className="w-full h-full object-cover" />
+                        <img src={proj.imageUrl} alt={proj.title} className="w-full h-full object-cover rounded-lg" />
                       ) : (
-                        <ImageIcon className="text-slate-700" size={24} />
+                        <ImageIcon className="text-muted-foreground/50" size={24} />
                       )}
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-white text-lg">{proj.title}</h3>
+                        <h3 className="font-bold text-foreground text-lg">{proj.title}</h3>
                         {proj.featured && (
-                          <span className="text-[10px] font-bold uppercase text-primary bg-primary/10 border border-primary/20 rounded px-1.5 py-0.5">
+                          <span className="text-[9px] font-bold uppercase text-primary bg-primary/10 border border-primary/20 rounded px-1.5 py-0.5">
                             Featured
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-slate-400 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                         {proj.description}
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-2">
                         {proj.technologies.map((t) => (
-                          <span key={t} className="text-[10px] font-bold text-slate-500 bg-slate-950 border border-slate-850 px-2 py-0.5 rounded">
+                          <span key={t} className="text-[9px] font-bold text-muted-foreground/80 bg-background border border-border/80 px-2 py-0.5 rounded-lg">
                             {t}
                           </span>
                         ))}
@@ -229,19 +235,19 @@ export default function AdminProjectsPage() {
                 <div className="space-y-6 pt-4">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start">
                     {/* Visual Asset Upload */}
-                    <div className="flex flex-col items-center justify-center text-center p-4 rounded-xl border border-slate-850 bg-slate-950 shrink-0">
-                      <span className="text-xs font-bold text-slate-450 mb-3 block w-full text-left">Screenshot Thumbnail</span>
+                    <div className="flex flex-col items-center justify-center text-center p-4 rounded-2xl border border-border/80 bg-background shrink-0 shadow-inner">
+                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3 block w-full text-left">Screenshot Thumbnail</span>
                       
-                      <div className="relative w-full h-32 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center">
+                      <div className="relative w-full h-32 rounded-xl overflow-hidden bg-muted border border-border/80 flex items-center justify-center p-1">
                         {proj.imageUrl && proj.imageUrl.startsWith("/uploads/") && !proj.imageUrl.includes("placeholder") ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={proj.imageUrl} alt="Thumbnail preview" className="w-full h-full object-cover" />
+                          <img src={proj.imageUrl} alt="Thumbnail preview" className="w-full h-full object-cover rounded-lg" />
                         ) : (
-                          <ImageIcon className="text-slate-850" size={32} />
+                          <ImageIcon className="text-muted-foreground/40" size={32} />
                         )}
                       </div>
 
-                      <label className="w-full mt-4 cursor-pointer bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 hover:text-white font-bold py-2 px-3 rounded-lg transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+                      <label className="w-full mt-4 cursor-pointer bg-card hover:bg-muted border border-border text-foreground hover:text-primary font-bold py-2 px-3 rounded-xl transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider shadow-sm">
                         {uploadingId === proj.id ? (
                           <>
                             <Loader2 className="animate-spin" size={12} />
@@ -266,22 +272,22 @@ export default function AdminProjectsPage() {
                     {/* Copy details */}
                     <div className="sm:col-span-2 space-y-4">
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-slate-450">Project Title</label>
+                        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Project Title</label>
                         <input
                           type="text"
                           value={proj.title}
                           onChange={(e) => handleChange(proj.id, "title", e.target.value)}
-                          className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                          className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                         />
                       </div>
 
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-slate-450">Short Description</label>
+                        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Short Description</label>
                         <textarea
                           rows={3}
                           value={proj.description}
                           onChange={(e) => handleChange(proj.id, "description", e.target.value)}
-                          className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white resize-none"
+                          className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
                         />
                       </div>
                     </div>
@@ -289,58 +295,58 @@ export default function AdminProjectsPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-slate-450">GitHub URL</label>
+                      <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">GitHub URL</label>
                       <input
                         type="url"
                         value={proj.githubUrl}
                         onChange={(e) => handleChange(proj.id, "githubUrl", e.target.value)}
-                        className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                        className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                       />
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-slate-450">Live Demo URL (Leave blank if local)</label>
+                      <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Live Demo URL (Leave blank if local)</label>
                       <input
                         type="url"
                         value={proj.demoUrl}
                         onChange={(e) => handleChange(proj.id, "demoUrl", e.target.value)}
-                        className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                        className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                       />
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-450">Key Features (One feature per line)</label>
+                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Key Features (One feature per line)</label>
                     <textarea
                       rows={4}
                       value={proj.features.join("\n")}
                       onChange={(e) => handleFeaturesChange(proj.id, e.target.value)}
                       placeholder="Face Recognition Login..."
-                      className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white resize-none"
+                      className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-450">Technologies used (Comma separated)</label>
+                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Technologies used (Comma separated)</label>
                     <input
                       type="text"
                       value={proj.technologies.join(", ")}
                       onChange={(e) => handleTechChange(proj.id, e.target.value)}
                       placeholder="React, Express, MongoDB"
-                      className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                      className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                     />
                   </div>
 
-                  <div className="flex items-center gap-6 border-t border-slate-850 pt-4">
+                  <div className="flex items-center gap-6 border-t border-border/80 pt-4">
                     <button
                       type="button"
                       onClick={() => handleChange(proj.id, "featured", !proj.featured)}
-                      className="flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white cursor-pointer select-none"
+                      className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground cursor-pointer select-none"
                     >
                       {proj.featured ? (
-                        <CheckSquare className="text-primary" size={20} />
+                        <CheckSquare className="text-primary" size={18} />
                       ) : (
-                        <Square className="text-slate-650" size={20} />
+                        <Square className="text-muted-foreground/30" size={18} />
                       )}
                       Mark as Featured Project
                     </button>
@@ -348,30 +354,30 @@ export default function AdminProjectsPage() {
                     <button
                       type="button"
                       onClick={() => setEditingId(null)}
-                      className="text-xs font-bold text-slate-400 hover:text-white underline cursor-pointer"
+                      className="text-[10px] font-black uppercase tracking-wider text-muted-foreground hover:text-primary transition-all cursor-pointer underline"
                     >
                       Collapse Card
                     </button>
                   </div>
                 </div>
               )}
-            </div>
+            </GlassCard>
           );
         })}
 
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-3.5 rounded-xl shadow-md hover:shadow-primary/20 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
         >
           {saving ? (
             <>
-              <Loader2 className="animate-spin" size={16} />
+              <Loader2 className="animate-spin" size={14} />
               Saving Changes...
             </>
           ) : (
             <>
-              <Save size={16} />
+              <Save size={14} />
               Save Project Changes
             </>
           )}

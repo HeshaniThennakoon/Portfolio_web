@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { updateSkillsAction, getSkillsAction } from "@/app/actions";
 import type { SkillCategory } from "@/lib/data";
 import { toast } from "sonner";
-import { Loader2, Save, Trash2, Plus, Code2 } from "lucide-react";
+import { Loader2, Save, Trash2, Plus } from "lucide-react";
+import { GlassCard } from "@/components/shared/GlassCard";
 
 export default function AdminSkillsPage() {
   const [loading, setLoading] = useState(true);
@@ -72,49 +73,49 @@ export default function AdminSkillsPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white">Skills Matrix</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <h1 className="text-3xl font-black text-foreground uppercase tracking-wider">Skills Matrix</h1>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">
             Group your programming capabilities and frameworks into interactive categories.
           </p>
         </div>
         <button
           onClick={handleAddCategory}
-          className="cursor-pointer bg-slate-900 hover:bg-slate-800 border border-slate-800 text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
+          className="cursor-pointer bg-card hover:bg-muted border border-border text-foreground hover:text-primary font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all shadow-sm"
         >
-          <Plus size={16} />
+          <Plus size={14} />
           Add Category
         </button>
       </div>
 
       <div className="space-y-6 max-w-4xl">
         {categories.map((cat, index) => (
-          <div key={index} className="p-6 rounded-2xl border border-slate-800 bg-slate-900 space-y-4 shadow-md relative group">
+          <GlassCard key={index} hoverEffect={false} animate={true} delay={index * 0.05} className="p-6 border border-border/80 bg-card/30 backdrop-blur-md rounded-3xl space-y-4 shadow-md relative group">
             <button
               onClick={() => handleRemoveCategory(index)}
-              className="absolute top-6 right-6 p-2 rounded-lg bg-slate-950 border border-slate-850 text-rose-400 hover:bg-rose-500 hover:text-white transition-all cursor-pointer opacity-0 group-hover:opacity-100 duration-300"
+              className="absolute top-6 right-6 p-2 rounded-xl bg-background border border-border text-rose-500 hover:bg-rose-500 hover:text-white transition-all cursor-pointer opacity-0 group-hover:opacity-100 duration-300 shadow-sm"
               title="Remove Category"
             >
-              <Trash2 size={14} />
+              <Trash2 size={13} />
             </button>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex flex-col gap-1.5 sm:w-1/3">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                   Category Name
                 </label>
                 <input
                   type="text"
                   value={cat.category}
                   onChange={(e) => handleCategoryNameChange(index, e.target.value)}
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white font-bold"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground font-bold transition-all"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5 sm:w-2/3">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                   Skills (Comma separated list)
                 </label>
                 <input
@@ -122,26 +123,26 @@ export default function AdminSkillsPage() {
                   value={cat.skills.join(", ")}
                   onChange={(e) => handleSkillChange(index, e.target.value)}
                   placeholder="React, Angular, Next.js"
-                  className="bg-slate-950 border border-slate-850 focus:border-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-white"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
             </div>
-          </div>
+          </GlassCard>
         ))}
 
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-3.5 rounded-xl shadow-md hover:shadow-primary/20 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
         >
           {saving ? (
             <>
-              <Loader2 className="animate-spin" size={16} />
+              <Loader2 className="animate-spin" size={14} />
               Saving Changes...
             </>
           ) : (
             <>
-              <Save size={16} />
+              <Save size={14} />
               Save Skills Matrix
             </>
           )}

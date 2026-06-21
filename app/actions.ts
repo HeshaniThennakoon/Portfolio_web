@@ -74,7 +74,7 @@ export async function submitContactForm(form: {
           subject: `Portfolio Contact: ${form.subject}`,
           text: `Name: ${form.name}\nEmail: ${form.email}\nSubject: ${form.subject}\n\nMessage:\n${form.message}`,
           html: `
-            <h3>New Portfolio Contact Submission</h3>
+            <h3>Your Portfolio Contact Form Submission</h3>
             <p><strong>Name:</strong> ${form.name}</p>
             <p><strong>Email:</strong> ${form.email}</p>
             <p><strong>Subject:</strong> ${form.subject}</p>

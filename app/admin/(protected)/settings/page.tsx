@@ -5,6 +5,7 @@ import { updateAdminSettings, getSettingsAction } from "@/app/actions";
 import type { Settings } from "@/lib/data";
 import { toast } from "sonner";
 import { Loader2, Save, Key, Palette, Mail } from "lucide-react";
+import { GlassCard } from "@/components/shared/GlassCard";
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -66,25 +67,25 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-300">
       <div>
-        <h1 className="text-3xl font-black text-white">System Settings</h1>
-        <p className="text-sm text-slate-400 mt-1">
+        <h1 className="text-3xl font-black text-foreground uppercase tracking-wider">System Settings</h1>
+        <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">
           Customize design color themes, update credential profiles, and configure SMTP mail forwarding.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl">
         {/* Colors Settings */}
-        <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900 space-y-6">
-          <h3 className="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
-            <Palette className="text-primary" size={20} />
+        <GlassCard hoverEffect={false} animate={true} delay={0.05} className="p-6 border border-border/80 bg-card/30 backdrop-blur-md rounded-3xl space-y-6 shadow-md">
+          <h3 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2 border-b border-border/80 pb-3">
+            <Palette className="text-primary" size={18} />
             Design Theme Variables
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <div className="flex flex-col gap-2">
-              <label htmlFor="settings-primary" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-primary" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Primary Brand Color (Hex)
               </label>
               <div className="flex gap-2">
@@ -98,7 +99,7 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, primary: e.target.value },
                     })
                   }
-                  className="w-10 h-10 border border-slate-700 bg-slate-800 rounded cursor-pointer"
+                  className="w-10 h-10 border border-border bg-background rounded-xl cursor-pointer"
                 />
                 <input
                   type="text"
@@ -109,13 +110,13 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, primary: e.target.value },
                     })
                   }
-                  className="flex-1 bg-slate-950 border border-slate-850 rounded px-3 text-sm text-white"
+                  className="flex-1 bg-background border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="settings-secondary" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-secondary" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Secondary Brand Color (Hex)
               </label>
               <div className="flex gap-2">
@@ -129,7 +130,7 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, secondary: e.target.value },
                     })
                   }
-                  className="w-10 h-10 border border-slate-700 bg-slate-800 rounded cursor-pointer"
+                  className="w-10 h-10 border border-border bg-background rounded-xl cursor-pointer"
                 />
                 <input
                   type="text"
@@ -140,13 +141,13 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, secondary: e.target.value },
                     })
                   }
-                  className="flex-1 bg-slate-950 border border-slate-850 rounded px-3 text-sm text-white"
+                  className="flex-1 bg-background border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="settings-accent" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-accent" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Accent Brand Color (Hex)
               </label>
               <div className="flex gap-2">
@@ -160,7 +161,7 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, accent: e.target.value },
                     })
                   }
-                  className="w-10 h-10 border border-slate-700 bg-slate-800 rounded cursor-pointer"
+                  className="w-10 h-10 border border-border bg-background rounded-xl cursor-pointer"
                 />
                 <input
                   type="text"
@@ -171,13 +172,13 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, accent: e.target.value },
                     })
                   }
-                  className="flex-1 bg-slate-950 border border-slate-850 rounded px-3 text-sm text-white"
+                  className="flex-1 bg-background border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="settings-darkbg" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-darkbg" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Dark Mode Background (Hex)
               </label>
               <div className="flex gap-2">
@@ -191,7 +192,7 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, darkBg: e.target.value },
                     })
                   }
-                  className="w-10 h-10 border border-slate-700 bg-slate-800 rounded cursor-pointer"
+                  className="w-10 h-10 border border-border bg-background rounded-xl cursor-pointer"
                 />
                 <input
                   type="text"
@@ -202,13 +203,13 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, darkBg: e.target.value },
                     })
                   }
-                  className="flex-1 bg-slate-950 border border-slate-850 rounded px-3 text-sm text-white"
+                  className="flex-1 bg-background border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="settings-lightbg" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-lightbg" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Light Mode Background (Hex)
               </label>
               <div className="flex gap-2">
@@ -222,7 +223,7 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, lightBg: e.target.value },
                     })
                   }
-                  className="w-10 h-10 border border-slate-700 bg-slate-800 rounded cursor-pointer"
+                  className="w-10 h-10 border border-border bg-background rounded-xl cursor-pointer"
                 />
                 <input
                   type="text"
@@ -233,23 +234,23 @@ export default function SettingsPage() {
                       theme: { ...settings.theme, lightBg: e.target.value },
                     })
                   }
-                  className="flex-1 bg-slate-950 border border-slate-850 rounded px-3 text-sm text-white"
+                  className="flex-1 bg-background border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                 />
               </div>
             </div>
           </div>
-        </div>
+        </GlassCard>
 
         {/* Auth Credentials */}
-        <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900 space-y-6">
-          <h3 className="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
-            <Key className="text-secondary" size={20} />
+        <GlassCard hoverEffect={false} animate={true} delay={0.1} className="p-6 border border-border/80 bg-card/30 backdrop-blur-md rounded-3xl space-y-6 shadow-md">
+          <h3 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2 border-b border-border/80 pb-3">
+            <Key className="text-secondary" size={18} />
             Security Profile Credentials
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="settings-username" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-username" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Username
               </label>
               <input
@@ -262,12 +263,12 @@ export default function SettingsPage() {
                     admin: { ...settings.admin, username: e.target.value },
                   })
                 }
-                className="bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="settings-currentpass" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-currentpass" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Current Password (To verify change)
               </label>
               <input
@@ -276,12 +277,12 @@ export default function SettingsPage() {
                 placeholder="Required for pass changes"
                 value={currentPass}
                 onChange={(e) => setCurrentPass(e.target.value)}
-                className="bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="settings-newpass" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-newpass" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 New Password
               </label>
               <input
@@ -290,22 +291,22 @@ export default function SettingsPage() {
                 placeholder="Leave blank to keep same"
                 value={newPass}
                 onChange={(e) => setNewPass(e.target.value)}
-                className="bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
           </div>
-        </div>
+        </GlassCard>
 
         {/* SMTP Mail forwarding */}
-        <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900 space-y-6">
-          <h3 className="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
-            <Mail className="text-accent" size={20} />
+        <GlassCard hoverEffect={false} animate={true} delay={0.15} className="p-6 border border-border/80 bg-card/30 backdrop-blur-md rounded-3xl space-y-6 shadow-md">
+          <h3 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2 border-b border-border/80 pb-3">
+            <Mail className="text-accent" size={18} />
             SMTP Configuration (For Contact Form Emails)
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="settings-smtphost" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-smtphost" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 SMTP Host
               </label>
               <input
@@ -319,12 +320,12 @@ export default function SettingsPage() {
                     emailConfig: { ...settings.emailConfig, smtpHost: e.target.value },
                   })
                 }
-                className="bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="settings-smtpport" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-smtpport" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 SMTP Port
               </label>
               <input
@@ -338,12 +339,12 @@ export default function SettingsPage() {
                     emailConfig: { ...settings.emailConfig, smtpPort: Number(e.target.value) },
                   })
                 }
-                className="bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="settings-smtpuser" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-smtpuser" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 SMTP Username
               </label>
               <input
@@ -357,12 +358,12 @@ export default function SettingsPage() {
                     emailConfig: { ...settings.emailConfig, smtpUser: e.target.value },
                   })
                 }
-                className="bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="settings-smtppass" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-smtppass" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 SMTP Password / App Password
               </label>
               <input
@@ -376,12 +377,12 @@ export default function SettingsPage() {
                     emailConfig: { ...settings.emailConfig, smtpPass: e.target.value },
                   })
                 }
-                className="bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
 
             <div className="flex flex-col gap-1.5 sm:col-span-2">
-              <label htmlFor="settings-toemail" className="text-xs font-bold text-slate-300">
+              <label htmlFor="settings-toemail" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Receive Contact Notifications At (To Email)
               </label>
               <input
@@ -395,26 +396,26 @@ export default function SettingsPage() {
                     emailConfig: { ...settings.emailConfig, toEmail: e.target.value },
                   })
                 }
-                className="bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
               />
             </div>
           </div>
-        </div>
+        </GlassCard>
 
         {/* Submit */}
         <button
           type="submit"
           disabled={saving}
-          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+          className="w-full sm:w-auto cursor-pointer bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-3.5 rounded-xl shadow-md hover:shadow-primary/20 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
         >
           {saving ? (
             <>
-              <Loader2 className="animate-spin" size={16} />
+              <Loader2 className="animate-spin" size={14} />
               Saving Settings...
             </>
           ) : (
             <>
-              <Save size={16} />
+              <Save size={14} />
               Save System Config
             </>
           )}
