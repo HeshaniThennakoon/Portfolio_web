@@ -68,15 +68,16 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-background relative overflow-hidden grid-bg">
+    <section id="contact" className="py-24 bg-background relative overflow-hidden grid-bg">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="Get In Touch"
           subtitle="Interested in collaborating or discussing opportunities? Let's build something amazing together."
-          badge="Contact"
+          badge="CONTACT"
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-5xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-5xl mx-auto items-stretch z-10 relative">
+          
           {/* Left Column: Direct details */}
           <div className="lg:col-span-5 flex flex-col gap-4">
             {contactInfo.map((info, idx) => (
@@ -86,20 +87,20 @@ export function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="flex items-center gap-4 p-5 bg-card border border-border rounded-none hover:border-primary/50 transition-colors group"
+                className="flex items-center gap-4 p-5 bg-card border border-border rounded-3xl hover:border-primary/45 hover:shadow-lg dark:hover:shadow-[0_0_20px_rgba(0,245,255,0.08)] transition-all group"
               >
-                <div className="p-3 border border-primary/20 bg-primary/5 text-foreground shrink-0 rounded-none group-hover:border-primary/50 transition-colors">
+                <div className="p-3 border border-primary/15 bg-primary/5 text-foreground shrink-0 rounded-2xl group-hover:border-primary/40 group-hover:shadow-[0_0_10px_rgba(0,245,255,0.15)] transition-all">
                   {info.icon}
                 </div>
                 <div className="flex flex-col overflow-hidden">
-                  <span className="text-[10px] font-bold font-mono uppercase tracking-wider text-muted-foreground">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                     {info.label}
                   </span>
                   <a
                     href={info.href}
                     target={info.href.startsWith("http") ? "_blank" : undefined}
                     rel={info.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="text-xs sm:text-sm font-bold font-mono uppercase tracking-wide text-foreground hover:text-primary transition-colors mt-1.5 truncate"
+                    className="text-xs sm:text-sm font-bold tracking-wide text-foreground hover:text-primary transition-colors mt-1.5 truncate"
                   >
                     {info.value}
                   </a>
@@ -115,72 +116,70 @@ export function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="h-full border border-border bg-card p-6 sm:p-8 flex flex-col justify-between rounded-none hover:border-primary/40 transition-colors duration-300 relative"
+              className="h-full border border-border bg-card p-6 sm:p-8 flex flex-col justify-between rounded-3xl hover:border-primary/35 transition-all duration-300 relative"
             >
-              <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-border/40" />
-
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1.5">
-                    <label htmlFor="form-name" className="text-[10px] font-bold font-mono uppercase tracking-wider text-foreground">
+                    <label htmlFor="form-name" className="text-[10px] font-bold uppercase tracking-wider text-foreground">
                       Full Name
                     </label>
                     <input
                       id="form-name"
                       type="text"
-                      placeholder="YOUR NAME"
+                      placeholder="Your Name"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full bg-background border border-border px-4 py-3 text-xs focus:outline-none focus:border-primary text-foreground font-mono uppercase tracking-wide rounded-none"
+                      className="w-full bg-input border border-border px-4 py-3.5 text-xs focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(0,245,255,0.15)] text-foreground tracking-wide rounded-2xl transition-all"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label htmlFor="form-email" className="text-[10px] font-bold font-mono uppercase tracking-wider text-foreground">
+                    <label htmlFor="form-email" className="text-[10px] font-bold uppercase tracking-wider text-foreground">
                       Email Address
                     </label>
                     <input
                       id="form-email"
                       type="email"
-                      placeholder="NAME@EXAMPLE.COM"
+                      placeholder="name@example.com"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full bg-background border border-border px-4 py-3 text-xs focus:outline-none focus:border-primary text-foreground font-mono uppercase tracking-wide rounded-none"
+                      className="w-full bg-input border border-border px-4 py-3.5 text-xs focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(0,245,255,0.15)] text-foreground tracking-wide rounded-2xl transition-all"
                     />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="form-subject" className="text-[10px] font-bold font-mono uppercase tracking-wider text-foreground">
+                  <label htmlFor="form-subject" className="text-[10px] font-bold uppercase tracking-wider text-foreground">
                     Subject
                   </label>
                   <input
                     id="form-subject"
                     type="text"
-                    placeholder="COLLABORATION INQUIRY"
+                    placeholder="Collaboration Inquiry"
                     value={form.subject}
                     onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="w-full bg-background border border-border px-4 py-3 text-xs focus:outline-none focus:border-primary text-foreground font-mono uppercase tracking-wide rounded-none"
+                    className="w-full bg-input border border-border px-4 py-3.5 text-xs focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(0,245,255,0.15)] text-foreground tracking-wide rounded-2xl transition-all"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="form-message" className="text-[10px] font-bold font-mono uppercase tracking-wider text-foreground">
+                  <label htmlFor="form-message" className="text-[10px] font-bold uppercase tracking-wider text-foreground">
                     Message
                   </label>
                   <textarea
                     id="form-message"
                     rows={4}
-                    placeholder="TELL ME ABOUT YOUR PROJECT..."
+                    placeholder="Tell me about your project..."
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-background border border-border px-4 py-3 text-xs focus:outline-none focus:border-primary resize-none text-foreground font-mono uppercase tracking-wide rounded-none"
+                    className="w-full bg-input border border-border px-4 py-3.5 text-xs focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(0,245,255,0.15)] resize-none text-foreground tracking-wide rounded-2xl transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full cursor-pointer inline-flex items-center justify-center gap-2 border border-primary text-primary hover:bg-primary hover:text-primary-foreground font-mono text-xs uppercase tracking-widest font-bold py-3.5 transition-all duration-300 rounded-none bg-transparent"
+                  className="w-full cursor-pointer inline-flex items-center justify-center gap-2 bg-primary border border-primary text-primary-foreground hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] font-bold text-xs uppercase tracking-wider py-4 transition-all duration-300 rounded-none mt-2"
                 >
                   {loading ? (
                     <>

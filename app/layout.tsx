@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
@@ -12,6 +12,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
@@ -28,16 +33,18 @@ export default async function RootLayout({
   const settings = await getSettings();
   const theme = settings.theme;
 
+  const isCyberAccent = theme.primary === "#00D4B4" || theme.primary === "#00F5FF";
+
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
         <style dangerouslySetInnerHTML={{ __html: `
           :root {
-            --primary: ${theme.primary === "#00D4B4" ? "#008B76" : theme.primary};
+            --primary: ${isCyberAccent ? "#0089A8" : theme.primary};
             --secondary: ${theme.secondary};
             --accent: ${theme.accent};
             --background: ${theme.lightBg || "#FFFFFF"};
@@ -50,11 +57,11 @@ export default async function RootLayout({
             --primary: ${theme.primary};
             --secondary: ${theme.secondary};
             --accent: ${theme.accent};
-            --background: ${theme.darkBg || "#0A0A0A"};
-            --card: #111111;
-            --popover: #111111;
-            --border: rgba(255, 255, 255, 0.07);
-            --input: rgba(255, 255, 255, 0.09);
+            --background: ${theme.darkBg === "#0A0A0A" ? "#050505" : theme.darkBg || "#050505"};
+            --card: ${isCyberAccent ? "#0d0d0d" : "#111111"};
+            --popover: ${isCyberAccent ? "#0d0d0d" : "#111111"};
+            --border: ${isCyberAccent ? "rgba(0, 245, 255, 0.08)" : "rgba(255, 255, 255, 0.07)"};
+            --input: ${isCyberAccent ? "rgba(0, 245, 255, 0.06)" : "rgba(255, 255, 255, 0.09)"};
           }
         `}} />
       </head>

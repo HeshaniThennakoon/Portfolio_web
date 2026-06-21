@@ -41,9 +41,9 @@ export function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-primary mb-2 inline-block font-mono"
+          className="text-xs md:text-sm font-bold uppercase tracking-[0.25em] text-primary mb-3 inline-block font-sans"
         >
-          // {badge}
+          {badge}
         </motion.span>
       )}
       
@@ -52,29 +52,32 @@ export function SectionHeader({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-3xl md:text-5xl font-black tracking-tight text-foreground uppercase"
+        className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground uppercase font-sans"
       >
         {hasMultipleWords ? (
           <>
             <span className="text-foreground/90">{firstPart} </span>
-            <span className="text-primary">{lastWord}</span>
+            <span className="text-primary cyber-glow">{lastWord}</span>
           </>
         ) : (
-          <span className="text-primary">{title}</span>
+          <span className="text-primary cyber-glow">{title}</span>
         )}
       </motion.h2>
 
-      {/* Decorative gradient line */}
+      {/* Decorative glowing line */}
       <motion.div
         initial={{ width: 0 }}
         whileInView={{ width: "80px" }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
         className={cn(
-          "h-[3px] rounded-full bg-primary mt-4 mb-5 opacity-80",
+          "h-[3px] rounded-full bg-primary mt-4 mb-5",
           isCenter && "mx-auto",
           isRight && "ml-auto"
         )}
+        style={{ 
+          boxShadow: '0 0 10px var(--primary)' 
+        }}
       />
 
       {subtitle && (
@@ -83,7 +86,7 @@ export function SectionHeader({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="max-w-2xl text-sm md:text-base text-muted-foreground font-medium leading-relaxed"
+          className="max-w-2xl text-sm md:text-base text-muted-foreground font-medium leading-relaxed font-sans"
         >
           {subtitle}
         </motion.p>

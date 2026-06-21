@@ -13,12 +13,9 @@ interface NavLink {
 const navLinks: NavLink[] = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
-  { label: "Services", href: "#why-hire-me" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
-  { label: "Education", href: "#education" },
-  { label: "Achievements", href: "#achievements" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -47,7 +44,7 @@ export function Navbar() {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 120 && rect.bottom >= 120) {
+          if (rect.top <= 150 && rect.bottom >= 150) {
             currentSection = section;
             break;
           }
@@ -69,29 +66,43 @@ export function Navbar() {
     setMobileMenuOpen(false);
     const element = document.getElementById(href.substring(1));
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const offset = 80; // offset for the sticky navbar
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     }
   };
 
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b py-4 bg-card border-border shadow-sm"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+        isScrolled
+          ? "bg-background/90 backdrop-blur-md border-border shadow-[0_4px_30px_rgba(0,0,0,0.3)] py-3"
+          : "bg-transparent border-transparent py-5"
       )}
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
-        {/* Monogram logo */}
+        {/* Brand logo */}
         <a
           href="#home"
           onClick={(e) => {
             e.preventDefault();
             handleLinkClick("#home");
           }}
-          className="text-xl md:text-2xl font-black tracking-wider text-foreground hover:opacity-80 flex items-center gap-2 font-mono uppercase"
+          className="flex flex-col select-none cursor-pointer"
         >
-          <span className="text-primary font-black">HT</span>
-          <span className="hidden sm:inline text-xs font-semibold tracking-widest text-foreground/80 font-sans">
-            // HESHANI
+          <span className="text-xl md:text-2xl font-black tracking-wider text-primary font-sans uppercase leading-none cyber-glow">
+            HESHANI
+          </span>
+          <span className="text-[9px] md:text-[10px] font-bold tracking-[0.25em] text-muted-foreground uppercase mt-1 leading-none">
+            Software Engineer
           </span>
         </a>
 
@@ -107,13 +118,21 @@ export function Navbar() {
                     handleLinkClick(link.href);
                   }}
                   className={cn(
-                    "text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-200 py-1 hover:text-primary",
+                    "text-xs font-bold uppercase tracking-[0.2em] transition-all duration-200 py-1 hover:text-primary relative block",
                     activeSection === link.href.substring(1)
-                      ? "text-primary border-b border-primary"
+                      ? "text-primary"
                       : "text-muted-foreground"
                   )}
                 >
                   {link.label}
+                  {activeSection === link.href.substring(1) && (
+                    <span 
+                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary rounded-full shadow-[0_0_8px_var(--primary)]"
+                      style={{ 
+                        boxShadow: '0 0 10px var(--primary)' 
+                      }}
+                    />
+                  )}
                 </a>
               </li>
             ))}
@@ -132,7 +151,7 @@ export function Navbar() {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded border border-border bg-background hover:bg-muted text-foreground hover:text-primary transition-all cursor-pointer"
+            className="p-2 rounded border border-border bg-card hover:bg-muted text-foreground hover:text-primary transition-all cursor-pointer shadow-sm"
             aria-label="Toggle theme"
           >
             {mounted && (resolvedTheme === "dark" ? <Sun size={15} /> : <Moon size={15} />)}
@@ -145,7 +164,7 @@ export function Navbar() {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded border border-border bg-background text-foreground transition-all cursor-pointer"
+            className="p-2 rounded border border-border bg-card text-foreground transition-all cursor-pointer"
             aria-label="Toggle theme"
           >
             {mounted && (resolvedTheme === "dark" ? <Sun size={15} /> : <Moon size={15} />)}
@@ -165,8 +184,8 @@ export function Navbar() {
       {/* Mobile Drawer */}
       <div
         className={cn(
-          "fixed inset-0 top-[65px] z-40 bg-card/98 flex flex-col p-6 border-t border-border lg:hidden transition-transform duration-300 ease-in-out shadow-lg",
-          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          "fixed inset-x-0 bottom-0 top-[65px] z-40 bg-background/98 backdrop-blur-md flex flex-col p-6 border-t border-border lg:hidden transition-all duration-300 ease-in-out shadow-lg",
+          mobileMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
         )}
       >
         <ul className="flex flex-col gap-6 my-auto text-center">
@@ -179,13 +198,16 @@ export function Navbar() {
                   handleLinkClick(link.href);
                 }}
                 className={cn(
-                  "text-base font-bold uppercase tracking-widest transition-colors block py-2",
+                  "text-lg font-bold uppercase tracking-[0.25em] transition-colors block py-2 relative w-max mx-auto",
                   activeSection === link.href.substring(1)
                     ? "text-primary"
                     : "text-muted-foreground hover:text-primary"
                 )}
               >
                 {link.label}
+                {activeSection === link.href.substring(1) && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full" />
+                )}
               </a>
             </li>
           ))}

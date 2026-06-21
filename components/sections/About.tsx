@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
-import { Check, Cpu, Layout, Sparkles } from "lucide-react";
+import { Check, BrainCircuit, Users, Code, Sparkles } from "lucide-react";
 import { AboutInfo } from "@/lib/data";
+import { useTheme } from "next-themes";
 
 interface AboutProps {
   data: AboutInfo;
@@ -12,57 +13,68 @@ interface AboutProps {
 }
 
 export function About({ data, profileImg = "/profile.jpg", name = "Heshani" }: AboutProps) {
+  const { resolvedTheme } = useTheme();
+
   const getHighlightIcon = (index: number) => {
     const icons = [
-      <Cpu key={0} className="text-primary" size={16} />,
-      <Layout key={1} className="text-primary" size={16} />,
-      <Sparkles key={2} className="text-primary" size={16} />,
+      <BrainCircuit key={0} className="text-primary" size={18} />,
+      <Users key={1} className="text-primary" size={18} />,
+      <Code key={2} className="text-primary" size={18} />,
+      <Sparkles key={3} className="text-primary" size={18} />,
     ];
-    return icons[index % icons.length] || <Check className="text-primary" size={16} />;
+    return icons[index % icons.length] || <Check className="text-primary" size={18} />;
   };
 
   return (
-    <section id="about" className="py-20 bg-background relative overflow-hidden grid-bg">
+    <section id="about" className="py-24 bg-background relative overflow-hidden grid-bg">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Image with Teal Duotone */}
-          <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
+          
+          {/* Left Column: Grayscale Image Reveal */}
+          <div className="lg:col-span-5 flex justify-center order-2 lg:order-1 z-10">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative w-72 h-80 sm:w-80 sm:h-96 md:w-[350px] md:h-[420px] overflow-hidden group border border-primary/30 p-2 bg-card shadow-[0_0_50px_rgba(0,212,180,0.05)] rounded-none"
+              className="relative w-72 h-80 sm:w-80 sm:h-96 md:w-[350px] md:h-[420px] p-2 bg-card border border-primary/20 hover:border-primary/40 rounded-[2.5rem] transition-all duration-500"
+              style={{ 
+                boxShadow: resolvedTheme === "dark"
+                  ? '0 0 45px rgba(0, 245, 255, 0.15), inset 0 0 20px rgba(0, 245, 255, 0.02)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.05)'
+              }}
             >
-              <div className="relative w-full h-full overflow-hidden bg-muted flex items-center justify-center rounded-none">
+              <div className="relative w-full h-full overflow-hidden bg-[#f4f4f5] dark:bg-[#151515] flex items-center justify-center rounded-[2.2rem]">
                 {profileImg && profileImg !== "/profile.jpg" ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={profileImg}
                     alt={name}
-                    className="w-full h-full object-cover teal-duotone"
+                    className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 hover:scale-102"
                   />
                 ) : (
-                  <div className="text-center p-8 flex flex-col items-center justify-center h-full bg-card select-none">
-                    <div className="w-20 h-20 border border-primary/45 flex items-center justify-center text-primary text-3xl font-black mb-4">
+                  <div className="text-center p-8 flex flex-col items-center justify-center h-full bg-card w-full select-none">
+                    <div className="w-20 h-20 rounded-full border-2 border-primary/30 flex items-center justify-center text-primary text-3xl font-black mb-4 bg-primary/5 cyber-glow">
                       HT
                     </div>
-                    <span className="text-sm font-bold tracking-widest text-foreground font-mono uppercase">{name}</span>
+                    <span className="text-sm font-bold tracking-widest text-foreground font-sans uppercase">{name}</span>
                   </div>
                 )}
               </div>
-              <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-primary" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-primary" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-primary" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-primary" />
+              
+              {/* Tech Corner Details */}
+              <div className="absolute top-6 left-6 w-3 h-3 border-t-2 border-l-2 border-primary opacity-65" />
+              <div className="absolute top-6 right-6 w-3 h-3 border-t-2 border-r-2 border-primary opacity-65" />
+              <div className="absolute bottom-6 left-6 w-3 h-3 border-b-2 border-l-2 border-primary opacity-65" />
+              <div className="absolute bottom-6 right-6 w-3 h-3 border-b-2 border-r-2 border-primary opacity-65" />
             </motion.div>
           </div>
 
-          {/* Right Column: Copy */}
+          {/* Right Column: Copy & Highlight Feature Pills */}
           <div className="lg:col-span-7 flex flex-col justify-center order-1 lg:order-2">
             <SectionHeader
               title="Who Am I?"
-              badge="About Me"
+              badge="ABOUT ME"
               align="left"
               className="mb-6"
             />
@@ -79,28 +91,25 @@ export function About({ data, profileImg = "/profile.jpg", name = "Heshani" }: A
               </p>
             </motion.div>
 
-            {/* Flat Card Core Strengths */}
+            {/* Glowing 2x2 highlight pills grid */}
             {data.highlights && data.highlights.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="mt-8 pt-8 border-t border-border"
+                className="mt-8 pt-8 border-t border-border/80"
               >
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-4 block font-mono">
-                  // CORE STRENGTHS
-                </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {data.highlights.map((highlight, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-3 p-3 bg-card border border-border rounded-none hover:border-primary/40 transition-colors"
+                      className="flex items-center gap-3 p-4 bg-card border border-border rounded-2xl hover:border-primary/40 hover:shadow-md dark:hover:shadow-[0_0_15px_rgba(0,245,255,0.08)] transition-all duration-300 group"
                     >
-                      <div className="p-1.5 bg-background border border-border">
+                      <div className="p-2 bg-primary/5 rounded-xl border border-primary/10 text-primary group-hover:border-primary/30 group-hover:bg-primary/10 transition-colors">
                         {getHighlightIcon(index)}
                       </div>
-                      <span className="font-semibold text-foreground text-xs md:text-sm font-mono uppercase tracking-wider">
+                      <span className="font-semibold text-foreground text-xs md:text-sm tracking-wide uppercase font-sans">
                         {highlight}
                       </span>
                     </div>

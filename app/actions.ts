@@ -323,7 +323,8 @@ export async function uploadFileAction(formData: FormData) {
 
     if (type === "profile") {
       const ext = path.extname(file.name) || ".jpg";
-      const filename = `profile${ext}`;
+      const timestamp = Date.now();
+      const filename = `profile-${timestamp}${ext}`;
       const filePath = path.join(publicDir, filename);
       fs.writeFileSync(filePath, buffer);
 

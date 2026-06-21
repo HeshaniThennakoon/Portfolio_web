@@ -1,10 +1,10 @@
 {
   "theme": {
-    "primary": "#00D4B4",
-    "secondary": "#1DE9D6",
-    "accent": "#8B5CF6",
-    "darkBg": "#0A0A0A",
-    "lightBg": "#F8FAFC"
+    "primary": "#00F5FF",
+    "secondary": "#00C8D7",
+    "accent": "#00F5FF",
+    "darkBg": "#050505",
+    "lightBg": "#FFFFFF"
   },
   "admin": {
     "username": "admin",

@@ -37,15 +37,15 @@ export default async function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero data={heroData} />
-        <About data={aboutData} profileImg={heroData.profileImg} name={heroData.name} />
+        <Stats stats={heroData.stats} />
         <WhyHireMe />
+        <About data={aboutData} profileImg={heroData.profileImg} name={heroData.name} />
         <Skills data={skillsData} />
         <ExperienceSection data={experienceData} />
         <Projects data={projectsData} />
         <EducationSection data={educationData} />
         <AchievementsSection data={achievementsData} />
         <Contact />
-        <Stats stats={heroData.stats} />
       </main>
       <Footer />
     </>

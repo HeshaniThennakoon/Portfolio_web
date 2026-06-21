@@ -11,15 +11,15 @@ interface EducationProps {
 
 export function EducationSection({ data }: EducationProps) {
   return (
-    <section id="education" className="py-20 bg-background relative overflow-hidden grid-bg">
+    <section id="education" className="py-24 bg-background relative overflow-hidden grid-bg">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="My Education"
           subtitle="My academic foundation in engineering, computing, and intelligence systems."
-          badge="Academic"
+          badge="ACADEMIC"
         />
 
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div className="max-w-3xl mx-auto space-y-6 mt-12 z-10 relative">
           {data.map((edu, idx) => (
             <motion.div
               key={edu.id}
@@ -27,25 +27,25 @@ export function EducationSection({ data }: EducationProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="p-6 md:p-8 bg-card border border-border border-l-2 border-l-primary rounded-none shadow-sm hover:border-primary/50 transition-all duration-300 flex flex-col md:flex-row gap-6 items-start"
+              className="p-6 md:p-8 bg-card border border-border border-l-4 border-l-primary rounded-3xl hover:border-primary/45 transition-all duration-300 flex flex-col md:flex-row gap-6 items-start hover:shadow-lg dark:hover:shadow-[-5px_5px_30px_rgba(0,245,255,0.12)]"
             >
-              {/* Cap Icon Box - Sharp Square */}
-              <div className="p-4 border border-primary/20 bg-primary/5 text-primary flex items-center justify-center shrink-0 rounded-none">
-                <GraduationCap size={24} />
+              {/* Cap Icon Box - Glowing Round/Hex shape */}
+              <div className="p-4 border border-primary/15 bg-primary/5 text-primary flex items-center justify-center shrink-0 rounded-2xl group-hover:border-primary/40 group-hover:shadow-[0_0_15px_rgba(0,245,255,0.15)] transition-all">
+                <GraduationCap size={26} />
               </div>
 
               {/* Details */}
               <div className="space-y-4 w-full">
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-border pb-4">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-border/80 pb-4">
                   <div>
-                    <h3 className="text-lg font-bold text-foreground font-mono uppercase tracking-wider">
+                    <h3 className="text-lg font-bold text-foreground tracking-wide font-sans">
                       {edu.degree}
                     </h3>
-                    <p className="font-bold text-primary mt-1.5 font-mono text-xs uppercase">
-                      // {edu.institution.toUpperCase()}
+                    <p className="font-semibold text-primary mt-1">
+                      {edu.institution}
                     </p>
                   </div>
-                  <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground bg-background border border-border px-3 py-1.5 rounded-none w-fit shrink-0 font-mono">
+                  <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-primary bg-[#f4f4f5] dark:bg-[#0d0d0d] border border-primary/20 px-3.5 py-1.5 rounded-full w-fit shrink-0">
                     <Calendar size={11} className="text-primary" />
                     {edu.period}
                   </span>
@@ -53,7 +53,7 @@ export function EducationSection({ data }: EducationProps) {
 
                 {/* Focus Areas */}
                 <div>
-                  <h4 className="text-[10px] font-bold font-mono uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
+                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5 font-sans">
                     <Award size={12} className="text-primary" />
                     Specializations & Coursework
                   </h4>
@@ -61,7 +61,7 @@ export function EducationSection({ data }: EducationProps) {
                     {edu.focusAreas.map((area) => (
                       <span
                         key={area}
-                        className="text-[10px] font-bold text-foreground bg-background border border-border px-2.5 py-1.5 rounded-none hover:border-primary/45 transition-colors font-mono uppercase tracking-wider"
+                        className="text-[10px] font-bold text-foreground bg-card border border-border px-3 py-1.5 rounded-full hover:border-primary/45 hover:text-primary transition-all uppercase tracking-wider"
                       >
                         {area}
                       </span>

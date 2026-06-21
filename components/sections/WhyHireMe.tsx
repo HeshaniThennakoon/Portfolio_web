@@ -2,51 +2,50 @@
 
 import { motion } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
-import { Code, Brain, Cloud, Layers, Users, Zap, ArrowRight } from "lucide-react";
+import { Globe, Smartphone, BrainCircuit, Cloud, ArrowRight } from "lucide-react";
 
 export function WhyHireMe() {
   const cards = [
     {
-      icon: <Code className="text-primary" size={24} />,
-      title: "Full-Stack Development",
-      desc: "Proficient in frontend systems (Angular, React, Next.js) and backend environments (ASP.NET Core, Node.js) with structured database flows.",
+      icon: <Globe className="text-primary" size={32} />,
+      title: "Web Development",
+      desc: "Engineering premium full-stack web applications with React, Next.js, and ASP.NET Core, optimized for performance and design.",
     },
     {
-      icon: <Brain className="text-primary" size={24} />,
-      title: "AI & Computer Vision",
-      desc: "Hands-on experience implementing CNN model training, real-time emotion/drowsiness tracking with OpenCV, and AI chatbot flows.",
+      icon: <Smartphone className="text-primary" size={32} />,
+      title: "Mobile Applications",
+      desc: "Creating high-fidelity, fluid cross-platform mobile apps with responsive layouts, secure client auth, and real-time features.",
     },
     {
-      icon: <Cloud className="text-primary" size={24} />,
+      icon: <BrainCircuit className="text-primary" size={32} />,
+      title: "AI & Machine Learning",
+      desc: "Building custom computer vision models, emotion/drowsiness detection trackers using OpenCV, and smart LLM integrations.",
+    },
+    {
+      icon: <Cloud className="text-primary" size={32} />,
       title: "Cloud & DevOps",
-      desc: "Familiarity with AWS S3 hosting, Docker containerization, Jenkins automation pipelines, and robust Git workflows (GitLab, GitHub).",
-    },
-    {
-      icon: <Layers className="text-primary" size={24} />,
-      title: "Clean Architecture",
-      desc: "Committed to OOP design, MVC architectures, SOLID principles, REST API standards, and modular code readability to ease scaling.",
-    },
-    {
-      icon: <Users className="text-primary" size={24} />,
-      title: "Team Leadership",
-      desc: "Proven coordinator and editor at IET on Campus. Former Captain of the University Carrom team. Expert collaborator in Agile sprints.",
-    },
-    {
-      icon: <Zap className="text-primary" size={24} />,
-      title: "Adaptable Learner",
-      desc: "Graduated in Computer Engineering from Ruhuna. Fast to learn new frameworks, tools, database migrations, and systems.",
+      desc: "Deploying secure applications to AWS S3, configuring Docker containers, and managing automated CI/CD pipelines.",
     },
   ];
 
   const handleScrollTo = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     }
   };
 
   return (
-    <section id="why-hire-me" className="py-20 bg-background relative overflow-hidden grid-bg">
+    <section id="why-hire-me" className="py-24 bg-background relative overflow-hidden grid-bg">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
@@ -54,7 +53,7 @@ export function WhyHireMe() {
           <div className="lg:col-span-5 flex flex-col justify-center">
             <SectionHeader
               title="What I Do?"
-              badge="Services"
+              badge="OUR SERVICES"
               align="left"
               className="mb-6"
             />
@@ -83,7 +82,7 @@ export function WhyHireMe() {
             >
               <button
                 onClick={() => handleScrollTo("contact")}
-                className="inline-flex items-center gap-2 cursor-pointer border border-primary text-primary hover:bg-primary hover:text-primary-foreground font-mono text-xs uppercase tracking-widest font-bold px-6 py-3.5 transition-all duration-300 rounded-none bg-transparent"
+                className="inline-flex items-center gap-2 cursor-pointer border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold text-xs uppercase tracking-wider px-8 py-3.5 transition-all duration-300 rounded-none shadow-[0_0_10px_rgba(0,245,255,0.05)] hover:shadow-[0_0_20px_rgba(0,245,255,0.2)] bg-transparent"
               >
                 Let&apos;s Work Together
                 <ArrowRight size={14} />
@@ -91,8 +90,8 @@ export function WhyHireMe() {
             </motion.div>
           </div>
 
-          {/* Right Column: 2x3 Services Grid */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Right Column: 2x2 Services Grid */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 z-10">
             {cards.map((card, i) => (
               <motion.div
                 key={i}
@@ -100,21 +99,21 @@ export function WhyHireMe() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="bg-card border border-border p-6 rounded-none hover:border-primary/40 transition-all duration-300 flex flex-col justify-between group"
+                className="bg-card border border-border p-8 rounded-3xl hover:border-primary/45 transition-all duration-300 flex flex-col justify-between group hover:shadow-lg dark:hover:shadow-[0_0_30px_rgba(0,245,255,0.12)]"
               >
                 <div>
-                  <div className="p-3 border border-primary/20 bg-primary/5 w-fit rounded-none mb-4 group-hover:border-primary/50 transition-colors">
+                  <div className="p-4 border border-primary/15 bg-primary/5 w-fit rounded-2xl mb-6 group-hover:border-primary/45 transition-all group-hover:shadow-[0_0_15px_rgba(0,245,255,0.15)]">
                     {card.icon}
                   </div>
-                  <h3 className="text-sm font-bold text-foreground tracking-wider uppercase font-mono mb-2">
+                  <h3 className="text-base font-bold text-foreground tracking-wider uppercase font-sans mb-3">
                     {card.title}
                   </h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                     {card.desc}
                   </p>
                 </div>
-                <div className="mt-4 pt-4 border-t border-border/40 text-[10px] font-bold text-primary font-mono tracking-widest uppercase">
-                  // {card.title.split(" ")[0]} ACTIVE
+                <div className="mt-6 pt-4 border-t border-border/40 text-[10px] font-bold text-primary font-mono tracking-widest uppercase">
+                  // {card.title.toUpperCase().split(" ")[0]} ACTIVE
                 </div>
               </motion.div>
             ))}

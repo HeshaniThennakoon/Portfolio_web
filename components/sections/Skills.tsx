@@ -35,23 +35,23 @@ export function Skills({ data }: SkillsProps) {
   const selectedSkills = data.find((cat) => cat.category === activeCategory)?.skills || [];
 
   return (
-    <section id="skills" className="py-20 bg-background relative overflow-hidden grid-bg">
+    <section id="skills" className="py-24 bg-background relative overflow-hidden grid-bg">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="My Skills"
           subtitle="My technical toolbelt, categorized by engineering domains."
-          badge="Expertise"
+          badge="EXPERTISE"
         />
 
-        {/* Tab Headers: Sharp flat chips */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 max-w-4xl mx-auto">
+        {/* Tab Headers: Neon Outline Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-12 max-w-4xl mx-auto z-10 relative">
           {data.map((cat) => (
             <button
               key={cat.category}
               onClick={() => setActiveCategory(cat.category)}
-              className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold font-mono uppercase tracking-wider rounded-none border transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold font-sans uppercase tracking-wider rounded-full border transition-all cursor-pointer ${
                 activeCategory === cat.category
-                  ? "bg-primary border-primary text-primary-foreground"
+                  ? "bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(0,245,255,0.3)] hover:shadow-[0_0_20px_rgba(0,245,255,0.45)]"
                   : "bg-card border-border text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
@@ -62,7 +62,7 @@ export function Skills({ data }: SkillsProps) {
         </div>
 
         {/* Active Skills Grid */}
-        <div className="max-w-4xl mx-auto min-h-[180px]">
+        <div className="max-w-4xl mx-auto min-h-[180px] z-10 relative">
           <motion.div
             layout
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
@@ -76,12 +76,18 @@ export function Skills({ data }: SkillsProps) {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.25 }}
                   layoutId={`skill-${skill}`}
-                  className="p-4 rounded-none border border-border bg-card hover:border-primary/50 hover:shadow-sm transition-all flex items-center justify-between group"
+                  className="p-5 rounded-2xl border border-border bg-card hover:border-primary/45 hover:shadow-md dark:hover:shadow-[0_0_20px_rgba(0,245,255,0.12)] transition-all flex items-center justify-between group"
                 >
-                  <span className="font-bold text-foreground text-xs md:text-sm font-mono uppercase tracking-wider">
+                  <span className="font-semibold text-foreground text-xs md:text-sm tracking-wide uppercase font-sans">
                     {skill}
                   </span>
-                  <div className="w-1.5 h-1.5 rounded-none bg-muted-foreground/30 group-hover:bg-primary transition-colors duration-300" />
+                  <div 
+                    className="w-2 h-2 rounded-full bg-primary/20 group-hover:bg-primary transition-all duration-300"
+                    style={{
+                      boxShadow: '0 0 0px var(--primary)'
+                    }}
+                    // Will glow nicely when active
+                  />
                 </motion.div>
               ))}
             </AnimatePresence>

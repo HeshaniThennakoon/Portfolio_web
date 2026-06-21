@@ -32,33 +32,33 @@ export function Projects({ data }: ProjectsProps) {
   const filteredProjects = data.filter(filterProject);
 
   return (
-    <section id="projects" className="py-20 bg-background relative overflow-hidden grid-bg">
+    <section id="projects" className="py-24 bg-background relative overflow-hidden grid-bg">
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeader
           title="Featured Projects"
           subtitle="A showcase of software systems I have designed, engineered, and deployed."
-          badge="Portfolio"
+          badge="PORTFOLIO"
         />
 
-        {/* Filters - Sharp flat chips */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+        {/* Filters - Neon Outline Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-12 z-10 relative">
           {(["all", "ai", "web", "mobile"] as const).map((category) => (
             <button
               key={category}
               onClick={() => setFilter(category)}
-              className={`px-5 py-2.5 text-xs font-bold font-mono uppercase tracking-wider rounded-none border transition-all cursor-pointer ${
+              className={`px-5 py-2.5 text-xs font-bold font-sans uppercase tracking-wider rounded-full border transition-all cursor-pointer ${
                 filter === category
-                  ? "bg-primary border-primary text-primary-foreground"
+                  ? "bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(0,245,255,0.3)]"
                   : "bg-card border-border text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
-              {category === "all" ? "All Projects" : category === "ai" ? "AI & Computer Vision" : category === "web" ? "Web Apps" : "Mobile Apps"}
+              {category === "all" ? "All Projects" : category === "ai" ? "AI & CV" : category === "web" ? "Web Apps" : "Mobile Apps"}
             </button>
           ))}
         </div>
 
         {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 z-10 relative">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => {
               const isFeatured = project.featured;
@@ -70,39 +70,42 @@ export function Projects({ data }: ProjectsProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.35, delay: index * 0.05 }}
-                  className={`flex flex-col group border border-border overflow-hidden bg-card hover:border-primary/50 transition-all duration-300 shadow-sm ${
-                    isFeatured ? "md:col-span-2 lg:col-span-2 flex-row md:flex-row" : ""
-                  } rounded-none`}
+                  className={`flex flex-col group border border-border overflow-hidden bg-card hover:border-primary/45 transition-all duration-300 hover:shadow-lg dark:hover:shadow-[0_0_35px_rgba(0,245,255,0.12)] ${
+                    isFeatured ? "md:col-span-2 lg:col-span-2 md:flex-row" : ""
+                  } rounded-3xl`}
                 >
-                  {/* Thumbnail / Image placeholder with duotone overlay */}
-                  <div className={`relative overflow-hidden bg-muted flex items-center justify-center min-h-[220px] ${
+                  {/* Thumbnail / Image placeholder with gradient overlay */}
+                  <div className={`relative overflow-hidden bg-muted flex items-center justify-center min-h-[240px] ${
                     isFeatured ? "md:w-1/2" : "w-full"
-                  } rounded-none`}>
+                  }`}>
                     {project.imageUrl && project.imageUrl.startsWith("/uploads/") && !project.imageUrl.includes("placeholder") ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={project.imageUrl}
-                        alt={project.title}
-                        className="w-full h-full object-cover teal-duotone"
-                      />
+                      <div className="relative w-full h-full min-h-[240px] overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={project.imageUrl}
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent opacity-60" />
+                      </div>
                     ) : (
-                      /* Stunning Dynamic Grid Placeholder with initials */
-                      <div className="p-8 text-center flex flex-col items-center justify-center h-full w-full select-none">
-                        <div className="w-14 h-14 rounded-none border border-primary/30 text-primary bg-primary/5 flex items-center justify-center font-mono font-bold text-lg mb-3">
+                      /* Dynamic Gradient Placeholder */
+                      <div className="p-8 text-center flex flex-col items-center justify-center h-full w-full min-h-[240px] bg-gradient-to-br from-muted via-muted/50 to-primary/10 select-none">
+                        <div className="w-14 h-14 rounded-2xl border border-primary/20 text-primary bg-primary/5 flex items-center justify-center font-sans font-extrabold text-lg mb-3 shadow-[0_0_15px_rgba(0,245,255,0.05)] group-hover:shadow-[0_0_20px_rgba(0,245,255,0.15)] group-hover:border-primary/40 transition-all">
                           {project.title.substring(0, 2).toUpperCase()}
                         </div>
-                        <span className="font-bold text-foreground text-xs uppercase tracking-wider font-mono">
+                        <span className="font-bold text-foreground text-xs uppercase tracking-wider">
                           {project.title}
                         </span>
                         <span className="text-[9px] text-muted-foreground uppercase tracking-widest mt-1.5 font-mono">
-                          // STATIC SOURCE
+                          // REPOSITORY SOURCE
                         </span>
                       </div>
                     )}
 
-                    {/* Featured Ribbon - Sharp corner */}
+                    {/* Featured Badge */}
                     {isFeatured && (
-                      <span className="absolute top-0 left-0 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground bg-primary px-3 py-1.5 font-mono shadow-sm rounded-none">
+                      <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground bg-primary px-3.5 py-1.5 rounded-full shadow-[0_0_15px_rgba(0,245,255,0.4)]">
                         <Sparkles size={11} />
                         Featured
                       </span>
@@ -110,25 +113,25 @@ export function Projects({ data }: ProjectsProps) {
                   </div>
 
                   {/* Project Details */}
-                  <div className={`p-6 flex flex-col justify-between ${
+                  <div className={`p-8 flex flex-col justify-between ${
                     isFeatured ? "md:w-1/2" : "w-full"
                   }`}>
                     <div>
-                      <h3 className="text-lg font-bold text-foreground font-mono uppercase tracking-wider mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
+                      <h3 className="text-xl font-bold text-foreground tracking-wide mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
                         {project.title}
                       </h3>
                       
-                      <p className="text-xs font-normal text-muted-foreground leading-relaxed mb-4">
+                      <p className="text-xs sm:text-sm font-normal text-muted-foreground leading-relaxed mb-5">
                         {project.description}
                       </p>
 
                       {/* Features */}
                       <div className="mb-6">
-                        <h4 className="text-[10px] font-bold font-mono uppercase tracking-wider text-muted-foreground mb-2">// KEY FEATURES:</h4>
-                        <ul className="space-y-1.5">
+                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2.5">// KEY FEATURES:</h4>
+                        <ul className="space-y-2">
                           {project.features.map((feature, fIdx) => (
-                            <li key={fIdx} className="text-xs text-foreground flex items-start gap-2">
-                              <span className="text-primary font-bold font-mono">&gt;</span>
+                            <li key={fIdx} className="text-xs sm:text-sm text-foreground flex items-start gap-2">
+                              <span className="text-primary font-bold shrink-0 mt-0.5">&gt;</span>
                               <span className="text-muted-foreground/90">{feature}</span>
                             </li>
                           ))}
@@ -137,12 +140,12 @@ export function Projects({ data }: ProjectsProps) {
                     </div>
 
                     <div>
-                      {/* Tech Pills - Sharp custom borders */}
+                      {/* Tech Pills */}
                       <div className="flex flex-wrap gap-1.5 mb-6">
                         {project.technologies.map((tech) => (
                           <span
                             key={tech}
-                            className="text-[9px] font-bold text-primary border border-primary/20 bg-primary/5 px-2 py-0.5 rounded-none font-mono uppercase tracking-wider"
+                            className="text-[9px] font-bold text-primary border border-primary/20 bg-primary/5 px-2.5 py-1 rounded-full uppercase tracking-wider"
                           >
                             {tech}
                           </span>
@@ -150,15 +153,15 @@ export function Projects({ data }: ProjectsProps) {
                       </div>
 
                       {/* Action Links */}
-                      <div className="flex items-center gap-4 pt-4 border-t border-border/60">
+                      <div className="flex items-center gap-4 pt-4 border-t border-border/80">
                         {project.githubUrl && (
                           <a
                             href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-bold font-mono uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-foreground hover:text-primary transition-all group/btn"
                           >
-                            <Github size={13} className="text-primary" />
+                            <Github size={14} className="text-primary group-hover/btn:scale-110 transition-transform" />
                             Repository
                           </a>
                         )}
@@ -167,13 +170,13 @@ export function Projects({ data }: ProjectsProps) {
                             href={project.demoUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-bold font-mono uppercase tracking-wider text-primary hover:text-primary/80 transition-colors"
+                            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors"
                           >
-                            <ExternalLink size={13} />
+                            <ExternalLink size={14} />
                             Live Demo
                           </a>
                         ) : (
-                          <span className="text-[9px] text-muted-foreground font-bold font-mono uppercase tracking-wider bg-background border border-border px-2 py-1">
+                          <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider bg-[#f4f4f5] dark:bg-[#0d0d0d] border border-border px-2.5 py-1.5 rounded-full">
                             Local Deploy
                           </span>
                         )}
