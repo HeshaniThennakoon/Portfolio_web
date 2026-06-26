@@ -82,10 +82,10 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b backdrop-blur-md",
         isScrolled
-          ? "bg-background/90 backdrop-blur-md border-border shadow-[0_4px_30px_rgba(0,0,0,0.3)] py-3"
-          : "bg-transparent border-transparent py-5"
+          ? "bg-[#e0eff5]/90 dark:bg-[#061724]/95 border-cyan-200/50 dark:border-[#0d2d46] shadow-[0_8px_30px_rgba(0,137,168,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.6)] py-3"
+          : "bg-[#f0f7fa]/75 dark:bg-[#061724]/75 border-cyan-200/20 dark:border-[#0d2d46]/50 py-5"
       )}
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
@@ -98,7 +98,14 @@ export function Navbar() {
           }}
           className="flex flex-col select-none cursor-pointer"
         >
-          <span className="text-xl md:text-2xl font-black tracking-wider text-primary font-sans uppercase leading-none cyber-glow">
+          <span 
+            className={cn(
+              "text-xl md:text-2xl font-black tracking-wider font-sans uppercase leading-none transition-all duration-300",
+              mounted && resolvedTheme === "dark" 
+                ? "text-primary cyber-glow" 
+                : "bg-gradient-to-r from-cyan-600 to-blue-700 bg-clip-text text-transparent"
+            )}
+          >
             HESHANI
           </span>
           <span className="text-[9px] md:text-[10px] font-bold tracking-[0.25em] text-muted-foreground uppercase mt-1 leading-none">
@@ -118,18 +125,18 @@ export function Navbar() {
                     handleLinkClick(link.href);
                   }}
                   className={cn(
-                    "text-xs font-bold uppercase tracking-[0.2em] transition-all duration-200 py-1 hover:text-primary relative block",
+                    "text-xs font-bold uppercase tracking-[0.2em] transition-all duration-200 py-1 hover:text-cyan-600 dark:hover:text-primary relative block",
                     activeSection === link.href.substring(1)
-                      ? "text-primary"
+                      ? "text-cyan-600 dark:text-primary"
                       : "text-muted-foreground"
                   )}
                 >
                   {link.label}
                   {activeSection === link.href.substring(1) && (
                     <span 
-                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary rounded-full shadow-[0_0_8px_var(--primary)]"
+                      className="absolute -bottom-1 left-0 right-0 h-[2.5px] rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-emerald-400"
                       style={{ 
-                        boxShadow: '0 0 10px var(--primary)' 
+                        boxShadow: mounted && resolvedTheme === "dark" ? '0 0 10px var(--primary)' : 'none' 
                       }}
                     />
                   )}
@@ -142,7 +149,7 @@ export function Navbar() {
 
           {/* Search Icon (visual parity) */}
           <button 
-            className="p-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+            className="p-2 text-slate-500 dark:text-cyan-400/70 hover:text-cyan-600 dark:hover:text-primary transition-colors cursor-pointer"
             aria-label="Search"
           >
             <Search size={16} />
@@ -151,7 +158,7 @@ export function Navbar() {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded border border-border bg-card hover:bg-muted text-foreground hover:text-primary transition-all cursor-pointer shadow-sm"
+            className="p-2 rounded-xl border border-slate-200/80 dark:border-[#0d2d46] bg-white dark:bg-[#0b2133]/80 text-slate-700 dark:text-cyan-400 hover:text-cyan-600 dark:hover:text-primary hover:border-cyan-500/30 dark:hover:border-cyan-400/40 hover:shadow-sm dark:hover:shadow-[0_0_15px_rgba(0,245,255,0.12)] transition-all cursor-pointer"
             aria-label="Toggle theme"
           >
             {mounted && (resolvedTheme === "dark" ? <Sun size={15} /> : <Moon size={15} />)}
@@ -164,7 +171,7 @@ export function Navbar() {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded border border-border bg-card text-foreground transition-all cursor-pointer"
+            className="p-2 rounded-xl border border-slate-200/80 dark:border-[#0d2d46] bg-white dark:bg-[#0b2133]/80 text-slate-700 dark:text-cyan-400 hover:text-cyan-600 dark:hover:text-primary hover:border-cyan-500/30 dark:hover:border-cyan-400/40 transition-all cursor-pointer"
             aria-label="Toggle theme"
           >
             {mounted && (resolvedTheme === "dark" ? <Sun size={15} /> : <Moon size={15} />)}
@@ -173,7 +180,7 @@ export function Navbar() {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded border border-border text-foreground hover:bg-muted transition-all cursor-pointer"
+            className="p-2 rounded-xl border border-slate-200/80 dark:border-[#0d2d46] text-slate-700 dark:text-cyan-400 hover:bg-slate-50 dark:hover:bg-[#0b2133] transition-all cursor-pointer"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -184,7 +191,7 @@ export function Navbar() {
       {/* Mobile Drawer */}
       <div
         className={cn(
-          "fixed inset-x-0 bottom-0 top-[65px] z-40 bg-background/98 backdrop-blur-md flex flex-col p-6 border-t border-border lg:hidden transition-all duration-300 ease-in-out shadow-lg",
+          "fixed inset-x-0 bottom-0 top-[65px] z-40 bg-[#f0f7fa]/95 dark:bg-[#061724]/95 backdrop-blur-md flex flex-col p-6 border-t border-cyan-200/50 dark:border-[#0d2d46]/50 lg:hidden transition-all duration-300 ease-in-out shadow-lg",
           mobileMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
         )}
       >
@@ -200,13 +207,13 @@ export function Navbar() {
                 className={cn(
                   "text-lg font-bold uppercase tracking-[0.25em] transition-colors block py-2 relative w-max mx-auto",
                   activeSection === link.href.substring(1)
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-primary"
+                    ? "text-cyan-600 dark:text-primary"
+                    : "text-muted-foreground hover:text-cyan-600 dark:hover:text-primary"
                 )}
               >
                 {link.label}
                 {activeSection === link.href.substring(1) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-emerald-400 rounded-full" />
                 )}
               </a>
             </li>
