@@ -41,6 +41,10 @@ export interface HeroInfo {
 export interface AboutInfo {
   story: string;
   highlights: string[];
+  sectionTitle?: string;
+  sectionBadge?: string;
+  ctaLabel?: string;
+  profileImg?: string;
 }
 
 export interface SkillCategory {
@@ -244,12 +248,23 @@ export async function getAbout(): Promise<AboutInfo> {
   });
 
   if (!record) {
-    return { story: "", highlights: [] };
+    return {
+      story: "",
+      highlights: [],
+      sectionTitle: "Who Am I?",
+      sectionBadge: "ABOUT ME",
+      ctaLabel: "",
+      profileImg: "/profile.jpg"
+    };
   }
 
   return {
     story: record.story,
-    highlights: JSON.parse(record.highlights)
+    highlights: JSON.parse(record.highlights),
+    sectionTitle: record.sectionTitle,
+    sectionBadge: record.sectionBadge,
+    ctaLabel: record.ctaLabel,
+    profileImg: record.profileImg,
   };
 }
 
@@ -260,11 +275,19 @@ export async function saveAbout(data: AboutInfo): Promise<boolean> {
       update: {
         story: data.story,
         highlights: JSON.stringify(data.highlights),
+        sectionTitle: data.sectionTitle ?? "Who Am I?",
+        sectionBadge: data.sectionBadge ?? "ABOUT ME",
+        ctaLabel: data.ctaLabel ?? "",
+        profileImg: data.profileImg ?? "/profile.jpg",
       },
       create: {
         id: 1,
         story: data.story,
         highlights: JSON.stringify(data.highlights),
+        sectionTitle: data.sectionTitle ?? "Who Am I?",
+        sectionBadge: data.sectionBadge ?? "ABOUT ME",
+        ctaLabel: data.ctaLabel ?? "",
+        profileImg: data.profileImg ?? "/profile.jpg",
       }
     });
     return true;

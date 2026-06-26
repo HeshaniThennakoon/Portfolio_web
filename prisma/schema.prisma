@@ -37,9 +37,13 @@ model HeroInfo {
 }
 
 model AboutInfo {
-  id         Int    @id @default(1)
-  story      String @db.Text
-  highlights String @db.Text           // JSON array of strings
+  id           Int    @id @default(1)
+  story        String @db.Text
+  highlights   String @db.Text           // JSON array of strings
+  sectionTitle String @default("Who Am I?")
+  sectionBadge String @default("ABOUT ME")
+  ctaLabel     String @default("")
+  profileImg   String @default("/profile.jpg")
 }
 
 model SkillCategory {

@@ -353,6 +353,25 @@ export async function uploadFileAction(formData: FormData) {
       return { success: true, url: `/${filename}` };
     }
 
+    if (type === "about-profile") {
+      const ext = path.extname(file.name) || ".jpg";
+      const timestamp = Date.now();
+      const filename = `about-profile-${timestamp}${ext}`;
+      const filePath = path.join(publicDir, filename);
+      fs.writeFileSync(filePath, buffer);
+
+      // Update about database
+      const about = await getAbout();
+      if (about) {
+        about.profileImg = `/${filename}`;
+        await saveAbout(about);
+      }
+
+      revalidatePath("/");
+      revalidatePath("/admin");
+      return { success: true, url: `/${filename}` };
+    }
+
     if (type === "screenshot" && projectId) {
       const ext = path.extname(file.name) || ".jpg";
       const filename = `project-${projectId}${ext}`;

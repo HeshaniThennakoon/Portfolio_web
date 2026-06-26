@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
-import { Check, BrainCircuit, Users, Code, Sparkles } from "lucide-react";
+import { Check, BrainCircuit, Users, Code, Sparkles, ArrowRight } from "lucide-react";
 import { AboutInfo } from "@/lib/data";
 import { useTheme } from "next-themes";
 
@@ -12,8 +12,12 @@ interface AboutProps {
   name?: string;
 }
 
-export function About({ data, profileImg = "/profile.jpg", name = "Heshani" }: AboutProps) {
+export function About({ data, profileImg: fallbackImg = "/profile.jpg", name = "Heshani" }: AboutProps) {
   const { resolvedTheme } = useTheme();
+
+  const profileImg = data.profileImg || fallbackImg;
+  const sectionTitle = data.sectionTitle || "Who Am I?";
+  const sectionBadge = data.sectionBadge || "ABOUT ME";
 
   const getHighlightIcon = (index: number) => {
     const icons = [
@@ -23,6 +27,22 @@ export function About({ data, profileImg = "/profile.jpg", name = "Heshani" }: A
       <Sparkles key={3} className="text-primary" size={18} />,
     ];
     return icons[index % icons.length] || <Check className="text-primary" size={18} />;
+  };
+
+  const handleScrollTo = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
   };
 
   return (
@@ -73,8 +93,8 @@ export function About({ data, profileImg = "/profile.jpg", name = "Heshani" }: A
           {/* Right Column: Copy & Highlight Feature Pills */}
           <div className="lg:col-span-7 flex flex-col justify-center order-1 lg:order-2">
             <SectionHeader
-              title="Who Am I?"
-              badge="ABOUT ME"
+              title={sectionTitle}
+              badge={sectionBadge}
               align="left"
               className="mb-6"
             />
@@ -86,7 +106,7 @@ export function About({ data, profileImg = "/profile.jpg", name = "Heshani" }: A
               transition={{ duration: 0.5, delay: 0.1 }}
               className="space-y-4"
             >
-              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base font-normal">
+              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base font-normal whitespace-pre-line">
                 {data.story}
               </p>
             </motion.div>
@@ -115,6 +135,25 @@ export function About({ data, profileImg = "/profile.jpg", name = "Heshani" }: A
                     </div>
                   ))}
                 </div>
+              </motion.div>
+            )}
+
+            {/* CTA Button */}
+            {data.ctaLabel && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="mt-8 flex"
+              >
+                <button
+                  onClick={() => handleScrollTo("contact")}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer bg-primary text-primary-foreground hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] font-bold text-xs uppercase tracking-wider px-8 py-4 transition-all duration-300 border border-primary rounded-none"
+                >
+                  {data.ctaLabel}
+                  <ArrowRight size={14} />
+                </button>
               </motion.div>
             )}
           </div>
