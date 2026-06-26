@@ -23,7 +23,8 @@ import {
   Sun,
   Moon,
   Menu,
-  X
+  X,
+  Layers
 } from "lucide-react";
 
 interface SidebarLink {
@@ -50,6 +51,7 @@ const navigationGroups: NavGroup[] = [
       { label: "Hero & Landing", href: "/admin/hero", icon: <Sparkles size={16} /> },
       { label: "About Details", href: "/admin/about", icon: <UserCheck size={16} /> },
       { label: "Skills Inventory", href: "/admin/skills", icon: <Code2 size={16} /> },
+      { label: "Services Showcase", href: "/admin/services", icon: <Layers size={16} /> },
       { label: "Projects Showcase", href: "/admin/projects", icon: <FolderKanban size={16} /> },
     ],
   },

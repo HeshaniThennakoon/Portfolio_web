@@ -48,7 +48,7 @@ export function Hero({ data }: HeroProps) {
     >
       {/* Huge background watermark name */}
       <div 
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 select-none text-[20vw] md:text-[24vw] pointer-events-none whitespace-nowrap font-black tracking-tight leading-none text-primary opacity-[0.012] dark:opacity-[0.02] uppercase font-sans text-center"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 select-none text-[20vw] md:text-[24vw] pointer-events-none whitespace-nowrap font-black tracking-tight leading-none text-primary opacity-[0.1] dark:opacity-[0.05] uppercase font-sans text-center"
         style={{ textShadow: isDark ? '0 0 40px rgba(0, 245, 255, 0.1)' : 'none' }}
       >
         {firstName}
@@ -89,7 +89,7 @@ export function Hero({ data }: HeroProps) {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="h-10 flex items-center justify-center lg:justify-start mt-5 font-mono text-xs uppercase tracking-widest text-muted-foreground"
           >
-            <span className="mr-2">// SPECIALIZED IN</span>
+            <span className="mr-2">SPECIALIZED IN</span>
             <TypewriterText
               words={data.roles}
               className="font-bold text-foreground text-xs uppercase tracking-widest"

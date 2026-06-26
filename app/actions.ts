@@ -24,9 +24,13 @@ import {
   saveEducation,
   getAchievements,
   saveAchievements,
+  getServices,
+  saveServices,
   addContact,
   getContacts,
   saveContacts,
+  deleteContact,
+  markContactReplied,
   Settings,
   HeroInfo,
   AboutInfo,
@@ -35,6 +39,7 @@ import {
   Project,
   Education,
   Achievements,
+  Service,
 } from "@/lib/data";
 
 // 1. Submit contact form and send email
@@ -231,6 +236,18 @@ export async function updateAchievementsAction(data: Achievements) {
   }
 }
 
+// 9.5 Services Update
+export async function updateServicesAction(data: Service[]) {
+  try {
+    const success = await saveServices(data);
+    if (!success) throw new Error();
+    revalidatePath("/");
+    return { success: true, message: "Services updated successfully." };
+  } catch (err) {
+    return { success: false, message: "Failed to update services." };
+  }
+}
+
 // 10. Contact Replies from Panel
 export async function replyToContact(contactId: string, replyMessage: string) {
   try {
@@ -275,9 +292,8 @@ export async function replyToContact(contactId: string, replyMessage: string) {
 
     await transporter.sendMail(mailOptions);
 
-    // Update state to replied
-    contact.replied = true;
-    await saveContacts(contacts);
+    // Update state to replied in DB directly
+    await markContactReplied(contactId);
 
     revalidatePath("/admin");
     return { success: true, message: "Reply sent successfully!" };
@@ -290,9 +306,7 @@ export async function replyToContact(contactId: string, replyMessage: string) {
 // Delete submission
 export async function deleteContactSubmission(id: string) {
   try {
-    const contacts = await getContacts();
-    const filtered = contacts.filter((c) => c.id !== id);
-    await saveContacts(filtered);
+    await deleteContact(id);
     revalidatePath("/admin");
     return { success: true, message: "Submission deleted." };
   } catch (err) {
@@ -438,4 +452,8 @@ export async function getAchievementsAction() {
 
 export async function getContactsAction() {
   return getContacts();
+}
+
+export async function getServicesAction() {
+  return getServices();
 }

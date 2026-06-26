@@ -84,6 +84,13 @@ export interface Achievements {
   professional: string[];
 }
 
+export interface Service {
+  id?: string;
+  iconName: string;
+  title: string;
+  description: string;
+}
+
 export interface ContactSubmission {
   id: string;
   name: string;
@@ -182,7 +189,7 @@ export async function getHero(): Promise<HeroInfo> {
       name: "Heshani Thennakoon",
       headline: "Building Scalable Software Solutions with Modern Technologies",
       subheadline: "Passionate Software Engineer specializing in full-stack development, cloud technologies, AI-powered applications, and modern web solutions.",
-      roles: ["Software Engineer", "Full-Stack Developer", "Backend Engineer", "Frontend Engineer", "Computer Engineering Graduate"],
+      roles: ["Software Engineer", "Full-Stack Developer", "AI Engineer"],
       stats: [],
       resumeUrl: "/resume.pdf",
       profileImg: "/profile.jpg"
@@ -545,3 +552,103 @@ export async function addContact(
     replied: newRecord.replied,
   };
 }
+
+export async function deleteContact(id: string): Promise<boolean> {
+  try {
+    await db.contactSubmission.delete({ where: { id } });
+    return true;
+  } catch (error) {
+    console.error("Error deleting contact:", error);
+    return false;
+  }
+}
+
+export async function markContactReplied(id: string): Promise<boolean> {
+  try {
+    await db.contactSubmission.update({ where: { id }, data: { replied: true } });
+    return true;
+  } catch (error) {
+    console.error("Error marking contact replied:", error);
+    return false;
+  }
+}
+
+export async function getServices(): Promise<Service[]> {
+  try {
+    let records = await db.service.findMany({
+      orderBy: { order: "asc" }
+    });
+
+    if (records.length === 0) {
+      // Seed default services
+      const defaultServices = [
+        {
+          iconName: "Globe",
+          title: "Web Development",
+          description: "Engineering premium full-stack web applications with React, Next.js, and ASP.NET Core, optimized for performance and design.",
+          order: 0,
+        },
+        {
+          iconName: "Smartphone",
+          title: "Mobile Applications",
+          description: "Creating high-fidelity, fluid cross-platform mobile apps with responsive layouts, secure client auth, and real-time features.",
+          order: 1,
+        },
+        {
+          iconName: "BrainCircuit",
+          title: "AI & Machine Learning",
+          description: "Building custom computer vision models, emotion/drowsiness detection trackers using OpenCV, and smart LLM integrations.",
+          order: 2,
+        },
+        {
+          iconName: "Cloud",
+          title: "Cloud & DevOps",
+          description: "Deploying secure applications to AWS S3, configuring Docker containers, and managing automated CI/CD pipelines.",
+          order: 3,
+        },
+      ];
+
+      for (const s of defaultServices) {
+        await db.service.create({ data: s });
+      }
+
+      records = await db.service.findMany({
+        orderBy: { order: "asc" }
+      });
+    }
+
+    return records.map((r) => ({
+      id: r.id,
+      iconName: r.iconName,
+      title: r.title,
+      description: r.description,
+    }));
+  } catch (error) {
+    console.error("Error fetching services from MySQL:", error);
+    return [];
+  }
+}
+
+export async function saveServices(data: Service[]): Promise<boolean> {
+  try {
+    await db.service.deleteMany({});
+    for (let i = 0; i < data.length; i++) {
+      const s = data[i];
+      await db.service.create({
+        data: {
+          id: s.id && s.id.length > 10 ? s.id : undefined, // only use valid uuid
+          iconName: s.iconName,
+          title: s.title,
+          description: s.description,
+          order: i,
+        }
+      });
+    }
+    return true;
+  } catch (error) {
+    console.error("Error saving services to MySQL:", error);
+    return false;
+  }
+}
+
+

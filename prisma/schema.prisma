@@ -20,7 +20,7 @@ model Settings {
   
   smtpHost       String @default("smtp.gmail.com")
   smtpPort       Int    @default(465)
-  smtpUser       String @default("")
+  smtpUser       String @default("thennakoonghm@gmail.com")
   smtpPass       String @default("")
   toEmail        String @default("thennakoonghm@gmail.com")
 }
@@ -99,3 +99,12 @@ model ContactSubmission {
   createdAt DateTime @default(now())
   replied   Boolean  @default(false)
 }
+
+model Service {
+  id          String  @id @default(uuid())
+  iconName    String  @default("Globe")
+  title       String
+  description String  @db.Text
+  order       Int     @default(0)
+}
+

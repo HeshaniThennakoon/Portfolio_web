@@ -1,6 +1,6 @@
-import { getProjects, getSkills, getContacts } from "@/lib/data";
+import { getProjects, getSkills, getContacts, getServices } from "@/lib/data";
 import Link from "next/link";
-import { FolderKanban, Code2, Mail, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
+import { FolderKanban, Code2, Mail, ArrowRight, CheckCircle2, AlertCircle, Layers } from "lucide-react";
 import { GlassCard } from "@/components/shared/GlassCard";
 
 export const revalidate = 0;
@@ -9,6 +9,7 @@ export default async function AdminDashboard() {
   const projects = await getProjects();
   const skills = await getSkills();
   const contacts = await getContacts();
+  const services = await getServices();
 
   const totalSkills = skills.reduce((acc, cat) => acc + cat.skills.length, 0);
   const unreadContacts = contacts.filter((c) => !c.replied).length;
@@ -25,6 +26,12 @@ export default async function AdminDashboard() {
       value: totalSkills,
       icon: <Code2 className="text-secondary" size={24} />,
       link: "/admin/skills",
+    },
+    {
+      label: "Active Services",
+      value: services.length,
+      icon: <Layers className="text-amber-500" size={24} />,
+      link: "/admin/services",
     },
     {
       label: "Unread Messages",
@@ -44,7 +51,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Stats Counters Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {dashboardCards.map((card, idx) => (
           <GlassCard
             key={card.label}

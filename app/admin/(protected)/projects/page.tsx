@@ -17,17 +17,18 @@ export default function AdminProjectsPage() {
   // File upload state per project ID
   const [uploadingId, setUploadingId] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const data = await getProjectsAction();
-        setProjects(data);
-      } catch (err) {
-        toast.error("Failed to load projects.");
-      } finally {
-        setLoading(false);
-      }
+  async function loadData() {
+    try {
+      const data = await getProjectsAction();
+      setProjects(data);
+    } catch (err) {
+      toast.error("Failed to load projects.");
+    } finally {
+      setLoading(false);
     }
+  }
+
+  useEffect(() => {
     loadData();
   }, []);
 
@@ -113,6 +114,7 @@ export default function AdminProjectsPage() {
       if (res.success) {
         toast.success(res.message);
         setEditingId(null);
+        await loadData();
       } else {
         toast.error(res.message);
       }
@@ -201,7 +203,7 @@ export default function AdminProjectsPage() {
                 >
                   <div className="flex flex-col sm:flex-row gap-6 items-start">
                     <div className="w-32 h-20 bg-background border border-border/80 rounded-xl overflow-hidden flex items-center justify-center shrink-0 p-1">
-                      {proj.imageUrl && proj.imageUrl.startsWith("/uploads/") && !proj.imageUrl.includes("placeholder") ? (
+                      {proj.imageUrl && proj.imageUrl !== "/uploads/placeholder.jpg" && proj.imageUrl !== "" ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={proj.imageUrl} alt={proj.title} className="w-full h-full object-cover rounded-lg" />
                       ) : (
@@ -239,7 +241,7 @@ export default function AdminProjectsPage() {
                       <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3 block w-full text-left">Screenshot Thumbnail</span>
                       
                       <div className="relative w-full h-32 rounded-xl overflow-hidden bg-muted border border-border/80 flex items-center justify-center p-1">
-                        {proj.imageUrl && proj.imageUrl.startsWith("/uploads/") && !proj.imageUrl.includes("placeholder") ? (
+                        {proj.imageUrl && proj.imageUrl !== "/uploads/placeholder.jpg" && proj.imageUrl !== "" ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={proj.imageUrl} alt="Thumbnail preview" className="w-full h-full object-cover rounded-lg" />
                         ) : (

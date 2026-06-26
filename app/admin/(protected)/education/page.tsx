@@ -12,17 +12,18 @@ export default function AdminEducationPage() {
   const [saving, setSaving] = useState(false);
   const [schools, setSchools] = useState<Education[]>([]);
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const edu = await getEducationAction();
-        setSchools(edu);
-      } catch (err) {
-        toast.error("Failed to load education details.");
-      } finally {
-        setLoading(false);
-      }
+  async function loadData() {
+    try {
+      const edu = await getEducationAction();
+      setSchools(edu);
+    } catch (err) {
+      toast.error("Failed to load education details.");
+    } finally {
+      setLoading(false);
     }
+  }
+
+  useEffect(() => {
     loadData();
   }, []);
 
@@ -60,6 +61,7 @@ export default function AdminEducationPage() {
       const res = await updateEducationAction(schools);
       if (res.success) {
         toast.success(res.message);
+        await loadData();
       } else {
         toast.error(res.message);
       }

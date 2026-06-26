@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getHeroAction, updateHeroAction, uploadFileAction } from "@/app/actions";
 import { HeroInfo } from "@/lib/data";
 import { toast } from "sonner";
-import { Loader2, Save, Upload, FileText, Image as ImageIcon } from "lucide-react";
+import { Loader2, Save, Upload, FileText, Image as ImageIcon, Plus, Trash2 } from "lucide-react";
 import { GlassCard } from "@/components/shared/GlassCard";
 
 export default function AdminHeroPage() {
@@ -188,9 +188,24 @@ export default function AdminHeroPage() {
 
             {/* Stats Editors */}
             <div className="border-t border-border/80 pt-6 space-y-4">
-              <h3 className="font-bold text-foreground text-sm uppercase tracking-wider">Hero Stat Counters</h3>
+              <div className="flex justify-between items-center">
+                <h3 className="font-bold text-foreground text-sm uppercase tracking-wider">Hero Stat Counters</h3>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setData({
+                      ...data,
+                      stats: [...(data.stats || []), { label: "New Stat", value: "0" }]
+                    });
+                  }}
+                  className="cursor-pointer bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-[11px] uppercase tracking-wider"
+                >
+                  <Plus size={12} />
+                  Add Stat
+                </button>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {data.stats.map((stat, i) => (
+                {(data.stats || []).map((stat, i) => (
                   <div key={i} className="flex gap-2 items-center bg-background p-3 rounded-xl border border-border/80">
                     <div className="flex-1 flex flex-col gap-1">
                       <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Stat Label</span>
@@ -218,6 +233,19 @@ export default function AdminHeroPage() {
                         className="bg-transparent border-0 p-0 text-sm font-black text-primary focus:outline-none focus:ring-0"
                       />
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setData({
+                          ...data,
+                          stats: data.stats.filter((_, idx) => idx !== i)
+                        });
+                      }}
+                      className="cursor-pointer text-red-500 hover:text-red-700 transition-colors p-1 border-l border-border/80 pl-2 self-center"
+                      title="Remove Stat"
+                    >
+                      <Trash2 size={14} />
+                    </button>
                   </div>
                 ))}
               </div>

@@ -43,9 +43,7 @@ const defaultHero = {
   roles: [
     "Software Engineer",
     "Full-Stack Developer",
-    "Backend Engineer",
-    "Frontend Engineer",
-    "Computer Engineering Graduate"
+    "AI Engineer"
   ],
   stats: [
     { label: "Projects Completed", value: "10+" },

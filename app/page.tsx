@@ -18,6 +18,7 @@ import {
   getProjects,
   getEducation,
   getAchievements,
+  getServices,
 } from "@/lib/data";
 
 export const revalidate = 0; // Ensure page is always dynamic and loads latest admin inputs
@@ -31,6 +32,7 @@ export default async function Home() {
   const projectsData = await getProjects();
   const educationData = await getEducation();
   const achievementsData = await getAchievements();
+  const servicesData = await getServices();
 
   return (
     <>
@@ -38,7 +40,7 @@ export default async function Home() {
       <main className="flex-1">
         <Hero data={heroData} />
         <Stats stats={heroData.stats} />
-        <WhyHireMe />
+        <WhyHireMe data={servicesData} />
         <About data={aboutData} profileImg={heroData.profileImg} name={heroData.name} />
         <Skills data={skillsData} />
         <ExperienceSection data={experienceData} />

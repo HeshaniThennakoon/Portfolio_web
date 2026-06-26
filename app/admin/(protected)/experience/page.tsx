@@ -12,17 +12,18 @@ export default function AdminExperiencePage() {
   const [saving, setSaving] = useState(false);
   const [roles, setRoles] = useState<Experience[]>([]);
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const exp = await getExperienceAction();
-        setRoles(exp);
-      } catch (err) {
-        toast.error("Failed to load experience.");
-      } finally {
-        setLoading(false);
-      }
+  async function loadData() {
+    try {
+      const exp = await getExperienceAction();
+      setRoles(exp);
+    } catch (err) {
+      toast.error("Failed to load experience.");
+    } finally {
+      setLoading(false);
     }
+  }
+
+  useEffect(() => {
     loadData();
   }, []);
 
@@ -80,6 +81,7 @@ export default function AdminExperiencePage() {
       const res = await updateExperienceAction(roles);
       if (res.success) {
         toast.success(res.message);
+        await loadData();
       } else {
         toast.error(res.message);
       }

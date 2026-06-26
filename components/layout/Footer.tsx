@@ -76,7 +76,7 @@ export function Footer() {
       {/* Sub tagline at the absolute bottom */}
       <div className="w-full text-center border-t border-border/40 mt-8 pt-6">
         <p className="text-[9px] font-bold font-mono tracking-[0.25em] text-primary uppercase">
-          // DESIGNED & ENGINEERED BY HESHANI THENNAKOON // NEXT.JS + TAILWIND V4
+          DESIGNED & ENGINEERED BY HESHANI THENNAKOON
         </p>
       </div>
     </footer>

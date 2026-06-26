@@ -39,7 +39,7 @@ export default function AdminSkillsPage() {
   };
 
   const handleAddCategory = () => {
-    setCategories([...categories, { category: "New Domain Domain", skills: [] }]);
+    setCategories([...categories, { category: "New Skill Category", skills: [] }]);
   };
 
   const handleRemoveCategory = (index: number) => {
