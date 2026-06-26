@@ -8,6 +8,268 @@ import { Loader2, Save, Trash2, Plus, ArrowUp, ArrowDown, Upload, Image as Image
 import { GlassCard } from "@/components/shared/GlassCard";
 import { cn } from "@/lib/utils";
 
+interface ProjectCardProps {
+  proj: Project;
+  index: number;
+  isEditing: boolean;
+  onEditClick: (id: string) => void;
+  onRemove: (id: string) => void;
+  onMove: (index: number, direction: "up" | "down") => void;
+  onChange: (id: string, updatedProj: Project) => void;
+  isFirst: boolean;
+  isLast: boolean;
+  uploadingId: string | null;
+  onImageUpload: (e: React.ChangeEvent<HTMLInputElement>, projectId: string) => void;
+  onCollapse: () => void;
+}
+
+function ProjectCard({
+  proj,
+  index,
+  isEditing,
+  onEditClick,
+  onRemove,
+  onMove,
+  onChange,
+  isFirst,
+  isLast,
+  uploadingId,
+  onImageUpload,
+  onCollapse,
+}: ProjectCardProps) {
+  // Local state for split/parsed fields to avoid format stripping on typing
+  const [techText, setTechText] = useState(proj.technologies.join(", "));
+  const [featuresText, setFeaturesText] = useState(proj.features.join("\n"));
+
+  useEffect(() => {
+    setTechText(proj.technologies.join(", "));
+    setFeaturesText(proj.features.join("\n"));
+  }, [proj.technologies, proj.features]);
+
+  const handleFieldChange = (field: keyof Project, value: any) => {
+    onChange(proj.id, { ...proj, [field]: value });
+  };
+
+  const handleTechBlur = () => {
+    const list = techText.split(",").map((t) => t.trim()).filter((t) => t.length > 0);
+    onChange(proj.id, { ...proj, technologies: list });
+  };
+
+  const handleFeaturesBlur = () => {
+    const list = featuresText.split("\n").map((f) => f.trim()).filter((f) => f.length > 0);
+    onChange(proj.id, { ...proj, features: list });
+  };
+
+  return (
+    <GlassCard
+      hoverEffect={!isEditing}
+      animate={true}
+      delay={index * 0.05}
+      className={cn(
+        "p-6 border bg-card/30 backdrop-blur-md space-y-6 shadow-md transition-all relative group rounded-3xl",
+        isEditing ? "border-primary/50" : "border-border/80"
+      )}
+    >
+      {/* Action Buttons */}
+      <div className="absolute top-6 right-6 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => onMove(index, "up")}
+          disabled={isFirst}
+          className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm transition-all duration-300"
+          title="Move Up"
+        >
+          <ArrowUp size={13} />
+        </button>
+        <button
+          type="button"
+          onClick={() => onMove(index, "down")}
+          disabled={isLast}
+          className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm transition-all duration-300"
+          title="Move Down"
+        >
+          <ArrowDown size={13} />
+        </button>
+        <button
+          type="button"
+          onClick={() => onRemove(proj.id)}
+          className="p-2 rounded-xl bg-background border border-border text-rose-500 hover:bg-rose-500 hover:text-white transition-all cursor-pointer shadow-sm"
+          title="Remove Project"
+        >
+          <Trash2 size={13} />
+        </button>
+      </div>
+
+      {!isEditing ? (
+        <div className="cursor-pointer" onClick={() => onEditClick(proj.id)}>
+          <div className="flex flex-col sm:flex-row gap-6 items-start">
+            <div className="w-32 h-20 bg-background border border-border/80 rounded-xl overflow-hidden flex items-center justify-center shrink-0 p-1">
+              {proj.imageUrl && proj.imageUrl !== "/uploads/placeholder.jpg" && proj.imageUrl !== "" ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={proj.imageUrl} alt={proj.title} className="w-full h-full object-cover rounded-lg" />
+              ) : (
+                <ImageIcon className="text-muted-foreground/50" size={24} />
+              )}
+            </div>
+
+            <div className="space-y-2 flex-1">
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-foreground text-lg">{proj.title}</h3>
+                {proj.featured && (
+                  <span className="text-[9px] font-bold uppercase text-primary bg-primary/10 border border-primary/20 rounded px-1.5 py-0.5">
+                    Featured
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                {proj.description}
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-2">
+                {proj.technologies.map((t) => (
+                  <span key={t} className="text-[9px] font-bold text-muted-foreground/80 bg-background border border-border/80 px-2 py-0.5 rounded-lg">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-6 pt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start">
+            {/* Visual Asset Upload */}
+            <div className="flex flex-col items-center justify-center text-center p-4 rounded-2xl border border-border/80 bg-background shrink-0 shadow-inner">
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3 block w-full text-left">Screenshot Thumbnail</span>
+              
+              <div className="relative w-full h-32 rounded-xl overflow-hidden bg-muted border border-border/80 flex items-center justify-center p-1">
+                {proj.imageUrl && proj.imageUrl !== "/uploads/placeholder.jpg" && proj.imageUrl !== "" ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={proj.imageUrl} alt="Thumbnail preview" className="w-full h-full object-cover rounded-lg" />
+                ) : (
+                  <ImageIcon className="text-muted-foreground/40" size={32} />
+                )}
+              </div>
+
+              <label className="w-full mt-4 cursor-pointer bg-card hover:bg-muted border border-border text-foreground hover:text-primary font-bold py-2 px-3 rounded-xl transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider shadow-sm">
+                {uploadingId === proj.id ? (
+                  <>
+                    <Loader2 className="animate-spin" size={12} />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Upload size={12} />
+                    Upload Asset
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => onImageUpload(e, proj.id)}
+                  disabled={uploadingId === proj.id}
+                  className="hidden"
+                />
+              </label>
+            </div>
+
+            {/* Copy details */}
+            <div className="sm:col-span-2 space-y-4">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Project Title</label>
+                <input
+                  type="text"
+                  value={proj.title}
+                  onChange={(e) => handleFieldChange("title", e.target.value)}
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Short Description</label>
+                <textarea
+                  rows={3}
+                  value={proj.description}
+                  onChange={(e) => handleFieldChange("description", e.target.value)}
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">GitHub URL</label>
+              <input
+                type="url"
+                value={proj.githubUrl}
+                onChange={(e) => handleFieldChange("githubUrl", e.target.value)}
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Live Demo URL (Leave blank if local)</label>
+              <input
+                type="url"
+                value={proj.demoUrl}
+                onChange={(e) => handleFieldChange("demoUrl", e.target.value)}
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Key Features (One feature per line)</label>
+            <textarea
+              rows={4}
+              value={featuresText}
+              onChange={(e) => setFeaturesText(e.target.value)}
+              onBlur={handleFeaturesBlur}
+              placeholder="Face Recognition Login..."
+              className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Technologies used (Comma separated)</label>
+            <input
+              type="text"
+              value={techText}
+              onChange={(e) => setTechText(e.target.value)}
+              onBlur={handleTechBlur}
+              placeholder="React, Express, MongoDB"
+              className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+            />
+          </div>
+
+          <div className="flex items-center gap-6 border-t border-border/80 pt-4">
+            <button
+              type="button"
+              onClick={() => handleFieldChange("featured", !proj.featured)}
+              className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground cursor-pointer select-none"
+            >
+              {proj.featured ? (
+                <CheckSquare className="text-primary" size={18} />
+              ) : (
+                <Square className="text-muted-foreground/30" size={18} />
+              )}
+              Mark as Featured Project
+            </button>
+            
+            <button
+              type="button"
+              onClick={onCollapse}
+              className="text-[10px] font-black uppercase tracking-wider text-muted-foreground hover:text-primary transition-all cursor-pointer underline"
+            >
+              Collapse Card
+            </button>
+          </div>
+        </div>
+      )}
+    </GlassCard>
+  );
+}
+
 export default function AdminProjectsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -32,20 +294,8 @@ export default function AdminProjectsPage() {
     loadData();
   }, []);
 
-  const handleChange = (id: string, field: keyof Project, value: any) => {
-    setProjects(
-      projects.map((p) => (p.id === id ? { ...p, [field]: value } : p))
-    );
-  };
-
-  const handleTechChange = (id: string, value: string) => {
-    const list = value.split(",").map((t) => t.trim()).filter((t) => t.length > 0);
-    handleChange(id, "technologies", list);
-  };
-
-  const handleFeaturesChange = (id: string, value: string) => {
-    const list = value.split("\n").map((f) => f.trim()).filter((f) => f.length > 0);
-    handleChange(id, "features", list);
+  const handleProjectChange = (id: string, updatedProj: Project) => {
+    setProjects(projects.map((p) => (p.id === id ? updatedProj : p)));
   };
 
   const handleAddProject = () => {
@@ -84,7 +334,10 @@ export default function AdminProjectsPage() {
       const res = await uploadFileAction(formData);
       if (res.success) {
         toast.success("Project screenshot uploaded!");
-        handleChange(projectId, "imageUrl", res.url || "/uploads/placeholder.jpg");
+        const project = projects.find((p) => p.id === projectId);
+        if (project) {
+          handleProjectChange(projectId, { ...project, imageUrl: res.url || "/uploads/placeholder.jpg" });
+        }
       } else {
         toast.error(res.message || "Upload failed.");
       }
@@ -155,215 +408,21 @@ export default function AdminProjectsPage() {
         {projects.map((proj, index) => {
           const isEditing = editingId === proj.id;
           return (
-            <GlassCard
+            <ProjectCard
               key={proj.id}
-              hoverEffect={!isEditing}
-              animate={true}
-              delay={index * 0.05}
-              className={cn(
-                "p-6 border bg-card/30 backdrop-blur-md space-y-6 shadow-md transition-all relative group rounded-3xl",
-                isEditing ? "border-primary/50" : "border-border/80"
-              )}
-            >
-              {/* Action Buttons */}
-              <div className="absolute top-6 right-6 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => moveProject(index, "up")}
-                  disabled={index === 0}
-                  className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm"
-                  title="Move Up"
-                >
-                  <ArrowUp size={13} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => moveProject(index, "down")}
-                  disabled={index === projects.length - 1}
-                  className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm"
-                  title="Move Down"
-                >
-                  <ArrowDown size={13} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleRemoveProject(proj.id)}
-                  className="p-2 rounded-xl bg-background border border-border text-rose-500 hover:bg-rose-500 hover:text-white transition-all cursor-pointer shadow-sm"
-                  title="Remove Project"
-                >
-                  <Trash2 size={13} />
-                </button>
-              </div>
-
-              {/* Collapsed Display vs Expand Editing Form */}
-              {!isEditing ? (
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setEditingId(proj.id)}
-                >
-                  <div className="flex flex-col sm:flex-row gap-6 items-start">
-                    <div className="w-32 h-20 bg-background border border-border/80 rounded-xl overflow-hidden flex items-center justify-center shrink-0 p-1">
-                      {proj.imageUrl && proj.imageUrl !== "/uploads/placeholder.jpg" && proj.imageUrl !== "" ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={proj.imageUrl} alt={proj.title} className="w-full h-full object-cover rounded-lg" />
-                      ) : (
-                        <ImageIcon className="text-muted-foreground/50" size={24} />
-                      )}
-                    </div>
-
-                    <div className="space-y-2 flex-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-foreground text-lg">{proj.title}</h3>
-                        {proj.featured && (
-                          <span className="text-[9px] font-bold uppercase text-primary bg-primary/10 border border-primary/20 rounded px-1.5 py-0.5">
-                            Featured
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                        {proj.description}
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 pt-2">
-                        {proj.technologies.map((t) => (
-                          <span key={t} className="text-[9px] font-bold text-muted-foreground/80 bg-background border border-border/80 px-2 py-0.5 rounded-lg">
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-6 pt-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start">
-                    {/* Visual Asset Upload */}
-                    <div className="flex flex-col items-center justify-center text-center p-4 rounded-2xl border border-border/80 bg-background shrink-0 shadow-inner">
-                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3 block w-full text-left">Screenshot Thumbnail</span>
-                      
-                      <div className="relative w-full h-32 rounded-xl overflow-hidden bg-muted border border-border/80 flex items-center justify-center p-1">
-                        {proj.imageUrl && proj.imageUrl !== "/uploads/placeholder.jpg" && proj.imageUrl !== "" ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={proj.imageUrl} alt="Thumbnail preview" className="w-full h-full object-cover rounded-lg" />
-                        ) : (
-                          <ImageIcon className="text-muted-foreground/40" size={32} />
-                        )}
-                      </div>
-
-                      <label className="w-full mt-4 cursor-pointer bg-card hover:bg-muted border border-border text-foreground hover:text-primary font-bold py-2 px-3 rounded-xl transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider shadow-sm">
-                        {uploadingId === proj.id ? (
-                          <>
-                            <Loader2 className="animate-spin" size={12} />
-                            Uploading...
-                          </>
-                        ) : (
-                          <>
-                            <Upload size={12} />
-                            Upload Asset
-                          </>
-                        )}
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleImageUpload(e, proj.id)}
-                          disabled={uploadingId === proj.id}
-                          className="hidden"
-                        />
-                      </label>
-                    </div>
-
-                    {/* Copy details */}
-                    <div className="sm:col-span-2 space-y-4">
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Project Title</label>
-                        <input
-                          type="text"
-                          value={proj.title}
-                          onChange={(e) => handleChange(proj.id, "title", e.target.value)}
-                          className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Short Description</label>
-                        <textarea
-                          rows={3}
-                          value={proj.description}
-                          onChange={(e) => handleChange(proj.id, "description", e.target.value)}
-                          className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">GitHub URL</label>
-                      <input
-                        type="url"
-                        value={proj.githubUrl}
-                        onChange={(e) => handleChange(proj.id, "githubUrl", e.target.value)}
-                        className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Live Demo URL (Leave blank if local)</label>
-                      <input
-                        type="url"
-                        value={proj.demoUrl}
-                        onChange={(e) => handleChange(proj.id, "demoUrl", e.target.value)}
-                        className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Key Features (One feature per line)</label>
-                    <textarea
-                      rows={4}
-                      value={proj.features.join("\n")}
-                      onChange={(e) => handleFeaturesChange(proj.id, e.target.value)}
-                      placeholder="Face Recognition Login..."
-                      className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Technologies used (Comma separated)</label>
-                    <input
-                      type="text"
-                      value={proj.technologies.join(", ")}
-                      onChange={(e) => handleTechChange(proj.id, e.target.value)}
-                      placeholder="React, Express, MongoDB"
-                      className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-                    />
-                  </div>
-
-                  <div className="flex items-center gap-6 border-t border-border/80 pt-4">
-                    <button
-                      type="button"
-                      onClick={() => handleChange(proj.id, "featured", !proj.featured)}
-                      className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground cursor-pointer select-none"
-                    >
-                      {proj.featured ? (
-                        <CheckSquare className="text-primary" size={18} />
-                      ) : (
-                        <Square className="text-muted-foreground/30" size={18} />
-                      )}
-                      Mark as Featured Project
-                    </button>
-                    
-                    <button
-                      type="button"
-                      onClick={() => setEditingId(null)}
-                      className="text-[10px] font-black uppercase tracking-wider text-muted-foreground hover:text-primary transition-all cursor-pointer underline"
-                    >
-                      Collapse Card
-                    </button>
-                  </div>
-                </div>
-              )}
-            </GlassCard>
+              proj={proj}
+              index={index}
+              isEditing={isEditing}
+              onEditClick={(id) => setEditingId(id)}
+              onRemove={handleRemoveProject}
+              onMove={moveProject}
+              onChange={handleProjectChange}
+              isFirst={index === 0}
+              isLast={index === projects.length - 1}
+              uploadingId={uploadingId}
+              onImageUpload={handleImageUpload}
+              onCollapse={() => setEditingId(null)}
+            />
           );
         })}
 

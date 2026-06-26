@@ -7,6 +7,142 @@ import { toast } from "sonner";
 import { Loader2, Save, Trash2, Plus, ArrowUp, ArrowDown } from "lucide-react";
 import { GlassCard } from "@/components/shared/GlassCard";
 
+interface ExperienceCardProps {
+  exp: Experience;
+  index: number;
+  onRemove: (id: string) => void;
+  onMove: (index: number, direction: "up" | "down") => void;
+  onChange: (index: number, updatedExp: Experience) => void;
+  isFirst: boolean;
+  isLast: boolean;
+}
+
+function ExperienceCard({ exp, index, onRemove, onMove, onChange, isFirst, isLast }: ExperienceCardProps) {
+  // Local state only for the split/parsed fields to avoid formatting strip during typing
+  const [responsibilitiesText, setResponsibilitiesText] = useState(exp.responsibilities.join("\n"));
+  const [techStackText, setTechStackText] = useState(exp.techStack.join(", "));
+
+  // Keep local states in sync if parent data changes (e.g. on reorder or initial load)
+  useEffect(() => {
+    setResponsibilitiesText(exp.responsibilities.join("\n"));
+    setTechStackText(exp.techStack.join(", "));
+  }, [exp.responsibilities, exp.techStack]);
+
+  const handleFieldChange = (field: keyof Experience, value: any) => {
+    onChange(index, { ...exp, [field]: value });
+  };
+
+  const handleResponsibilitiesBlur = () => {
+    const parsed = responsibilitiesText.split("\n").map((r) => r.trim()).filter((r) => r.length > 0);
+    onChange(index, { ...exp, responsibilities: parsed });
+  };
+
+  const handleTechBlur = () => {
+    const parsed = techStackText.split(",").map((t) => t.trim()).filter((t) => t.length > 0);
+    onChange(index, { ...exp, techStack: parsed });
+  };
+
+  return (
+    <GlassCard hoverEffect={false} animate={true} delay={index * 0.05} className="p-6 border border-border/80 bg-card/30 backdrop-blur-md rounded-3xl space-y-6 shadow-md relative group">
+      {/* Action Row */}
+      <div className="absolute top-6 right-6 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => onMove(index, "up")}
+          disabled={isFirst}
+          className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm transition-all duration-300"
+          title="Move Up"
+        >
+          <ArrowUp size={13} />
+        </button>
+        <button
+          type="button"
+          onClick={() => onMove(index, "down")}
+          disabled={isLast}
+          className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm transition-all duration-300"
+          title="Move Down"
+        >
+          <ArrowDown size={13} />
+        </button>
+        <button
+          type="button"
+          onClick={() => onRemove(exp.id)}
+          className="p-2 rounded-xl bg-background border border-border text-rose-500 hover:bg-rose-500 hover:text-white transition-all cursor-pointer shadow-sm"
+          title="Remove Role"
+        >
+          <Trash2 size={13} />
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-1.5">
+          <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Job Title / Role</label>
+          <input
+            type="text"
+            value={exp.role}
+            onChange={(e) => handleFieldChange("role", e.target.value)}
+            className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Company Name</label>
+          <input
+            type="text"
+            value={exp.company}
+            onChange={(e) => handleFieldChange("company", e.target.value)}
+            className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Location</label>
+          <input
+            type="text"
+            value={exp.location}
+            onChange={(e) => handleFieldChange("location", e.target.value)}
+            className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Employment Period</label>
+          <input
+            type="text"
+            value={exp.period}
+            onChange={(e) => handleFieldChange("period", e.target.value)}
+            className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Responsibilities (One bullet per line)</label>
+        <textarea
+          rows={6}
+          value={responsibilitiesText}
+          onChange={(e) => setResponsibilitiesText(e.target.value)}
+          onBlur={handleResponsibilitiesBlur}
+          placeholder="Developed enterprise web apps..."
+          className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
+        />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Tech Stack tags (Comma separated)</label>
+        <input
+          type="text"
+          value={techStackText}
+          onChange={(e) => setTechStackText(e.target.value)}
+          onBlur={handleTechBlur}
+          placeholder="Next.js, Prisma, PostgreSQL"
+          className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+        />
+      </div>
+    </GlassCard>
+  );
+}
+
 export default function AdminExperiencePage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -26,24 +162,6 @@ export default function AdminExperiencePage() {
   useEffect(() => {
     loadData();
   }, []);
-
-  const handleChange = (index: number, field: keyof Experience, value: any) => {
-    const updated = [...roles];
-    updated[index] = { ...updated[index], [field]: value };
-    setRoles(updated);
-  };
-
-  const handleResponsibilitiesChange = (index: number, val: string) => {
-    const updated = [...roles];
-    updated[index].responsibilities = val.split("\n").map((r) => r.trim()).filter((r) => r.length > 0);
-    setRoles(updated);
-  };
-
-  const handleTechChange = (index: number, val: string) => {
-    const updated = [...roles];
-    updated[index].techStack = val.split(",").map((t) => t.trim()).filter((t) => t.length > 0);
-    setRoles(updated);
-  };
 
   const handleAddRole = () => {
     const newRole: Experience = {
@@ -120,101 +238,20 @@ export default function AdminExperiencePage() {
 
       <div className="space-y-8 max-w-4xl">
         {roles.map((exp, index) => (
-          <GlassCard key={exp.id} hoverEffect={false} animate={true} delay={index * 0.05} className="p-6 border border-border/80 bg-card/30 backdrop-blur-md rounded-3xl space-y-6 shadow-md relative group">
-            {/* Action Row */}
-            <div className="absolute top-6 right-6 flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => moveRole(index, "up")}
-                disabled={index === 0}
-                className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm"
-                title="Move Up"
-              >
-                <ArrowUp size={13} />
-              </button>
-              <button
-                type="button"
-                onClick={() => moveRole(index, "down")}
-                disabled={index === roles.length - 1}
-                className="p-2 rounded-xl bg-background border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer shadow-sm"
-                title="Move Down"
-              >
-                <ArrowDown size={13} />
-              </button>
-              <button
-                type="button"
-                onClick={() => handleRemoveRole(exp.id)}
-                className="p-2 rounded-xl bg-background border border-border text-rose-500 hover:bg-rose-500 hover:text-white transition-all cursor-pointer shadow-sm"
-                title="Remove Role"
-              >
-                <Trash2 size={13} />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Job Title / Role</label>
-                <input
-                  type="text"
-                  value={exp.role}
-                  onChange={(e) => handleChange(index, "role", e.target.value)}
-                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Company Name</label>
-                <input
-                  type="text"
-                  value={exp.company}
-                  onChange={(e) => handleChange(index, "company", e.target.value)}
-                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Location</label>
-                <input
-                  type="text"
-                  value={exp.location}
-                  onChange={(e) => handleChange(index, "location", e.target.value)}
-                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Employment Period</label>
-                <input
-                  type="text"
-                  value={exp.period}
-                  onChange={(e) => handleChange(index, "period", e.target.value)}
-                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Responsibilities (One bullet per line)</label>
-              <textarea
-                rows={6}
-                value={exp.responsibilities.join("\n")}
-                onChange={(e) => handleResponsibilitiesChange(index, e.target.value)}
-                placeholder="Developed enterprise web web apps..."
-                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
-              />
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Tech Stack tags (Comma separated)</label>
-              <input
-                type="text"
-                value={exp.techStack.join(", ")}
-                onChange={(e) => handleTechChange(index, e.target.value)}
-                placeholder="Next.js, Prisma, PostgreSQL"
-                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
-              />
-            </div>
-          </GlassCard>
+          <ExperienceCard
+            key={exp.id}
+            exp={exp}
+            index={index}
+            onRemove={handleRemoveRole}
+            onMove={moveRole}
+            onChange={(idx, updatedExp) => {
+              const updated = [...roles];
+              updated[idx] = updatedExp;
+              setRoles(updated);
+            }}
+            isFirst={index === 0}
+            isLast={index === roles.length - 1}
+          />
         ))}
 
         <button
