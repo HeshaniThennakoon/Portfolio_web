@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
 import { Project } from "@/lib/data";
-import { Github, ExternalLink, Sparkles } from "lucide-react";
+import { Github, ExternalLink, Sparkles, ChevronDown } from "lucide-react";
 
 interface ProjectsProps {
   data: Project[];
@@ -12,6 +12,7 @@ interface ProjectsProps {
 
 export function Projects({ data }: ProjectsProps) {
   const [filter, setFilter] = useState<"all" | "ai" | "web" | "mobile">("all");
+  const [showAll, setShowAll] = useState(false);
 
   const filterProject = (project: Project) => {
     if (filter === "all") return true;
@@ -29,7 +30,10 @@ export function Projects({ data }: ProjectsProps) {
     return true;
   };
 
+  const INITIAL_VISIBLE = 5;
   const filteredProjects = data.filter(filterProject);
+  const hasMore = filteredProjects.length > INITIAL_VISIBLE;
+  const visibleProjects = showAll ? filteredProjects : filteredProjects.slice(0, INITIAL_VISIBLE);
 
   return (
     <section id="projects" className="py-24 bg-background relative overflow-hidden grid-bg">
@@ -45,7 +49,10 @@ export function Projects({ data }: ProjectsProps) {
           {(["all", "ai", "web", "mobile"] as const).map((category) => (
             <button
               key={category}
-              onClick={() => setFilter(category)}
+              onClick={() => {
+                setFilter(category);
+                setShowAll(false);
+              }}
               className={`px-5 py-2.5 text-xs font-bold font-sans uppercase tracking-wider rounded-full border transition-all cursor-pointer ${
                 filter === category
                   ? "bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(0,245,255,0.3)]"
@@ -60,7 +67,7 @@ export function Projects({ data }: ProjectsProps) {
         {/* Project Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 z-10 relative">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => {
+            {visibleProjects.map((project, index) => {
               const isFeatured = project.featured;
               return (
                 <motion.div
@@ -188,6 +195,26 @@ export function Projects({ data }: ProjectsProps) {
             })}
           </AnimatePresence>
         </div>
+
+        {/* Show More / Less Toggle Button */}
+        {hasMore && (
+          <div className="flex justify-center mt-12 z-10 relative">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="group inline-flex items-center gap-2.5 px-7 py-3 text-xs font-bold font-sans uppercase tracking-wider rounded-full border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted hover:border-primary/30 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(0,245,255,0.1)] active:scale-95"
+            >
+              {showAll 
+                ? "Show Less" 
+                : `Show More Projects (+${filteredProjects.length - INITIAL_VISIBLE} more)`}
+              <ChevronDown 
+                size={15} 
+                className={`text-primary transition-transform duration-300 ${
+                  showAll ? "rotate-180" : ""
+                }`} 
+              />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
