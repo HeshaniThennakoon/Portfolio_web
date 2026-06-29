@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ✨ Dynamic Software Engineering Portfolio & Admin Workspace
 
-## Getting Started
+A premium, fully dynamic, production-ready developer portfolio and case study showcase built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, and Prisma ORM with MySQL. 
 
-First, run the development server:
+This repository features a public-facing developer landing page alongside a private, secure administrative dashboard to customize every single item of content—including images, stats, availability states, projects, and recommendation letters—in real-time.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🚀 Core Features
+
+### 💻 Public Showcase
+* **Dynamic Landing Page**: Absolutely zero hardcoded content. Every single name, role, background text, school entry, and social icon is loaded dynamically from the database.
+* **Interactive Project Filters & Toggles**: Sort projects by categories (AI/CV, Web Apps, Mobile Apps) with a toggle to control grid collapse/expand states.
+* **In-Depth Case Studies (`/projects/[slug]`)**: Dedicated sub-pages presenting project challenges, engineering solutions, outcomes, and screenshots.
+* **Testimonials & Recommendations**: Adapts dynamically as a responsive 3-column grid on desktop screens and a snap-scroll card slider on mobile/tablets. Includes visual ratings and quick referrer email/call action highlights.
+* **"Available for Hire" Badge**: Glowing, pulsing live badge in the Hero section and Navbar indicator showing current hiring states (e.g., *Open to Work*, *Freelance Only*).
+* **Adaptable Dark/Light Modes**: Styled dark and light themes with glowing neon borders and premium cyberpunk glow accents.
+* **SMTP Contact Form**: Submissions are instantly stored in the inbox database and dispatched to your email address via SMTP.
+
+### 🛡️ Admin Workspace (`/admin`)
+* **Secure Session Authentication**: Protected routes using bcrypt session credentials.
+* **Interactive CMS**: Tabbed and modular controls to manage Hero information, About highlights, Skills inventory, Timeline events (experience/education/achievements), and Services.
+* **Direct Media Uploads**: Built-in image uploader that saves avatars, screenshots, and PDFs directly to server storage and returns clean URL routes.
+* **Contact Center**: An inbox workspace to track contact form submissions, mark messages as read/replied, and manage site-wide social/contact links.
+
+---
+
+## 🛠️ Technology Stack
+
+* **Framework**: Next.js 16.2 (App Router & Server Actions)
+* **Frontend**: React 19, TypeScript, Tailwind CSS 4 (PostCSS variant), Framer Motion, Lucide Icons, Sonner
+* **Database & ORM**: MySQL Database, Prisma ORM
+* **Authentication**: Session cookies and bcryptjs credential encryption
+* **Mail Dispatcher**: Nodemailer
+
+---
+
+## 📁 Repository Structure
+
+```text
+├── app/
+│   ├── actions.ts           # Next.js Server Actions for CMS data & uploads
+│   ├── layout.tsx           # Main application root layout & dynamic SEO metadata
+│   ├── page.tsx             # Public landing page entry
+│   ├── providers.tsx        # Theme and alert notifications context providers
+│   ├── admin/               # Administrative panel dashboards (login and protected CMS)
+│   └── projects/[slug]/     # Project Detail & Case Study SSR subpages
+├── components/
+│   ├── layout/              # Shared headers (Navbar), footers, and sidebars
+│   ├── sections/            # Visual home page sections (Hero, About, Projects, Testimonials, etc.)
+│   └── shared/              # Reusable UI primitives (GlassCard, SectionHeader)
+├── lib/
+│   ├── auth.ts              # Session creation & authentication verification
+│   ├── db.ts                # PrismaClient instance
+│   └── data.ts              # Database queries and data access APIs
+├── prisma/
+│   └── schema.prisma        # Database models & relationships
+└── public/
+    └── uploads/             # Server file uploads directory (git-ignored)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Local Setup Guide
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Prerequisites
+* **Node.js** (v18 or higher)
+* **MySQL Server** instance running locally or hosted online (e.g. on port `3306` or `3307`).
 
-## Learn More
+### 2. Install Dependencies
+Clone the repository and install the project dependencies:
+```bash
+git clone https://github.com/HeshaniThennakoon/Portfolio_web.git
+cd Portfolio_web
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Environment Variables Setup
+Create a `.env` file in the root directory of the project and define the connection configurations:
+```env
+# Database Connection URL (example configuration)
+DATABASE_URL="mysql://username:password@127.0.0.1:3307/portfolio_db"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Session Encryption Key (choose a secure random text)
+JWT_SECRET="your-super-secret-jwt-key"
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Database Setup & Synchronization
+Execute Prisma to configure database tables, relationships, and generate the typescript client helper:
+```bash
+# Push schema structure to MySQL
+npx prisma db push
 
-## Deploy on Vercel
+# Generate Prisma Client
+npx prisma generate
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. Running the Application
+Launch the Next.js development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view the homepage and [http://localhost:3000/admin](http://localhost:3000/admin) to log into the dashboard (default username is `admin`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🚀 Production Build & Deployment
+
+To build the project for production, run:
+```bash
+npm run build
+```
+
+### Deployment Configuration Checklist
+1. Ensure your hosting provider (Vercel, AWS, or VPS) has access to the `DATABASE_URL` and `JWT_SECRET` environment variables.
+2. In serverless environments (like Vercel), configure a hosted database (such as PlanetScale, Aiven, or AWS RDS).
+3. If running in containers, make sure the `/public/uploads/` directory is mapped to a persistent volume or configured to use cloud storage (S3/Cloudinary) for media persistence.
