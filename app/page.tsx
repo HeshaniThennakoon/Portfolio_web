@@ -7,6 +7,7 @@ import { ExperienceSection } from "@/components/sections/Experience";
 import { Projects } from "@/components/sections/Projects";
 import { EducationSection } from "@/components/sections/Education";
 import { AchievementsSection } from "@/components/sections/Achievements";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { Contact } from "@/components/sections/Contact";
 import { Stats } from "@/components/sections/Stats";
 import { Footer } from "@/components/layout/Footer";
@@ -20,6 +21,7 @@ import {
   getAchievements,
   getServices,
   getSocialLinks,
+  getTestimonials,
 } from "@/lib/data";
 
 export const revalidate = 0; // Ensure page is always dynamic and loads latest admin inputs
@@ -35,6 +37,8 @@ export default async function Home() {
   const achievementsData = await getAchievements();
   const servicesData = await getServices();
   const socialLinksData = await getSocialLinks();
+
+  const testimonialsData = await getTestimonials();
 
   const primaryRole = heroData.roles[0] || "Software Engineer";
 
@@ -59,6 +63,7 @@ export default async function Home() {
         <EducationSection data={educationData} />
         <AchievementsSection data={achievementsData} />
         <Contact socialLinks={socialLinksData} />
+        <Testimonials data={testimonialsData} />
       </main>
       <Footer socialLinks={socialLinksData} brandName={heroData.name} />
     </>

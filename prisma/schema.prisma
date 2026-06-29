@@ -134,3 +134,19 @@ model SocialLinks {
   facebook    String @default("")
 }
 
+model Testimonial {
+  id        String   @id @default(uuid())
+  name      String
+  role      String
+  company   String?
+  email     String?
+  phone     String?
+  image     String?
+  content   String   @db.Text
+  rating    Int      @default(5)
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

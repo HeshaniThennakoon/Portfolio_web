@@ -127,6 +127,20 @@ export interface ContactSubmission {
   replied?: boolean;
 }
 
+export interface Testimonial {
+  id?: string;
+  name: string;
+  role: string;
+  company?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  image?: string | null;
+  content: string;
+  rating: number;
+  order: number;
+  isActive: boolean;
+}
+
 // Data Access API using Prisma & MySQL
 export async function getSettings(): Promise<Settings> {
   const record = await db.settings.findFirst({
@@ -811,6 +825,105 @@ export async function saveSocialLinks(data: SocialLinks): Promise<boolean> {
     return true;
   } catch (error) {
     console.error("Error saving social links to MySQL:", error);
+    return false;
+  }
+}
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+  try {
+    const records = await db.testimonial.findMany({
+      orderBy: { order: "asc" }
+    });
+    return records.map((r) => ({
+      id: r.id,
+      name: r.name,
+      role: r.role,
+      company: r.company,
+      email: r.email,
+      phone: r.phone,
+      image: r.image,
+      content: r.content,
+      rating: r.rating,
+      order: r.order,
+      isActive: r.isActive,
+    }));
+  } catch (error) {
+    console.error("Error fetching testimonials from MySQL:", error);
+    return [];
+  }
+}
+
+export async function createTestimonial(data: Omit<Testimonial, "id">): Promise<Testimonial | null> {
+  try {
+    const count = await db.testimonial.count();
+    const record = await db.testimonial.create({
+      data: {
+        name: data.name,
+        role: data.role,
+        company: data.company,
+        email: data.email,
+        phone: data.phone,
+        image: data.image,
+        content: data.content,
+        rating: data.rating,
+        order: count,
+        isActive: data.isActive,
+      }
+    });
+    return record;
+  } catch (error) {
+    console.error("Error creating testimonial:", error);
+    return null;
+  }
+}
+
+export async function updateTestimonial(id: string, data: Partial<Testimonial>): Promise<Testimonial | null> {
+  try {
+    const record = await db.testimonial.update({
+      where: { id },
+      data: {
+        name: data.name,
+        role: data.role,
+        company: data.company,
+        email: data.email,
+        phone: data.phone,
+        image: data.image,
+        content: data.content,
+        rating: data.rating,
+        order: data.order,
+        isActive: data.isActive,
+      }
+    });
+    return record;
+  } catch (error) {
+    console.error("Error updating testimonial:", error);
+    return null;
+  }
+}
+
+export async function deleteTestimonial(id: string): Promise<boolean> {
+  try {
+    await db.testimonial.delete({
+      where: { id }
+    });
+    return true;
+  } catch (error) {
+    console.error("Error deleting testimonial:", error);
+    return false;
+  }
+}
+
+export async function reorderTestimonials(ids: string[]): Promise<boolean> {
+  try {
+    for (let i = 0; i < ids.length; i++) {
+      await db.testimonial.update({
+        where: { id: ids[i] },
+        data: { order: i }
+      });
+    }
+    return true;
+  } catch (error) {
+    console.error("Error reordering testimonials:", error);
     return false;
   }
 }

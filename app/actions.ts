@@ -34,6 +34,11 @@ import {
   markContactReplied,
   getSocialLinks,
   saveSocialLinks,
+  getTestimonials,
+  createTestimonial,
+  updateTestimonial,
+  deleteTestimonial,
+  reorderTestimonials,
   Settings,
   HeroInfo,
   AboutInfo,
@@ -44,6 +49,7 @@ import {
   Achievements,
   Service,
   SocialLinks,
+  Testimonial,
 } from "@/lib/data";
 
 // 1. Submit contact form and send email
@@ -435,6 +441,22 @@ export async function uploadFileAction(formData: FormData) {
       return { success: true, url: `/uploads/${filename}` };
     }
 
+    if (type === "testimonial") {
+      const ext = path.extname(file.name) || ".jpg";
+      const timestamp = Date.now();
+      const filename = `testimonial-${timestamp}${ext}`;
+      const uploadDir = path.join(publicDir, "uploads");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      const filePath = path.join(uploadDir, filename);
+      fs.writeFileSync(filePath, buffer);
+
+      revalidatePath("/");
+      revalidatePath("/admin");
+      return { success: true, url: `/uploads/${filename}` };
+    }
+
     return { success: false, message: "Invalid upload type." };
   } catch (error: any) {
     console.error("Upload Error:", error);
@@ -515,4 +537,60 @@ export async function getContactsAction() {
 
 export async function getServicesAction() {
   return getServices();
+}
+
+export async function getTestimonialsAction() {
+  return getTestimonials();
+}
+
+export async function createTestimonialAction(data: Omit<Testimonial, "id" | "order">) {
+  try {
+    const res = await createTestimonial({
+      ...data,
+      order: 0,
+      isActive: data.isActive ?? true
+    });
+    if (!res) throw new Error();
+    revalidatePath("/");
+    revalidatePath("/admin");
+    return { success: true, testimonial: res };
+  } catch (err) {
+    return { success: false, message: "Failed to create testimonial." };
+  }
+}
+
+export async function updateTestimonialAction(id: string, data: Partial<Testimonial>) {
+  try {
+    const res = await updateTestimonial(id, data);
+    if (!res) throw new Error();
+    revalidatePath("/");
+    revalidatePath("/admin");
+    return { success: true, testimonial: res };
+  } catch (err) {
+    return { success: false, message: "Failed to update testimonial." };
+  }
+}
+
+export async function deleteTestimonialAction(id: string) {
+  try {
+    const success = await deleteTestimonial(id);
+    if (!success) throw new Error();
+    revalidatePath("/");
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (err) {
+    return { success: false, message: "Failed to delete testimonial." };
+  }
+}
+
+export async function reorderTestimonialsAction(ids: string[]) {
+  try {
+    const success = await reorderTestimonials(ids);
+    if (!success) throw new Error();
+    revalidatePath("/");
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (err) {
+    return { success: false, message: "Failed to reorder testimonials." };
+  }
 }
