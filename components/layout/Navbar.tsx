@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Menu, X, Sun, Moon, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -11,12 +12,12 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 interface NavbarProps {
@@ -43,7 +44,7 @@ export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer", 
       setIsScrolled(window.scrollY > 20);
 
       // Simple scroll spy logic
-      const sections = navLinks.map(link => link.href.substring(1));
+      const sections = navLinks.map(link => link.href.substring(2));
       let currentSection = "home";
 
       for (const section of sections) {
@@ -68,23 +69,6 @@ export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer", 
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
-  const handleLinkClick = (href: string) => {
-    setMobileMenuOpen(false);
-    const element = document.getElementById(href.substring(1));
-    if (element) {
-      const offset = 80; // offset for the sticky navbar
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
-  };
-
   return (
     <header
       className={cn(
@@ -96,12 +80,9 @@ export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer", 
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
         {/* Brand logo */}
-        <a
-          href="#home"
-          onClick={(e) => {
-            e.preventDefault();
-            handleLinkClick("#home");
-          }}
+        <Link
+          href="/#home"
+          onClick={() => setMobileMenuOpen(false)}
           className="flex flex-col select-none cursor-pointer"
         >
           <div className="flex items-center gap-1.5">
@@ -128,28 +109,25 @@ export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer", 
           <span className="text-[9px] md:text-[10px] font-bold tracking-[0.25em] text-muted-foreground uppercase mt-1 leading-none">
             {subtitle}
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-6">
           <ul className="flex items-center gap-6">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLinkClick(link.href);
-                  }}
+                  onClick={() => setMobileMenuOpen(false)}
                   className={cn(
                     "text-xs font-bold uppercase tracking-[0.2em] transition-all duration-200 py-1 hover:text-cyan-600 dark:hover:text-primary relative block",
-                    activeSection === link.href.substring(1)
+                    activeSection === link.href.substring(2)
                       ? "text-cyan-600 dark:text-primary"
                       : "text-muted-foreground"
                   )}
                 >
                   {link.label}
-                  {activeSection === link.href.substring(1) && (
+                  {activeSection === link.href.substring(2) && (
                     <span 
                       className="absolute -bottom-1 left-0 right-0 h-[2.5px] rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-emerald-400"
                       style={{ 
@@ -157,7 +135,7 @@ export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer", 
                       }}
                     />
                   )}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -215,24 +193,21 @@ export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer", 
         <ul className="flex flex-col gap-6 my-auto text-center">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <a
+              <Link
                 href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLinkClick(link.href);
-                }}
+                onClick={() => setMobileMenuOpen(false)}
                 className={cn(
                   "text-lg font-bold uppercase tracking-[0.25em] transition-colors block py-2 relative w-max mx-auto",
-                  activeSection === link.href.substring(1)
+                  activeSection === link.href.substring(2)
                     ? "text-cyan-600 dark:text-primary"
                     : "text-muted-foreground hover:text-cyan-600 dark:hover:text-primary"
                 )}
               >
                 {link.label}
-                {activeSection === link.href.substring(1) && (
+                {activeSection === link.href.substring(2) && (
                   <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-emerald-400 rounded-full" />
                 )}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

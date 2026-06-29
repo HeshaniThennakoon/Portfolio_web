@@ -127,6 +127,9 @@
   html {
     @apply font-sans scroll-smooth;
   }
+  section[id] {
+    scroll-margin-top: 85px;
+  }
 }
 
 /* Cyberpunk Theme Custom Utilities */
