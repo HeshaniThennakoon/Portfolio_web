@@ -20,6 +20,7 @@ import {
   saveExperience,
   getProjects,
   saveProjects,
+  getProjectBySlug,
   getEducation,
   saveEducation,
   getAchievements,
@@ -215,6 +216,10 @@ export async function updateProjectsAction(data: Project[]) {
   }
 }
 
+export async function getProjectBySlugAction(slug: string): Promise<Project | null> {
+  return await getProjectBySlug(slug);
+}
+
 // 8. Education Update
 export async function updateEducationAction(data: Education[]) {
   try {
@@ -408,6 +413,22 @@ export async function uploadFileAction(formData: FormData) {
         project.imageUrl = `/uploads/${filename}`;
         await saveProjects(projects);
       }
+
+      revalidatePath("/");
+      revalidatePath("/admin");
+      return { success: true, url: `/uploads/${filename}` };
+    }
+
+    if (type === "gallery" && projectId) {
+      const ext = path.extname(file.name) || ".jpg";
+      const timestamp = Date.now();
+      const filename = `gallery-${projectId}-${timestamp}${ext}`;
+      const uploadDir = path.join(publicDir, "uploads");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      const filePath = path.join(uploadDir, filename);
+      fs.writeFileSync(filePath, buffer);
 
       revalidatePath("/");
       revalidatePath("/admin");

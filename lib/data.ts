@@ -74,6 +74,14 @@ export interface Project {
   demoUrl: string;
   imageUrl: string;
   featured: boolean;
+  slug?: string;
+  role?: string;
+  duration?: string;
+  teamSize?: string;
+  challenge?: string;
+  solution?: string;
+  outcome?: string;
+  screenshots?: string[];
 }
 
 export interface Education {
@@ -398,6 +406,14 @@ export async function saveExperience(data: Experience[]): Promise<boolean> {
   }
 }
 
+export function slugify(title: string): string {
+  return title.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+}
+
 export async function getProjects(): Promise<Project[]> {
   try {
     const records = await db.project.findMany({
@@ -413,10 +429,49 @@ export async function getProjects(): Promise<Project[]> {
       demoUrl: r.demoUrl,
       imageUrl: r.imageUrl,
       featured: r.featured,
+      slug: r.slug || slugify(r.title),
+      role: r.role,
+      duration: r.duration,
+      teamSize: r.teamSize,
+      challenge: r.challenge,
+      solution: r.solution,
+      outcome: r.outcome,
+      screenshots: r.screenshots ? JSON.parse(r.screenshots) : [],
     }));
   } catch (error) {
     console.error("Error fetching projects from MySQL:", error);
     return [];
+  }
+}
+
+export async function getProjectBySlug(slug: string): Promise<Project | null> {
+  try {
+    const record = await db.project.findUnique({
+      where: { slug }
+    });
+    if (!record) return null;
+    return {
+      id: record.id,
+      title: record.title,
+      description: record.description,
+      technologies: JSON.parse(record.technologies),
+      features: JSON.parse(record.features),
+      githubUrl: record.githubUrl,
+      demoUrl: record.demoUrl,
+      imageUrl: record.imageUrl,
+      featured: record.featured,
+      slug: record.slug,
+      role: record.role,
+      duration: record.duration,
+      teamSize: record.teamSize,
+      challenge: record.challenge,
+      solution: record.solution,
+      outcome: record.outcome,
+      screenshots: record.screenshots ? JSON.parse(record.screenshots) : [],
+    };
+  } catch (error) {
+    console.error(`Error fetching project by slug ${slug} from MySQL:`, error);
+    return null;
   }
 }
 
@@ -436,6 +491,14 @@ export async function saveProjects(data: Project[]): Promise<boolean> {
           demoUrl: proj.demoUrl,
           imageUrl: proj.imageUrl,
           featured: proj.featured,
+          slug: proj.slug || slugify(proj.title),
+          role: proj.role || "",
+          duration: proj.duration || "",
+          teamSize: proj.teamSize || "",
+          challenge: proj.challenge || "",
+          solution: proj.solution || "",
+          outcome: proj.outcome || "",
+          screenshots: JSON.stringify(proj.screenshots || []),
           order: i,
         }
       });

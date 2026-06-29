@@ -77,6 +77,14 @@ model Project {
   imageUrl     String  @default("")
   featured     Boolean @default(false)
   order        Int     @default(0)
+  slug         String  @unique @default("")
+  role         String  @default("")
+  duration     String  @default("")
+  teamSize     String  @default("")
+  challenge    String  @db.Text @default("")
+  solution     String  @db.Text @default("")
+  outcome      String  @db.Text @default("")
+  screenshots  String  @db.Text @default("[]")
 }
 
 model Education {

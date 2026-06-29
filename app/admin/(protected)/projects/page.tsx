@@ -40,11 +40,13 @@ function ProjectCard({
   // Local state for split/parsed fields to avoid format stripping on typing
   const [techText, setTechText] = useState(proj.technologies.join(", "));
   const [featuresText, setFeaturesText] = useState(proj.features.join("\n"));
+  const [screenshotsText, setScreenshotsText] = useState((proj.screenshots || []).join("\n"));
 
   useEffect(() => {
     setTechText(proj.technologies.join(", "));
     setFeaturesText(proj.features.join("\n"));
-  }, [proj.technologies, proj.features]);
+    setScreenshotsText((proj.screenshots || []).join("\n"));
+  }, [proj.technologies, proj.features, proj.screenshots]);
 
   const handleFieldChange = (field: keyof Project, value: any) => {
     onChange(proj.id, { ...proj, [field]: value });
@@ -58,6 +60,41 @@ function ProjectCard({
   const handleFeaturesBlur = () => {
     const list = featuresText.split("\n").map((f) => f.trim()).filter((f) => f.length > 0);
     onChange(proj.id, { ...proj, features: list });
+  };
+
+  const handleScreenshotsBlur = () => {
+    const list = screenshotsText.split("\n").map((s) => s.trim()).filter((s) => s.length > 0);
+    onChange(proj.id, { ...proj, screenshots: list });
+  };
+
+  const [uploadingGallery, setUploadingGallery] = useState(false);
+
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingGallery(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", "gallery");
+      formData.append("projectId", proj.id);
+
+      const res = await uploadFileAction(formData);
+      if (res.success && res.url) {
+        toast.success("Gallery screenshot uploaded!");
+        const currentScreenshots = proj.screenshots || [];
+        const updatedScreenshots = [...currentScreenshots, res.url];
+        onChange(proj.id, { ...proj, screenshots: updatedScreenshots });
+        setScreenshotsText(updatedScreenshots.join("\n"));
+      } else {
+        toast.error(res.message || "Upload failed.");
+      }
+    } catch (err) {
+      toast.error("An error occurred during upload.");
+    } finally {
+      setUploadingGallery(false);
+    }
   };
 
   return (
@@ -240,6 +277,142 @@ function ProjectCard({
               placeholder="React, Express, MongoDB"
               className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
             />
+          </div>
+
+          {/* Detailed Case Study Fields */}
+          <div className="border-t border-border/80 pt-6 space-y-4">
+            <h4 className="font-bold text-foreground text-sm uppercase tracking-wider">// CASE STUDY DETAILS (recruiting portfolio upgrade)</h4>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">My Role in Project</label>
+                <input
+                  type="text"
+                  value={proj.role || ""}
+                  onChange={(e) => handleFieldChange("role", e.target.value)}
+                  placeholder="e.g. Full-Stack Engineer / Lead Architect"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Project Duration</label>
+                <input
+                  type="text"
+                  value={proj.duration || ""}
+                  onChange={(e) => handleFieldChange("duration", e.target.value)}
+                  placeholder="e.g. 3 Months / 1 Year"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Team Size</label>
+                <input
+                  type="text"
+                  value={proj.teamSize || ""}
+                  onChange={(e) => handleFieldChange("teamSize", e.target.value)}
+                  placeholder="e.g. Solo / 4 Developers"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">The Challenge / Problem Statement</label>
+              <textarea
+                rows={3}
+                value={proj.challenge || ""}
+                onChange={(e) => handleFieldChange("challenge", e.target.value)}
+                placeholder="Describe the problem your project solves..."
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">The Solution & Engineering Approach</label>
+              <textarea
+                rows={4}
+                value={proj.solution || ""}
+                onChange={(e) => handleFieldChange("solution", e.target.value)}
+                placeholder="Describe the technologies, logic flow, and implementation approach..."
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Outcomes & Project Impact</label>
+              <textarea
+                rows={3}
+                value={proj.outcome || ""}
+                onChange={(e) => handleFieldChange("outcome", e.target.value)}
+                placeholder="Describe performance gains, metrics, or successful results..."
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
+              />
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Case Study Screenshots / Gallery</label>
+              
+              {/* Image previews */}
+              {proj.screenshots && proj.screenshots.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-background p-3 rounded-2xl border border-border/80">
+                  {proj.screenshots.map((url, sIdx) => (
+                    <div key={sIdx} className="relative group/img aspect-video rounded-xl overflow-hidden border border-border/60 bg-muted flex items-center justify-center p-0.5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={url} alt={`Screenshot ${sIdx + 1}`} className="w-full h-full object-cover rounded-lg" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = proj.screenshots!.filter((_, idx) => idx !== sIdx);
+                          onChange(proj.id, { ...proj, screenshots: updated });
+                          setScreenshotsText(updated.join("\n"));
+                        }}
+                        className="absolute inset-0 bg-rose-600/80 hover:bg-rose-600/90 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity text-[10px] font-bold uppercase tracking-wider rounded-lg cursor-pointer"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex flex-wrap items-center gap-3">
+                <label className="cursor-pointer bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 font-bold px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 text-[10px] uppercase tracking-wider shadow-sm">
+                  {uploadingGallery ? (
+                    <>
+                      <Loader2 className="animate-spin" size={12} />
+                      Uploading Screenshot...
+                    </>
+                  ) : (
+                    <>
+                      <Upload size={12} />
+                      Upload Case Study Image
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleGalleryUpload}
+                    disabled={uploadingGallery}
+                    className="hidden"
+                  />
+                </label>
+                <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-mono">
+                  // JPG, PNG, OR WEBP ACCEPTED
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Manual Screenshot Image URLs (One link per line)</label>
+              <textarea
+                rows={3}
+                value={screenshotsText}
+                onChange={(e) => setScreenshotsText(e.target.value)}
+                onBlur={handleScreenshotsBlur}
+                placeholder="https://example.com/screenshot1.png"
+                className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
+              />
+            </div>
           </div>
 
           <div className="flex items-center gap-6 border-t border-border/80 pt-4">

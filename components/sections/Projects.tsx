@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
 import { Project } from "@/lib/data";
@@ -160,33 +161,42 @@ export function Projects({ data }: ProjectsProps) {
                       </div>
 
                       {/* Action Links */}
-                      <div className="flex items-center gap-4 pt-4 border-t border-border/80">
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-foreground hover:text-primary transition-all group/btn"
-                          >
-                            <Github size={14} className="text-primary group-hover/btn:scale-110 transition-transform" />
-                            Repository
-                          </a>
-                        )}
-                        {project.demoUrl ? (
-                          <a
-                            href={project.demoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors"
-                          >
-                            <ExternalLink size={14} />
-                            Live Demo
-                          </a>
-                        ) : (
-                          <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider bg-[#f4f4f5] dark:bg-[#0d0d0d] border border-border px-2.5 py-1.5 rounded-full">
-                            Local Deploy
-                          </span>
-                        )}
+                      <div className="flex items-center justify-between gap-4 pt-4 border-t border-border/80">
+                        <div className="flex items-center gap-4">
+                          {project.githubUrl && (
+                            <a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-foreground hover:text-primary transition-all group/btn"
+                            >
+                              <Github size={14} className="text-primary group-hover/btn:scale-110 transition-transform" />
+                              Code
+                            </a>
+                          )}
+                          {project.demoUrl ? (
+                            <a
+                              href={project.demoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors"
+                            >
+                              <ExternalLink size={14} />
+                              Live Demo
+                            </a>
+                          ) : (
+                            <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider bg-[#f4f4f5] dark:bg-[#0d0d0d] border border-border px-2.5 py-1.5 rounded-full">
+                              Local Deploy
+                            </span>
+                          )}
+                        </div>
+
+                        <Link
+                          href={`/projects/${project.slug}`}
+                          className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-primary hover:underline hover:scale-105 transition-all cursor-pointer"
+                        >
+                          Case Study →
+                        </Link>
                       </div>
                     </div>
                   </div>
