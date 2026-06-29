@@ -149,7 +149,7 @@ export function About({ data, profileImg: fallbackImg = "/profile.jpg", name = "
               >
                 <button
                   onClick={() => handleScrollTo("contact")}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer bg-primary text-primary-foreground hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] font-bold text-xs uppercase tracking-wider px-8 py-4 transition-all duration-300 border border-primary rounded-none"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer bg-primary text-primary-foreground hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] font-bold text-xs uppercase tracking-wider px-8 py-4 transition-all duration-300 border border-primary rounded-2xl"
                 >
                   {data.ctaLabel}
                   <ArrowRight size={14} />

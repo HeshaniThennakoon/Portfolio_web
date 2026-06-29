@@ -49,7 +49,7 @@ export function Skills({ data }: SkillsProps) {
             <button
               key={cat.category}
               onClick={() => setActiveCategory(cat.category)}
-              className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold font-sans uppercase tracking-wider rounded-full border transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-2.5 text-xs font-bold font-sans uppercase tracking-wider rounded-2xl border transition-all cursor-pointer ${
                 activeCategory === cat.category
                   ? "bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(0,245,255,0.3)] hover:shadow-[0_0_20px_rgba(0,245,255,0.45)]"
                   : "bg-card border-border text-muted-foreground hover:text-foreground hover:bg-muted"

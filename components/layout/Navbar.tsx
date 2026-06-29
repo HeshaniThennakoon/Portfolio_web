@@ -148,12 +148,12 @@ export function Navbar() {
           <div className="h-4 w-[1px] bg-border mx-2" />
 
           {/* Search Icon (visual parity) */}
-          <button 
+          {/* <button 
             className="p-2 text-slate-500 dark:text-cyan-400/70 hover:text-cyan-600 dark:hover:text-primary transition-colors cursor-pointer"
             aria-label="Search"
           >
             <Search size={16} />
-          </button>
+          </button> */}
 
           {/* Theme Toggle Button */}
           <button

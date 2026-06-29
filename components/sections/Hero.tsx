@@ -125,7 +125,7 @@ export function Hero({ data }: HeroProps) {
           >
             <button
               onClick={() => handleScrollTo("projects")}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer bg-primary text-primary-foreground hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] font-bold text-xs uppercase tracking-wider px-8 py-4 transition-all duration-300 border border-primary rounded-none"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer bg-primary text-primary-foreground hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] font-bold text-xs uppercase tracking-wider px-8 py-4 transition-all duration-300 border border-primary rounded-2xl"
             >
               View Projects
               <ArrowRight size={14} />
@@ -133,7 +133,7 @@ export function Hero({ data }: HeroProps) {
             <a
               href={data.resumeUrl}
               download
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold text-xs uppercase tracking-wider px-8 py-3.5 transition-all duration-300 rounded-none shadow-[0_0_10px_rgba(0,245,255,0.05)] hover:shadow-[0_0_20px_rgba(0,245,255,0.2)] bg-transparent"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 cursor-pointer border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold text-xs uppercase tracking-wider px-8 py-3.5 transition-all duration-300 rounded-2xl shadow-[0_0_10px_rgba(0,245,255,0.05)] hover:shadow-[0_0_20px_rgba(0,245,255,0.2)] bg-transparent"
             >
               Download CV
               <Download size={14} />

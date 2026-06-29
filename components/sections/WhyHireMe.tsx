@@ -93,7 +93,7 @@ export function WhyHireMe({ data }: WhyHireMeProps) {
             >
               <button
                 onClick={() => handleScrollTo("contact")}
-                className="inline-flex items-center gap-2 cursor-pointer border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold text-xs uppercase tracking-wider px-8 py-3.5 transition-all duration-300 rounded-none shadow-[0_0_10px_rgba(0,245,255,0.05)] hover:shadow-[0_0_20px_rgba(0,245,255,0.2)] bg-transparent"
+                className="inline-flex items-center gap-2 cursor-pointer border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold text-xs uppercase tracking-wider px-8 py-3.5 transition-all duration-300 rounded-2xl shadow-[0_0_10px_rgba(0,245,255,0.05)] hover:shadow-[0_0_20px_rgba(0,245,255,0.2)] bg-transparent"
               >
                 Let&apos;s Work Together
                 <ArrowRight size={14} />

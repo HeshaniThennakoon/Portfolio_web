@@ -53,7 +53,7 @@ export function Projects({ data }: ProjectsProps) {
                 setFilter(category);
                 setShowAll(false);
               }}
-              className={`px-5 py-2.5 text-xs font-bold font-sans uppercase tracking-wider rounded-full border transition-all cursor-pointer ${
+              className={`px-5 py-2.5 text-xs font-bold font-sans uppercase tracking-wider rounded-2xl border transition-all cursor-pointer ${
                 filter === category
                   ? "bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(0,245,255,0.3)]"
                   : "bg-card border-border text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -201,7 +201,7 @@ export function Projects({ data }: ProjectsProps) {
           <div className="flex justify-center mt-12 z-10 relative">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="group inline-flex items-center gap-2.5 px-7 py-3 text-xs font-bold font-sans uppercase tracking-wider rounded-full border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted hover:border-primary/30 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(0,245,255,0.1)] active:scale-95"
+              className="group inline-flex items-center gap-2.5 px-7 py-3 text-xs font-bold font-sans uppercase tracking-wider rounded-2xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted hover:border-primary/30 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(0,245,255,0.1)] active:scale-95"
             >
               {showAll 
                 ? "Show Less" 
