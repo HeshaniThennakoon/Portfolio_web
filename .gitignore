@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# dynamic user uploads
+/public/profile-*
+/public/about-profile-*
+/public/uploads/*
+!/public/uploads/.gitkeep
