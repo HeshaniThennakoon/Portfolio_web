@@ -125,9 +125,6 @@ export function WhyHireMe({ data }: WhyHireMeProps) {
                       {card.description}
                     </p>
                   </div>
-                  <div className="mt-6 pt-4 border-t border-border/40 text-[10px] font-bold text-primary font-mono tracking-widest uppercase">
-                    // {card.title ? card.title.toUpperCase().split(" ")[0] : "SERVICE"} ACTIVE
-                  </div>
                 </motion.div>
               );
             })}

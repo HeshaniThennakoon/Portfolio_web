@@ -58,7 +58,7 @@ export function EducationSection({ data }: EducationProps) {
                     {/* Header Details */}
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-border/80 pb-6">
                       <div className="space-y-1">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-primary font-mono">// HIGHER EDUCATION</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-primary font-mono">HIGHER EDUCATION</span>
                         <h3 className="text-xl md:text-2xl font-black text-foreground tracking-wide font-sans leading-tight">
                           {universityEntry.degree}
                         </h3>

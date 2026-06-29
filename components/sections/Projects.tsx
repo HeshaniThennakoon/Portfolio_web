@@ -106,7 +106,7 @@ export function Projects({ data }: ProjectsProps) {
                           {project.title}
                         </span>
                         <span className="text-[9px] text-muted-foreground uppercase tracking-widest mt-1.5 font-mono">
-                          // REPOSITORY SOURCE
+                          REPOSITORY SOURCE
                         </span>
                       </div>
                     )}
@@ -135,7 +135,7 @@ export function Projects({ data }: ProjectsProps) {
 
                       {/* Features */}
                       <div className="mb-6">
-                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2.5">// KEY FEATURES:</h4>
+                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2.5">KEY FEATURES:</h4>
                         <ul className="space-y-2">
                           {project.features.map((feature, fIdx) => (
                             <li key={fIdx} className="text-xs sm:text-sm text-foreground flex items-start gap-2">
