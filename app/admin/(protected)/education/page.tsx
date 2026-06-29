@@ -44,8 +44,11 @@ export default function AdminEducationPage() {
       id: `edu-${Date.now()}`,
       degree: "BSc (Hons) in Computer Engineering",
       institution: "University of Ruhuna",
+      faculty: "Faculty of Engineering",
       period: "2021 – 2026",
-      focusAreas: ["Software Engineering"]
+      focusAreas: ["Software Engineering"],
+      gpa: "",
+      achievement: ""
     };
     setSchools([...schools, newEdu]);
   };
@@ -112,7 +115,7 @@ export default function AdminEducationPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Degree Title</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Degree Title / Level</label>
                 <input
                   type="text"
                   value={edu.degree}
@@ -127,6 +130,17 @@ export default function AdminEducationPage() {
                   type="text"
                   value={edu.institution}
                   onChange={(e) => handleChange(index, "institution", e.target.value)}
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Faculty / Department</label>
+                <input
+                  type="text"
+                  value={edu.faculty || ""}
+                  onChange={(e) => handleChange(index, "faculty", e.target.value)}
+                  placeholder="e.g. Faculty of Engineering (Leave blank for schools)"
                   className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>
@@ -148,6 +162,28 @@ export default function AdminEducationPage() {
                   value={edu.focusAreas.join(", ")}
                   onChange={(e) => handleFocusAreasChange(index, e.target.value)}
                   placeholder="Software Engineering, Computer Vision"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">GPA / Stream / Result</label>
+                <input
+                  type="text"
+                  value={edu.gpa || ""}
+                  onChange={(e) => handleChange(index, "gpa", e.target.value)}
+                  placeholder="e.g. GPA 3.75/4.00, Physical Science (3A)"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Achievement / Note</label>
+                <input
+                  type="text"
+                  value={edu.achievement || ""}
+                  onChange={(e) => handleChange(index, "achievement", e.target.value)}
+                  placeholder="e.g. First Class Honours, School Prefect, Captain"
                   className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
                 />
               </div>

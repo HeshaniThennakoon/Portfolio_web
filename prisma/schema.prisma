@@ -81,8 +81,11 @@ model Education {
   id          String @id @default(uuid())
   degree      String
   institution String
+  faculty     String @default("")
   period      String
   focusAreas  String @db.Text          // JSON array of strings
+  gpa         String @default("")
+  achievement String @db.Text @default("")
   order       Int    @default(0)
 }
 

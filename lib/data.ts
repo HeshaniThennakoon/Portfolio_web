@@ -78,8 +78,11 @@ export interface Education {
   id: string;
   degree: string;
   institution: string;
+  faculty?: string;
   period: string;
   focusAreas: string[];
+  gpa?: string;
+  achievement?: string;
 }
 
 export interface Achievements {
@@ -435,8 +438,11 @@ export async function getEducation(): Promise<Education[]> {
       id: r.id,
       degree: r.degree,
       institution: r.institution,
+      faculty: r.faculty,
       period: r.period,
       focusAreas: JSON.parse(r.focusAreas),
+      gpa: r.gpa,
+      achievement: r.achievement,
     }));
   } catch (error) {
     console.error("Error fetching education from MySQL:", error);
@@ -454,8 +460,11 @@ export async function saveEducation(data: Education[]): Promise<boolean> {
           id: edu.id || undefined,
           degree: edu.degree,
           institution: edu.institution,
+          faculty: edu.faculty || "",
           period: edu.period,
           focusAreas: JSON.stringify(edu.focusAreas),
+          gpa: edu.gpa || "",
+          achievement: edu.achievement || "",
           order: i,
         }
       });
