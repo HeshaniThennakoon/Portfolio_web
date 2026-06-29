@@ -26,14 +26,16 @@ model Settings {
 }
 
 model HeroInfo {
-  id          Int    @id @default(1)
-  name        String @default("Heshani Thennakoon")
-  headline    String @db.VarChar(500)
-  subheadline String @db.VarChar(1000)
-  roles       String @db.Text          // JSON array: ["Software Engineer", ...]
-  stats       String @db.Text          // JSON array: [{"label": "Projects", "value": "10+"}]
-  resumeUrl   String @default("/resume.pdf")
-  profileImg  String @default("/profile.jpg")
+  id                  Int    @id @default(1)
+  name                String @default("Heshani Thennakoon")
+  headline            String @db.VarChar(500)
+  subheadline         String @db.VarChar(1000)
+  roles               String @db.Text          // JSON array: ["Software Engineer", ...]
+  stats               String @db.Text          // JSON array: [{"label": "Projects", "value": "10+"}]
+  resumeUrl           String @default("/resume.pdf")
+  profileImg          String @default("/profile.jpg")
+  availabilityStatus  String @default("open")
+  availabilityMessage String @default("Open to full-time opportunities")
 }
 
 model AboutInfo {

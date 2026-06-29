@@ -47,7 +47,7 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar brandName={heroData.name} subtitle={primaryRole} />
+      <Navbar brandName={heroData.name} subtitle={primaryRole} availabilityStatus={heroData.availabilityStatus} />
       <main className="flex-1">
         <Hero data={heroData} education={universityEntry} />
         <Stats stats={heroData.stats} />

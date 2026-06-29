@@ -62,6 +62,43 @@ export function Hero({ data, education }: HeroProps) {
       <div className="container mx-auto px-4 md:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Side: Copy */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+          {(() => {
+            const status = data.availabilityStatus || "open";
+            const message = data.availabilityMessage || "Open to full-time opportunities";
+
+            let dotColor = "bg-emerald-400";
+            let pulseClass = "animate-pulse";
+            let badgeBorder = "border-emerald-500/20 dark:border-emerald-400/20";
+            let badgeBg = "bg-emerald-500/5 dark:bg-emerald-400/5";
+            let badgeText = "text-emerald-700 dark:text-emerald-300";
+
+            if (status === "freelance") {
+              dotColor = "bg-amber-400";
+              pulseClass = "";
+              badgeBorder = "border-amber-500/20 dark:border-amber-400/20";
+              badgeBg = "bg-amber-500/5 dark:bg-amber-400/5";
+              badgeText = "text-amber-700 dark:text-amber-300";
+            } else if (status === "unavailable") {
+              dotColor = "bg-rose-400";
+              pulseClass = "";
+              badgeBorder = "border-rose-500/20 dark:border-rose-400/20";
+              badgeBg = "bg-rose-500/5 dark:bg-rose-400/5";
+              badgeText = "text-rose-700 dark:text-rose-300";
+            }
+
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-5 ${badgeBorder} ${badgeBg} ${badgeText}`}
+              >
+                <span className={`w-2.5 h-2.5 rounded-full ${dotColor} ${pulseClass}`} />
+                {message}
+              </motion.div>
+            );
+          })()}
+
           <motion.span
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}

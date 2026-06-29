@@ -22,9 +22,10 @@ const navLinks: NavLink[] = [
 interface NavbarProps {
   brandName?: string;
   subtitle?: string;
+  availabilityStatus?: string;
 }
 
-export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer" }: NavbarProps) {
+export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer", availabilityStatus = "open" }: NavbarProps) {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -103,16 +104,27 @@ export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer" }
           }}
           className="flex flex-col select-none cursor-pointer"
         >
-          <span 
-            className={cn(
-              "text-xl md:text-2xl font-black tracking-wider font-sans uppercase leading-none transition-all duration-300",
-              mounted && resolvedTheme === "dark" 
-                ? "text-primary cyber-glow" 
-                : "bg-gradient-to-r from-cyan-600 to-blue-700 bg-clip-text text-transparent"
+          <div className="flex items-center gap-1.5">
+            <span 
+              className={cn(
+                "text-xl md:text-2xl font-black tracking-wider font-sans uppercase leading-none transition-all duration-300",
+                mounted && resolvedTheme === "dark" 
+                  ? "text-primary cyber-glow" 
+                  : "bg-gradient-to-r from-cyan-600 to-blue-700 bg-clip-text text-transparent"
+              )}
+            >
+              {brandName.split(" ")[0]}
+            </span>
+            {mounted && (
+              <span className={`w-2 h-2 rounded-full ${
+                availabilityStatus === "open"
+                  ? "bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]"
+                  : availabilityStatus === "freelance"
+                  ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.5)]"
+                  : "bg-rose-400"
+              }`} />
             )}
-          >
-            {brandName.split(" ")[0]}
-          </span>
+          </div>
           <span className="text-[9px] md:text-[10px] font-bold tracking-[0.25em] text-muted-foreground uppercase mt-1 leading-none">
             {subtitle}
           </span>

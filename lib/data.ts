@@ -36,6 +36,8 @@ export interface HeroInfo {
   stats: { label: string; value: string }[];
   resumeUrl: string;
   profileImg: string;
+  availabilityStatus?: string;
+  availabilityMessage?: string;
 }
 
 export interface AboutInfo {
@@ -207,7 +209,9 @@ export async function getHero(): Promise<HeroInfo> {
       roles: ["Software Engineer", "Full-Stack Developer", "AI Engineer"],
       stats: [],
       resumeUrl: "/resume.pdf",
-      profileImg: "/profile.jpg"
+      profileImg: "/profile.jpg",
+      availabilityStatus: "open",
+      availabilityMessage: "Open to full-time opportunities",
     };
   }
 
@@ -219,6 +223,8 @@ export async function getHero(): Promise<HeroInfo> {
     stats: JSON.parse(record.stats),
     resumeUrl: record.resumeUrl,
     profileImg: record.profileImg,
+    availabilityStatus: record.availabilityStatus || "open",
+    availabilityMessage: record.availabilityMessage || "Open to full-time opportunities",
   };
 }
 
@@ -234,6 +240,8 @@ export async function saveHero(data: HeroInfo): Promise<boolean> {
         stats: JSON.stringify(data.stats),
         resumeUrl: data.resumeUrl,
         profileImg: data.profileImg,
+        availabilityStatus: data.availabilityStatus || "open",
+        availabilityMessage: data.availabilityMessage || "Open to full-time opportunities",
       },
       create: {
         id: 1,
@@ -244,6 +252,8 @@ export async function saveHero(data: HeroInfo): Promise<boolean> {
         stats: JSON.stringify(data.stats),
         resumeUrl: data.resumeUrl,
         profileImg: data.profileImg,
+        availabilityStatus: data.availabilityStatus || "open",
+        availabilityMessage: data.availabilityMessage || "Open to full-time opportunities",
       }
     });
     return true;

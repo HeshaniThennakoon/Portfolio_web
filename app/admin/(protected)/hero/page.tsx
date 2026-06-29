@@ -251,6 +251,89 @@ export default function AdminHeroPage() {
               </div>
             </div>
 
+            {/* Availability Status Section */}
+            <div className="border-t border-border/80 pt-6 space-y-4">
+              <div>
+                <h3 className="font-bold text-foreground text-sm uppercase tracking-wider mb-1">Availability Status Indicator</h3>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest leading-relaxed">
+                  Show recruiters your real-time work availability status.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label className={`cursor-pointer p-4 rounded-xl border flex flex-col justify-between transition-all ${
+                  data.availabilityStatus === "open"
+                    ? "border-emerald-500 bg-emerald-500/5 text-emerald-950 dark:text-emerald-300"
+                    : "border-border hover:border-emerald-500/40 text-muted-foreground"
+                }`}>
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-xs font-bold uppercase tracking-wider">Open to Work</span>
+                    <input
+                      type="radio"
+                      name="availabilityStatus"
+                      value="open"
+                      checked={data.availabilityStatus === "open" || !data.availabilityStatus}
+                      onChange={() => setData({ ...data, availabilityStatus: "open" })}
+                      className="text-emerald-600 focus:ring-emerald-500"
+                    />
+                  </div>
+                  <span className="text-[9px] mt-2 block font-medium">Pulsing green indicator. Perfect for active job hunting.</span>
+                </label>
+
+                <label className={`cursor-pointer p-4 rounded-xl border flex flex-col justify-between transition-all ${
+                  data.availabilityStatus === "freelance"
+                    ? "border-amber-500 bg-amber-500/5 text-amber-950 dark:text-amber-300"
+                    : "border-border hover:border-amber-500/40 text-muted-foreground"
+                }`}>
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-xs font-bold uppercase tracking-wider">Freelance Only</span>
+                    <input
+                      type="radio"
+                      name="availabilityStatus"
+                      value="freelance"
+                      checked={data.availabilityStatus === "freelance"}
+                      onChange={() => setData({ ...data, availabilityStatus: "freelance" })}
+                      className="text-amber-600 focus:ring-amber-500"
+                    />
+                  </div>
+                  <span className="text-[9px] mt-2 block font-medium">Amber indicator. Perfect for contract roles and part-time tasks.</span>
+                </label>
+
+                <label className={`cursor-pointer p-4 rounded-xl border flex flex-col justify-between transition-all ${
+                  data.availabilityStatus === "unavailable"
+                    ? "border-rose-500 bg-rose-500/5 text-rose-950 dark:text-rose-300"
+                    : "border-border hover:border-rose-500/40 text-muted-foreground"
+                }`}>
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-xs font-bold uppercase tracking-wider">Not Available</span>
+                    <input
+                      type="radio"
+                      name="availabilityStatus"
+                      value="unavailable"
+                      checked={data.availabilityStatus === "unavailable"}
+                      onChange={() => setData({ ...data, availabilityStatus: "unavailable" })}
+                      className="text-rose-600 focus:ring-rose-500"
+                    />
+                  </div>
+                  <span className="text-[9px] mt-2 block font-medium">Red/gray indicator. Perfect if you have accepted a role.</span>
+                </label>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="hero-avail-msg" className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                  Availability Description Message
+                </label>
+                <input
+                  id="hero-avail-msg"
+                  type="text"
+                  value={data.availabilityMessage || ""}
+                  onChange={(e) => setData({ ...data, availabilityMessage: e.target.value })}
+                  placeholder="e.g. Open to full-time opportunities"
+                  className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all"
+                />
+              </div>
+            </div>
+
             <button
               type="submit"
               disabled={saving}
