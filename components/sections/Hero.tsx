@@ -5,13 +5,14 @@ import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { TypewriterText } from "../shared/TypewriterText";
-import { HeroInfo } from "@/lib/data";
+import { HeroInfo, Education } from "@/lib/data";
 
 interface HeroProps {
   data: HeroInfo;
+  education?: Education;
 }
 
-export function Hero({ data }: HeroProps) {
+export function Hero({ data, education }: HeroProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -106,15 +107,19 @@ export function Hero({ data }: HeroProps) {
           </motion.p>
 
           {/* Academic secondary detail */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-6 border-l-2 border-primary/40 pl-4 py-1 text-left w-full max-w-2xl"
-          >
-            <p className="text-xs sm:text-sm font-semibold tracking-wider text-foreground">BSc (Hons) in Computer Engineering</p>
-            <p className="text-[11px] sm:text-xs text-muted-foreground mt-0.5">University of Ruhuna</p>
-          </motion.div>
+          {education && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="mt-6 border-l-2 border-primary/40 pl-4 py-1 text-left w-full max-w-2xl"
+            >
+              <p className="text-xs sm:text-sm font-semibold tracking-wider text-foreground">{education.degree}</p>
+              <p className="text-[11px] sm:text-xs text-muted-foreground mt-0.5">
+                {education.faculty ? `${education.faculty}, ` : ""}{education.institution}
+              </p>
+            </motion.div>
+          )}
 
           {/* Action CTAs */}
           <motion.div

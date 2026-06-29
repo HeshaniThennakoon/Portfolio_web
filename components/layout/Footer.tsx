@@ -8,9 +8,10 @@ import type { SocialLinks } from "@/lib/data";
 
 interface FooterProps {
   socialLinks?: SocialLinks;
+  brandName?: string;
 }
 
-export function Footer({ socialLinks }: FooterProps) {
+export function Footer({ socialLinks, brandName = "Heshani Thennakoon" }: FooterProps) {
   const currentYear = new Date().getFullYear();
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -60,7 +61,7 @@ export function Footer({ socialLinks }: FooterProps) {
               ? "text-primary cyber-glow" 
               : "bg-gradient-to-r from-cyan-600 to-indigo-600 bg-clip-text text-transparent"
           )}>
-            HESHANI
+            {brandName.split(" ")[0].toUpperCase()}
           </span>
           <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mt-2 block">
             © {currentYear} | ALL RIGHTS RESERVED
@@ -141,7 +142,7 @@ export function Footer({ socialLinks }: FooterProps) {
           "text-[9px] font-bold font-mono tracking-[0.25em] uppercase",
           isDark ? "text-primary" : "text-cyan-600"
         )}>
-          DESIGNED & ENGINEERED BY HESHANI THENNAKOON
+          DESIGNED & ENGINEERED BY {brandName.toUpperCase()}
         </p>
       </div>
     </footer>

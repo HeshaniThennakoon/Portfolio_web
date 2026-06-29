@@ -19,7 +19,12 @@ const navLinks: NavLink[] = [
   { label: "Contact", href: "#contact" },
 ];
 
-export function Navbar() {
+interface NavbarProps {
+  brandName?: string;
+  subtitle?: string;
+}
+
+export function Navbar({ brandName = "Heshani", subtitle = "Software Engineer" }: NavbarProps) {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -106,10 +111,10 @@ export function Navbar() {
                 : "bg-gradient-to-r from-cyan-600 to-blue-700 bg-clip-text text-transparent"
             )}
           >
-            HESHANI
+            {brandName.split(" ")[0]}
           </span>
           <span className="text-[9px] md:text-[10px] font-bold tracking-[0.25em] text-muted-foreground uppercase mt-1 leading-none">
-            Software Engineer
+            {subtitle}
           </span>
         </a>
 

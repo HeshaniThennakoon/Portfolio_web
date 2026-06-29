@@ -36,11 +36,20 @@ export default async function Home() {
   const servicesData = await getServices();
   const socialLinksData = await getSocialLinks();
 
+  const primaryRole = heroData.roles[0] || "Software Engineer";
+
+  const universityEntry = educationData.find(edu => 
+    edu.degree.toLowerCase().includes("bsc") || 
+    edu.degree.toLowerCase().includes("bachelor") || 
+    edu.degree.toLowerCase().includes("hons") ||
+    edu.institution.toLowerCase().includes("university")
+  ) || educationData[0];
+
   return (
     <>
-      <Navbar />
+      <Navbar brandName={heroData.name} subtitle={primaryRole} />
       <main className="flex-1">
-        <Hero data={heroData} />
+        <Hero data={heroData} education={universityEntry} />
         <Stats stats={heroData.stats} />
         <WhyHireMe data={servicesData} />
         <About data={aboutData} profileImg={heroData.profileImg} name={heroData.name} />
@@ -51,7 +60,7 @@ export default async function Home() {
         <AchievementsSection data={achievementsData} />
         <Contact socialLinks={socialLinksData} />
       </main>
-      <Footer socialLinks={socialLinksData} />
+      <Footer socialLinks={socialLinksData} brandName={heroData.name} />
     </>
   );
 }

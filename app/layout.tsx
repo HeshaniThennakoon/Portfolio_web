@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
-import { getSettings } from "@/lib/data";
+import { getSettings, getHero } from "@/lib/data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,10 +20,20 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Heshani Thennakoon | Software Engineer Portfolio",
-  description: "Professional portfolio of Heshani Thennakoon, Software Engineer specializing in Full-Stack development, AI, Cloud, and Web systems.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const hero = await getHero();
+    return {
+      title: `${hero.name} | Professional Portfolio`,
+      description: hero.headline || `Professional portfolio of ${hero.name}, Software Engineer.`,
+    };
+  } catch (err) {
+    return {
+      title: "Heshani Thennakoon | Software Engineer Portfolio",
+      description: "Professional portfolio of Heshani Thennakoon, Software Engineer.",
+    };
+  }
+}
 
 export default async function RootLayout({
   children,
