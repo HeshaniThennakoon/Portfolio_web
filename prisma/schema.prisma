@@ -115,3 +115,12 @@ model Service {
   order       Int     @default(0)
 }
 
+model SocialLinks {
+  id          Int    @id @default(1)
+  email       String @default("")
+  phone       String @default("")
+  github      String @default("")
+  linkedin    String @default("")
+  facebook    String @default("")
+}
+

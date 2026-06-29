@@ -31,6 +31,8 @@ import {
   saveContacts,
   deleteContact,
   markContactReplied,
+  getSocialLinks,
+  saveSocialLinks,
   Settings,
   HeroInfo,
   AboutInfo,
@@ -40,6 +42,7 @@ import {
   Education,
   Achievements,
   Service,
+  SocialLinks,
 } from "@/lib/data";
 
 // 1. Submit contact form and send email
@@ -245,6 +248,22 @@ export async function updateServicesAction(data: Service[]) {
     return { success: true, message: "Services updated successfully." };
   } catch (err) {
     return { success: false, message: "Failed to update services." };
+  }
+}
+
+// 9.6 Social Links Update
+export async function getSocialLinksAction(): Promise<SocialLinks> {
+  return await getSocialLinks();
+}
+
+export async function updateSocialLinksAction(data: SocialLinks) {
+  try {
+    const success = await saveSocialLinks(data);
+    if (!success) throw new Error();
+    revalidatePath("/");
+    return { success: true, message: "Social links updated successfully." };
+  } catch (err) {
+    return { success: false, message: "Failed to update social links." };
   }
 }
 

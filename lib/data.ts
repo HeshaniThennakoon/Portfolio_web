@@ -98,6 +98,14 @@ export interface Service {
   description: string;
 }
 
+export interface SocialLinks {
+  email: string;
+  phone: string;
+  github: string;
+  linkedin: string;
+  facebook: string;
+}
+
 export interface ContactSubmission {
   id: string;
   name: string;
@@ -679,6 +687,57 @@ export async function saveServices(data: Service[]): Promise<boolean> {
     return true;
   } catch (error) {
     console.error("Error saving services to MySQL:", error);
+    return false;
+  }
+}
+
+export async function getSocialLinks(): Promise<SocialLinks> {
+  const record = await db.socialLinks.findFirst({
+    where: { id: 1 }
+  });
+
+  if (!record) {
+    return {
+      email: "thennakoonghm@gmail.com",
+      phone: "+94 75 816 7490",
+      github: "https://github.com/HeshaniThennakoon",
+      linkedin: "https://www.linkedin.com/in/heshani-thennakoon-46538a2b7/",
+      facebook: "https://web.facebook.com/heshani.maduwanthi.7568",
+    };
+  }
+
+  return {
+    email: record.email,
+    phone: record.phone,
+    github: record.github,
+    linkedin: record.linkedin,
+    facebook: record.facebook,
+  };
+}
+
+export async function saveSocialLinks(data: SocialLinks): Promise<boolean> {
+  try {
+    await db.socialLinks.upsert({
+      where: { id: 1 },
+      update: {
+        email: data.email,
+        phone: data.phone,
+        github: data.github,
+        linkedin: data.linkedin,
+        facebook: data.facebook,
+      },
+      create: {
+        id: 1,
+        email: data.email,
+        phone: data.phone,
+        github: data.github,
+        linkedin: data.linkedin,
+        facebook: data.facebook,
+      }
+    });
+    return true;
+  } catch (error) {
+    console.error("Error saving social links to MySQL:", error);
     return false;
   }
 }

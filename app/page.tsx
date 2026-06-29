@@ -19,6 +19,7 @@ import {
   getEducation,
   getAchievements,
   getServices,
+  getSocialLinks,
 } from "@/lib/data";
 
 export const revalidate = 0; // Ensure page is always dynamic and loads latest admin inputs
@@ -33,6 +34,7 @@ export default async function Home() {
   const educationData = await getEducation();
   const achievementsData = await getAchievements();
   const servicesData = await getServices();
+  const socialLinksData = await getSocialLinks();
 
   return (
     <>
@@ -47,9 +49,9 @@ export default async function Home() {
         <Projects data={projectsData} />
         <EducationSection data={educationData} />
         <AchievementsSection data={achievementsData} />
-        <Contact />
+        <Contact socialLinks={socialLinksData} />
       </main>
-      <Footer />
+      <Footer socialLinks={socialLinksData} />
     </>
   );
 }

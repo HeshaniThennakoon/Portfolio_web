@@ -3,9 +3,14 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { Github, Linkedin, Mail, Phone, ChevronUp } from "lucide-react";
+import { Github, Linkedin, Mail, Phone, ChevronUp, Facebook } from "lucide-react";
+import type { SocialLinks } from "@/lib/data";
 
-export function Footer() {
+interface FooterProps {
+  socialLinks?: SocialLinks;
+}
+
+export function Footer({ socialLinks }: FooterProps) {
   const currentYear = new Date().getFullYear();
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -27,6 +32,16 @@ export function Footer() {
       ? "border-[#0d2d46] bg-[#0b2133] text-slate-300 hover:text-cyan-400 hover:border-cyan-400/40 hover:bg-[#0f2c44]/80 hover:shadow-[0_0_15px_rgba(0,245,255,0.15)]"
       : "border-[#d1dce5] bg-white text-slate-600 hover:text-cyan-600 hover:border-cyan-500/30 hover:bg-slate-50/50 hover:shadow-sm"
   );
+
+  const fallbackSocials: SocialLinks = {
+    email: "thennakoonghm@gmail.com",
+    phone: "+94 75 816 7490",
+    github: "https://github.com/HeshaniThennakoon",
+    linkedin: "https://www.linkedin.com/in/heshani-thennakoon-46538a2b7/",
+    facebook: "https://web.facebook.com/heshani.maduwanthi.7568",
+  };
+
+  const socials = socialLinks || fallbackSocials;
 
   return (
     <footer className={cn(
@@ -65,38 +80,57 @@ export function Footer() {
 
         {/* Right Column: Social Icons */}
         <div className="flex items-center gap-3">
-          <a
-            href="https://github.com/HeshaniThennakoon"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={buttonClass}
-            aria-label="GitHub"
-          >
-            <Github size={16} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/heshani-thennakoon-46538a2b7/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={buttonClass}
-            aria-label="LinkedIn"
-          >
-            <Linkedin size={16} />
-          </a>
-          <a
-            href="mailto:thennakoonghm@gmail.com"
-            className={buttonClass}
-            aria-label="Email"
-          >
-            <Mail size={16} />
-          </a>
-          <a
-            href="tel:+94758167490"
-            className={buttonClass}
-            aria-label="Phone"
-          >
-            <Phone size={16} />
-          </a>
+          {socials.github && (
+            <a
+              href={socials.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClass}
+              aria-label="GitHub"
+            >
+              <Github size={16} />
+            </a>
+          )}
+          {socials.linkedin && (
+            <a
+              href={socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClass}
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={16} />
+            </a>
+          )}
+          {socials.facebook && (
+            <a
+              href={socials.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClass}
+              aria-label="Facebook"
+            >
+              <Facebook size={16} />
+            </a>
+          )}
+          {socials.email && (
+            <a
+              href={`mailto:${socials.email}`}
+              className={buttonClass}
+              aria-label="Email"
+            >
+              <Mail size={16} />
+            </a>
+          )}
+          {socials.phone && (
+            <a
+              href={`tel:${socials.phone.replace(/\s+/g, "")}`}
+              className={buttonClass}
+              aria-label="Phone"
+            >
+              <Phone size={16} />
+            </a>
+          )}
         </div>
 
       </div>

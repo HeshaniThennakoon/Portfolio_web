@@ -3,11 +3,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
-import { Mail, Phone, Github, Linkedin, Send, Loader2 } from "lucide-react";
+import { Mail, Phone, Github, Linkedin, Send, Loader2, Facebook } from "lucide-react";
 import { toast } from "sonner";
 import { submitContactForm } from "@/app/actions";
+import type { SocialLinks } from "@/lib/data";
 
-export function Contact() {
+interface ContactProps {
+  socialLinks?: SocialLinks;
+}
+
+export function Contact({ socialLinks }: ContactProps) {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -16,32 +21,53 @@ export function Contact() {
     message: "",
   });
 
+  const fallbackSocials: SocialLinks = {
+    email: "thennakoonghm@gmail.com",
+    phone: "+94 75 816 7490",
+    github: "https://github.com/HeshaniThennakoon",
+    linkedin: "https://www.linkedin.com/in/heshani-thennakoon-46538a2b7/",
+    facebook: "https://web.facebook.com/heshani.maduwanthi.7568",
+  };
+
+  const socials = socialLinks || fallbackSocials;
+
   const contactInfo = [
     {
       icon: <Mail className="text-primary" size={18} />,
       label: "Email Me",
-      value: "thennakoonghm@gmail.com",
-      href: "mailto:thennakoonghm@gmail.com",
+      value: socials.email,
+      href: `mailto:${socials.email}`,
+      show: !!socials.email,
     },
     {
       icon: <Phone className="text-primary" size={18} />,
       label: "Call Me",
-      value: "+94 75 816 7490",
-      href: "tel:+94758167490",
+      value: socials.phone,
+      href: `tel:${socials.phone.replace(/\s+/g, "")}`,
+      show: !!socials.phone,
     },
     {
       icon: <Github className="text-primary" size={18} />,
       label: "GitHub Profile",
-      value: "github.com/HeshaniThennakoon",
-      href: "https://github.com/HeshaniThennakoon",
+      value: socials.github.replace("https://", "").replace("www.", ""),
+      href: socials.github,
+      show: !!socials.github,
     },
     {
       icon: <Linkedin className="text-primary" size={18} />,
       label: "LinkedIn Profile",
-      value: "linkedin.com/in/heshani-thennakoon",
-      href: "https://www.linkedin.com/in/heshani-thennakoon-46538a2b7/",
+      value: socials.linkedin.replace("https://", "").replace("www.", ""),
+      href: socials.linkedin,
+      show: !!socials.linkedin,
     },
-  ];
+    {
+      icon: <Facebook className="text-primary" size={18} />,
+      label: "Facebook Profile",
+      value: socials.facebook.replace("https://", "").replace("www.", ""),
+      href: socials.facebook,
+      show: !!socials.facebook,
+    },
+  ].filter(info => info.show);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
