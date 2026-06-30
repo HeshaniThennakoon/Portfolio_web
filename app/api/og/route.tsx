@@ -204,8 +204,8 @@ export async function GET(request: NextRequest) {
             </div>
 
             {/* Tagline */}
-            <div style={{ fontSize: "26px", fontWeight: "500", color: "rgba(255, 255, 255, 0.85)", lineHeight: 1.4, margin: "24px 0", fontStyle: "italic" }}>
-              "{ogSettings.tagline || hero.headline}"
+            <div style={{ display: "flex", fontSize: "26px", fontWeight: "500", color: "rgba(255, 255, 255, 0.85)", lineHeight: 1.4, margin: "24px 0", fontStyle: "italic" }}>
+              {`"${ogSettings.tagline || hero.headline}"`}
             </div>
 
             {/* Domain Footer */}
