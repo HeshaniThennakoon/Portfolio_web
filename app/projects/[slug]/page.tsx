@@ -1,15 +1,70 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProjectBySlug, getHero } from "@/lib/data";
+import { getProjectBySlug, getHero, getOgSettings } from "@/lib/data";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ArrowLeft, Github, ExternalLink, Calendar, Users, Briefcase, CheckCircle2 } from "lucide-react";
+import type { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
 export const revalidate = 0;
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const [project, hero, ogSettings] = await Promise.all([
+    getProjectBySlug(slug),
+    getHero(),
+    getOgSettings(),
+  ]);
+
+  if (!project) {
+    return {
+      title: "Project Not Found",
+    };
+  }
+
+  const siteUrl = ogSettings.siteUrl || "https://heshani.dev";
+  const tagline = project.description || `Case study for ${project.title}.`;
+  const ogImageUrl = `/api/og?type=project&slug=${slug}`;
+
+  let metadataBase: URL | undefined = undefined;
+  try {
+    metadataBase = new URL(siteUrl);
+  } catch (e) {
+    metadataBase = new URL("http://localhost:3000");
+  }
+
+  return {
+    title: `${project.title} | ${hero.name} Project`,
+    description: tagline,
+    metadataBase,
+    openGraph: {
+      type: "article",
+      url: `${siteUrl}/projects/${slug}`,
+      siteName: ogSettings.siteName || `${hero.name} Portfolio`,
+      title: `${project.title} | ${hero.name}`,
+      description: tagline,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `${project.title} Case Study Preview`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | ${hero.name}`,
+      description: tagline,
+      images: [ogImageUrl],
+      creator: ogSettings.twitterHandle || undefined,
+    },
+  };
+}
 
 export default async function ProjectCaseStudyPage({ params }: PageProps) {
   const { slug } = await params;

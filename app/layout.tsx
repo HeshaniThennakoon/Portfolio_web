@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
-import { getSettings, getHero } from "@/lib/data";
+import { getSettings, getHero, getOgSettings } from "@/lib/data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,10 +22,43 @@ const spaceGrotesk = Space_Grotesk({
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const hero = await getHero();
+    const [hero, ogSettings] = await Promise.all([getHero(), getOgSettings()]);
+    const siteUrl = ogSettings.siteUrl || "https://heshani.dev";
+    const tagline = ogSettings.tagline || hero.headline || `Professional portfolio of ${hero.name}, Software Engineer.`;
+    
+    let metadataBase: URL | undefined = undefined;
+    try {
+      metadataBase = new URL(siteUrl);
+    } catch (e) {
+      metadataBase = new URL("http://localhost:3000");
+    }
+
     return {
       title: `${hero.name} | Professional Portfolio`,
-      description: hero.headline || `Professional portfolio of ${hero.name}, Software Engineer.`,
+      description: tagline,
+      metadataBase,
+      openGraph: {
+        type: "website",
+        url: siteUrl,
+        siteName: ogSettings.siteName || `${hero.name} Portfolio`,
+        title: `${hero.name} | Professional Portfolio`,
+        description: tagline,
+        images: [
+          {
+            url: "/api/og",
+            width: 1200,
+            height: 630,
+            alt: `${hero.name} | Portfolio Preview`,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${hero.name} | Professional Portfolio`,
+        description: tagline,
+        images: ["/api/og"],
+        creator: ogSettings.twitterHandle || undefined,
+      },
     };
   } catch (err) {
     return {

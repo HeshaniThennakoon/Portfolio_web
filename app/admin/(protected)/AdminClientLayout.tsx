@@ -25,7 +25,8 @@ import {
   Menu,
   X,
   Layers,
-  MessageSquare
+  MessageSquare,
+  Globe
 } from "lucide-react";
 
 interface SidebarLink {
@@ -70,6 +71,7 @@ const navigationGroups: NavGroup[] = [
     groupName: "System Config",
     links: [
       { label: "System Settings", href: "/admin/settings", icon: <Settings size={16} /> },
+      { label: "OG & Social Share", href: "/admin/og-settings", icon: <Globe size={16} /> },
     ],
   },
 ];

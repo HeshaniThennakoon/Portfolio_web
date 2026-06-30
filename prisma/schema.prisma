@@ -150,3 +150,14 @@ model Testimonial {
   updatedAt DateTime @updatedAt
 }
 
+model OgSettings {
+  id               Int     @id @default(1)
+  tagline          String  @default("Building the Future, One Line at a Time") @db.VarChar(255)
+  showAvailability Boolean @default(true)
+  showProfilePhoto Boolean @default(true)
+  siteName         String  @default("Heshani Thennakoon | Portfolio") @db.VarChar(255)
+  siteUrl          String  @default("https://heshani.dev") @db.VarChar(255)
+  twitterHandle    String  @default("") @db.VarChar(255)
+}
+
+

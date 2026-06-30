@@ -28,6 +28,15 @@ export interface Settings {
   emailConfig: EmailConfig;
 }
 
+export interface OgSettings {
+  tagline: string;
+  showAvailability: boolean;
+  showProfilePhoto: boolean;
+  siteName: string;
+  siteUrl: string;
+  twitterHandle: string;
+}
+
 export interface HeroInfo {
   name: string;
   headline: string;
@@ -214,6 +223,73 @@ export async function saveSettings(data: Settings): Promise<boolean> {
     return true;
   } catch (error) {
     console.error("Error saving settings to MySQL:", error);
+    return false;
+  }
+}
+
+export async function getOgSettings(): Promise<OgSettings> {
+  try {
+    const record = await db.ogSettings.findFirst({
+      where: { id: 1 }
+    });
+
+    if (!record) {
+      return {
+        tagline: "Building the Future, One Line at a Time",
+        showAvailability: true,
+        showProfilePhoto: true,
+        siteName: "Heshani Thennakoon | Portfolio",
+        siteUrl: "https://heshani.dev",
+        twitterHandle: ""
+      };
+    }
+
+    return {
+      tagline: record.tagline,
+      showAvailability: record.showAvailability,
+      showProfilePhoto: record.showProfilePhoto,
+      siteName: record.siteName,
+      siteUrl: record.siteUrl,
+      twitterHandle: record.twitterHandle
+    };
+  } catch (error) {
+    console.error("Error fetching OG settings from MySQL:", error);
+    return {
+      tagline: "Building the Future, One Line at a Time",
+      showAvailability: true,
+      showProfilePhoto: true,
+      siteName: "Heshani Thennakoon | Portfolio",
+      siteUrl: "https://heshani.dev",
+      twitterHandle: ""
+    };
+  }
+}
+
+export async function saveOgSettings(data: OgSettings): Promise<boolean> {
+  try {
+    await db.ogSettings.upsert({
+      where: { id: 1 },
+      update: {
+        tagline: data.tagline,
+        showAvailability: data.showAvailability,
+        showProfilePhoto: data.showProfilePhoto,
+        siteName: data.siteName,
+        siteUrl: data.siteUrl,
+        twitterHandle: data.twitterHandle
+      },
+      create: {
+        id: 1,
+        tagline: data.tagline,
+        showAvailability: data.showAvailability,
+        showProfilePhoto: data.showProfilePhoto,
+        siteName: data.siteName,
+        siteUrl: data.siteUrl,
+        twitterHandle: data.twitterHandle
+      }
+    });
+    return true;
+  } catch (error) {
+    console.error("Error saving OG settings to MySQL:", error);
     return false;
   }
 }

@@ -39,6 +39,8 @@ import {
   updateTestimonial,
   deleteTestimonial,
   reorderTestimonials,
+  getOgSettings,
+  saveOgSettings,
   Settings,
   HeroInfo,
   AboutInfo,
@@ -50,6 +52,7 @@ import {
   Service,
   SocialLinks,
   Testimonial,
+  OgSettings,
 } from "@/lib/data";
 
 // 1. Submit contact form and send email
@@ -159,6 +162,18 @@ export async function updateAdminSettings(
   } catch (error: any) {
     console.error(error);
     return { success: false, message: error.message || "Failed to update settings." };
+  }
+}
+
+export async function updateOgSettingsAction(data: OgSettings) {
+  try {
+    const success = await saveOgSettings(data);
+    if (!success) throw new Error();
+    revalidatePath("/");
+    revalidatePath("/admin");
+    return { success: true, message: "OG Settings updated successfully." };
+  } catch (err) {
+    return { success: false, message: "Failed to update OG settings." };
   }
 }
 
@@ -594,3 +609,8 @@ export async function reorderTestimonialsAction(ids: string[]) {
     return { success: false, message: "Failed to reorder testimonials." };
   }
 }
+
+export async function getOgSettingsAction() {
+  return getOgSettings();
+}
+
