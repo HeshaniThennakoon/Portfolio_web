@@ -163,7 +163,7 @@ export function Projects({ data }: ProjectsProps) {
                       {/* Action Links */}
                       <div className="flex items-center justify-between gap-4 pt-4 border-t border-border/80">
                         <div className="flex items-center gap-4">
-                          {project.githubUrl && (
+                          {project.githubUrl && !project.demoUrl && (
                             <a
                               href={project.githubUrl}
                               target="_blank"

@@ -109,7 +109,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
 
             {/* Quick Links */}
             <div className="flex items-center gap-3">
-              {project.githubUrl && (
+              {project.githubUrl && !project.demoUrl && (
                 <a
                   href={project.githubUrl}
                   target="_blank"
