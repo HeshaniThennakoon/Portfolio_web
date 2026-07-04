@@ -62,8 +62,8 @@ export default async function Home() {
         <Projects data={projectsData} />
         <EducationSection data={educationData} />
         <AchievementsSection data={achievementsData} />
-        <Contact socialLinks={socialLinksData} />
         <Testimonials data={testimonialsData} />
+        <Contact socialLinks={socialLinksData} />
       </main>
       <Footer socialLinks={socialLinksData} brandName={heroData.name} />
     </>

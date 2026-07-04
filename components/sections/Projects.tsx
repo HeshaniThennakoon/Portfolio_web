@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeader } from "../shared/SectionHeader";
 import { Project } from "@/lib/data";
 import { Github, ExternalLink, Sparkles, ChevronDown } from "lucide-react";
+import { TiltCard } from "../shared/TiltCard";
 
 interface ProjectsProps {
   data: Project[];
@@ -17,21 +18,23 @@ export function Projects({ data }: ProjectsProps) {
 
   const filterProject = (project: Project) => {
     if (filter === "all") return true;
-    const techs = project.technologies.map(t => t.toLowerCase());
+    
+    const hasTech = (keyword: string) =>
+      project.technologies.some(t => t.toLowerCase().includes(keyword));
     
     if (filter === "ai") {
-      return techs.includes("python") || techs.includes("opencv") || techs.includes("cnn") || techs.includes("tensorflow");
+      return hasTech("python") || hasTech("opencv") || hasTech("cnn") || hasTech("tensorflow");
     }
     if (filter === "web") {
-      return techs.includes("react") || techs.includes("node.js") || techs.includes("node") || techs.includes("express") || techs.includes("php") || techs.includes("blazor") || techs.includes("angular") || techs.includes("html") || techs.includes("next.js") || techs.includes("javascript") || techs.includes("typescript");
+      return hasTech("react") || hasTech("node") || hasTech("express") || hasTech("php") || hasTech("blazor") || hasTech("angular") || hasTech("html") || hasTech("next") || hasTech("javascript") || hasTech("typescript") || hasTech("css") || hasTech("sql");
     }
     if (filter === "mobile") {
-      return techs.includes("flutter") || techs.includes("dart");
+      return hasTech("flutter") || hasTech("dart");
     }
     return true;
   };
 
-  const INITIAL_VISIBLE = 5;
+  const INITIAL_VISIBLE = 3;
   const filteredProjects = data.filter(filterProject);
   const hasMore = filteredProjects.length > INITIAL_VISIBLE;
   const visibleProjects = showAll ? filteredProjects : filteredProjects.slice(0, INITIAL_VISIBLE);
@@ -78,10 +81,14 @@ export function Projects({ data }: ProjectsProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.35, delay: index * 0.05 }}
-                  className={`flex flex-col group border border-border overflow-hidden bg-card hover:border-primary/45 transition-all duration-300 hover:shadow-lg dark:hover:shadow-[0_0_35px_rgba(0,245,255,0.12)] ${
-                    isFeatured ? "md:col-span-2 lg:col-span-2 md:flex-row" : ""
-                  } rounded-3xl`}
+                  className={isFeatured ? "md:col-span-2 lg:col-span-2" : ""}
                 >
+                  <TiltCard
+                    maxTilt={isFeatured ? 6 : 10}
+                    className={`flex flex-col h-full group border border-border bg-card hover:border-primary/45 transition-all duration-300 hover:shadow-lg dark:hover:shadow-[0_0_35px_rgba(0,245,255,0.12)] ${
+                      isFeatured ? "md:flex-row" : ""
+                    }`}
+                  >
                   {/* Thumbnail / Image placeholder with gradient overlay */}
                   <div className={`relative overflow-hidden bg-muted flex items-center justify-center min-h-[240px] ${
                     isFeatured ? "md:w-1/2" : "w-full"
@@ -200,7 +207,8 @@ export function Projects({ data }: ProjectsProps) {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </TiltCard>
+              </motion.div>
               );
             })}
           </AnimatePresence>
