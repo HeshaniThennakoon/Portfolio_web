@@ -58,9 +58,14 @@ export interface AboutInfo {
   profileImg?: string;
 }
 
+export interface Skill {
+  name: string;
+  logoUrl?: string;
+}
+
 export interface SkillCategory {
   category: string;
-  skills: string[];
+  skills: Skill[];
 }
 
 export interface Experience {
@@ -421,10 +426,27 @@ export async function getSkills(): Promise<SkillCategory[]> {
     const records = await db.skillCategory.findMany({
       orderBy: { order: "asc" }
     });
-    return records.map((r) => ({
-      category: r.category,
-      skills: JSON.parse(r.skills),
-    }));
+    return records.map((r) => {
+      let parsed: any[] = [];
+      try {
+        parsed = JSON.parse(r.skills);
+      } catch (e) {
+        parsed = [];
+      }
+      const skills = (parsed || []).map((s: any) => {
+        if (typeof s === "string") {
+          return { name: s };
+        }
+        return {
+          name: s?.name || "",
+          logoUrl: s?.logoUrl || undefined,
+        };
+      });
+      return {
+        category: r.category,
+        skills,
+      };
+    });
   } catch (error) {
     console.error("Error fetching skills from MySQL:", error);
     return [];

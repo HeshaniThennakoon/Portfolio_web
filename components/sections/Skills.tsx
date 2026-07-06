@@ -70,24 +70,26 @@ export function Skills({ data }: SkillsProps) {
             <AnimatePresence mode="popLayout">
               {selectedSkills.map((skill) => (
                 <motion.div
-                  key={skill}
+                  key={skill.name}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.25 }}
-                  layoutId={`skill-${skill}`}
-                  className="p-5 rounded-2xl border border-border bg-card hover:border-primary/45 hover:shadow-md dark:hover:shadow-[0_0_20px_rgba(0,245,255,0.12)] transition-all flex items-center justify-between group"
+                  layoutId={`skill-${skill.name}`}
+                  className="p-4 rounded-2xl border border-border bg-card hover:border-primary/45 hover:shadow-md dark:hover:shadow-[0_0_20px_rgba(0,245,255,0.12)] transition-all flex items-center gap-3.5 group"
                 >
+                  {skill.logoUrl && (
+                    <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-background/30 flex items-center justify-center p-0.5 border border-border/40 group-hover:border-primary/20 transition-all flex-shrink-0">
+                      <img
+                        src={skill.logoUrl}
+                        alt={skill.name}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  )}
                   <span className="font-semibold text-foreground text-xs md:text-sm tracking-wide uppercase font-sans">
-                    {skill}
+                    {skill.name}
                   </span>
-                  <div 
-                    className="w-2 h-2 rounded-full bg-primary/20 group-hover:bg-primary transition-all duration-300"
-                    style={{
-                      boxShadow: '0 0 0px var(--primary)'
-                    }}
-                    // Will glow nicely when active
-                  />
                 </motion.div>
               ))}
             </AnimatePresence>

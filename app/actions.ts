@@ -472,6 +472,22 @@ export async function uploadFileAction(formData: FormData) {
       return { success: true, url: `/uploads/${filename}` };
     }
 
+    if (type === "skill-logo") {
+      const ext = path.extname(file.name) || ".jpg";
+      const timestamp = Date.now();
+      const filename = `skill-logo-${timestamp}${ext}`;
+      const uploadDir = path.join(publicDir, "uploads", "logos");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      const filePath = path.join(uploadDir, filename);
+      fs.writeFileSync(filePath, buffer);
+
+      revalidatePath("/");
+      revalidatePath("/admin");
+      return { success: true, url: `/uploads/logos/${filename}` };
+    }
+
     return { success: false, message: "Invalid upload type." };
   } catch (error: any) {
     console.error("Upload Error:", error);
