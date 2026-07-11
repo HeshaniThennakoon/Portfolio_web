@@ -11,6 +11,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Contact } from "@/components/sections/Contact";
 import { Stats } from "@/components/sections/Stats";
 import { Footer } from "@/components/layout/Footer";
+import { CustomCursor } from "@/components/shared/CustomCursor";
 import {
   getHero,
   getAbout,
@@ -50,7 +51,8 @@ export default async function Home() {
   ) || educationData[0];
 
   return (
-    <>
+    <div className="cursor-hidden min-h-screen flex flex-col">
+      <CustomCursor />
       <Navbar brandName={heroData.name} subtitle={primaryRole} availabilityStatus={heroData.availabilityStatus} />
       <main className="flex-1">
         <Hero data={heroData} education={universityEntry} />
@@ -66,6 +68,6 @@ export default async function Home() {
         <Contact socialLinks={socialLinksData} />
       </main>
       <Footer socialLinks={socialLinksData} brandName={heroData.name} />
-    </>
+    </div>
   );
 }

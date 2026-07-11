@@ -250,3 +250,10 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Custom Cursor Hiding */
+@media (pointer: fine) {
+  .cursor-hidden * {
+    cursor: none !important;
+  }
+}

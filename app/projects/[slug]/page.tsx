@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getProjectBySlug, getHero, getOgSettings } from "@/lib/data";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { CustomCursor } from "@/components/shared/CustomCursor";
 import { ArrowLeft, Github, ExternalLink, Calendar, Users, Briefcase, CheckCircle2 } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -78,7 +79,8 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
   const primaryRole = heroData.roles[0] || "Software Engineer";
 
   return (
-    <>
+    <div className="cursor-hidden min-h-screen flex flex-col">
+      <CustomCursor />
       <Navbar brandName={heroData.name} subtitle={primaryRole} />
       
       <main className="flex-1 pt-32 pb-24 bg-background relative overflow-hidden">
@@ -277,6 +279,6 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
       </main>
 
       <Footer brandName={heroData.name} />
-    </>
+    </div>
   );
 }
