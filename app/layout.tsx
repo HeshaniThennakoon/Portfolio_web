@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
 import { getSettings, getHero, getOgSettings } from "@/lib/data";
+import { Preloader } from "@/components/shared/Preloader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -110,6 +111,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-300">
         <Providers>
+          <Preloader />
           {children}
           <Toaster position="bottom-right" richColors />
         </Providers>
