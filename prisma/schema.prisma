@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,7 +16,7 @@ model Settings {
   lightBg        String @default("#F8FAFC")
   
   username       String @default("admin")
-  passwordHash   String @db.VarChar(255)
+  passwordHash   String 
   
   smtpHost       String @default("smtp.gmail.com")
   smtpPort       Int    @default(465)
@@ -28,10 +28,10 @@ model Settings {
 model HeroInfo {
   id                  Int    @id @default(1)
   name                String @default("Heshani Thennakoon")
-  headline            String @db.VarChar(500)
-  subheadline         String @db.VarChar(1000)
-  roles               String @db.Text          // JSON array: ["Software Engineer", ...]
-  stats               String @db.Text          // JSON array: [{"label": "Projects", "value": "10+"}]
+  headline            String 
+  subheadline         String 
+  roles               String 
+  stats               String 
   resumeUrl           String @default("/resume.pdf")
   profileImg          String @default("/profile.jpg")
   availabilityStatus  String @default("open")
@@ -40,8 +40,8 @@ model HeroInfo {
 
 model AboutInfo {
   id           Int    @id @default(1)
-  story        String @db.Text
-  highlights   String @db.Text           // JSON array of strings
+  story        String 
+  highlights   String 
   sectionTitle String @default("Who Am I?")
   sectionBadge String @default("ABOUT ME")
   ctaLabel     String @default("")
@@ -51,7 +51,7 @@ model AboutInfo {
 model SkillCategory {
   id       String @id @default(uuid())
   category String
-  skills   String @db.Text             // JSON array of strings
+  skills   String 
   order    Int    @default(0)
 }
 
@@ -61,17 +61,17 @@ model Experience {
   company          String
   location         String
   period           String
-  responsibilities String @db.Text     // JSON array of strings
-  techStack        String @db.Text     // JSON array of strings
+  responsibilities String 
+  techStack        String 
   order            Int    @default(0)
 }
 
 model Project {
   id           String  @id @default(uuid())
   title        String
-  description  String  @db.Text
-  technologies String  @db.Text        // JSON array of strings
-  features     String  @db.Text        // JSON array of strings
+  description  String  
+  technologies String  
+  features     String  
   githubUrl    String  @default("")
   demoUrl      String  @default("")
   imageUrl     String  @default("")
@@ -81,10 +81,10 @@ model Project {
   role         String  @default("")
   duration     String  @default("")
   teamSize     String  @default("")
-  challenge    String  @db.Text @default("")
-  solution     String  @db.Text @default("")
-  outcome      String  @db.Text @default("")
-  screenshots  String  @db.Text @default("[]")
+  challenge    String  @default("")
+  solution     String  @default("")
+  outcome      String  @default("")
+  screenshots  String  @default("[]")
 }
 
 model Education {
@@ -93,17 +93,17 @@ model Education {
   institution String
   faculty     String @default("")
   period      String
-  focusAreas  String @db.Text          // JSON array of strings
+  focusAreas  String 
   gpa         String @default("")
-  achievement String @db.Text @default("")
+  achievement String @default("")
   order       Int    @default(0)
 }
 
 model Achievements {
   id           Int    @id @default(1)
-  leadership   String @db.Text         // JSON array of strings
-  sports       String @db.Text         // JSON array of strings
-  professional String @db.Text         // JSON array of strings
+  leadership   String 
+  sports       String 
+  professional String 
 }
 
 model ContactSubmission {
@@ -112,7 +112,7 @@ model ContactSubmission {
   email     String
   phone     String?
   subject   String
-  message   String   @db.Text
+  message   String   
   createdAt DateTime @default(now())
   replied   Boolean  @default(false)
 }
@@ -121,7 +121,7 @@ model Service {
   id          String  @id @default(uuid())
   iconName    String  @default("Globe")
   title       String
-  description String  @db.Text
+  description String  
   order       Int     @default(0)
 }
 
@@ -142,7 +142,7 @@ model Testimonial {
   email     String?
   phone     String?
   image     String?
-  content   String   @db.Text
+  content   String   
   rating    Int      @default(5)
   order     Int      @default(0)
   isActive  Boolean  @default(true)
@@ -152,12 +152,10 @@ model Testimonial {
 
 model OgSettings {
   id               Int     @id @default(1)
-  tagline          String  @default("Building the Future, One Line at a Time") @db.VarChar(255)
+  tagline          String  @default("Building the Future, One Line at a Time") 
   showAvailability Boolean @default(true)
   showProfilePhoto Boolean @default(true)
-  siteName         String  @default("Heshani Thennakoon | Portfolio") @db.VarChar(255)
-  siteUrl          String  @default("https://heshani.dev") @db.VarChar(255)
-  twitterHandle    String  @default("") @db.VarChar(255)
+  siteName         String  @default("Heshani Thennakoon | Portfolio") 
+  siteUrl          String  @default("https://heshani.dev") 
+  twitterHandle    String  @default("") 
 }
-
-
