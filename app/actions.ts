@@ -1,7 +1,12 @@
 "use server";
 
-import fs from "fs";
-import path from "path";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import { revalidatePath } from "next/cache";
@@ -363,7 +368,7 @@ export async function deleteContactSubmission(id: string) {
 export async function uploadFileAction(formData: FormData) {
   try {
     const file = formData.get("file") as File;
-    const type = formData.get("type") as string; // 'screenshot' | 'resume' | 'profile'
+    const type = formData.get("type") as string;
     const projectId = formData.get("projectId") as string;
 
     if (!file) {
@@ -371,121 +376,77 @@ export async function uploadFileAction(formData: FormData) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const publicDir = path.join(process.cwd(), "public");
+    
+    // Convert to base64 for Cloudinary
+    let fileType = file.type;
+    if (!fileType && file.name.endsWith('.pdf')) fileType = 'application/pdf';
+    else if (!fileType) fileType = 'image/jpeg';
+    
+    const base64Data = `data:${fileType};base64,${buffer.toString("base64")}`;
+
+    let folder = "portfolio/uploads";
+    if (type === "skill-logo") folder += "/logos";
+
+    const result = await cloudinary.uploader.upload(base64Data, {
+      folder: folder,
+      resource_type: "auto"
+    });
+    const url = result.secure_url;
 
     if (type === "resume") {
-      const filePath = path.join(publicDir, "resume.pdf");
-      fs.writeFileSync(filePath, buffer);
       revalidatePath("/");
-      return { success: true, url: "/resume.pdf" };
+      return { success: true, url };
     }
 
     if (type === "profile") {
-      const ext = path.extname(file.name) || ".jpg";
-      const timestamp = Date.now();
-      const filename = `profile-${timestamp}${ext}`;
-      const filePath = path.join(publicDir, filename);
-      fs.writeFileSync(filePath, buffer);
-
-      // Update hero json
-      const hero = await getHeroAction();
+      const hero = await getHero();
       if (hero) {
-        hero.profileImg = `/${filename}`;
+        hero.profileImg = url;
         await saveHero(hero);
       }
-
       revalidatePath("/");
-      return { success: true, url: `/${filename}` };
+      return { success: true, url };
     }
 
     if (type === "about-profile") {
-      const ext = path.extname(file.name) || ".jpg";
-      const timestamp = Date.now();
-      const filename = `about-profile-${timestamp}${ext}`;
-      const filePath = path.join(publicDir, filename);
-      fs.writeFileSync(filePath, buffer);
-
-      // Update about database
       const about = await getAbout();
       if (about) {
-        about.profileImg = `/${filename}`;
+        about.profileImg = url;
         await saveAbout(about);
       }
-
       revalidatePath("/");
       revalidatePath("/admin");
-      return { success: true, url: `/${filename}` };
+      return { success: true, url };
     }
 
     if (type === "screenshot" && projectId) {
-      const ext = path.extname(file.name) || ".jpg";
-      const filename = `project-${projectId}${ext}`;
-      const uploadDir = path.join(publicDir, "uploads");
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-      const filePath = path.join(uploadDir, filename);
-      fs.writeFileSync(filePath, buffer);
-
-      // Update project json
       const projects = await getProjects();
       const project = projects.find((p) => p.id === projectId);
       if (project) {
-        project.imageUrl = `/uploads/${filename}`;
+        project.imageUrl = url;
         await saveProjects(projects);
       }
-
       revalidatePath("/");
       revalidatePath("/admin");
-      return { success: true, url: `/uploads/${filename}` };
+      return { success: true, url };
     }
 
     if (type === "gallery" && projectId) {
-      const ext = path.extname(file.name) || ".jpg";
-      const timestamp = Date.now();
-      const filename = `gallery-${projectId}-${timestamp}${ext}`;
-      const uploadDir = path.join(publicDir, "uploads");
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-      const filePath = path.join(uploadDir, filename);
-      fs.writeFileSync(filePath, buffer);
-
       revalidatePath("/");
       revalidatePath("/admin");
-      return { success: true, url: `/uploads/${filename}` };
+      return { success: true, url };
     }
 
     if (type === "testimonial") {
-      const ext = path.extname(file.name) || ".jpg";
-      const timestamp = Date.now();
-      const filename = `testimonial-${timestamp}${ext}`;
-      const uploadDir = path.join(publicDir, "uploads");
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-      const filePath = path.join(uploadDir, filename);
-      fs.writeFileSync(filePath, buffer);
-
       revalidatePath("/");
       revalidatePath("/admin");
-      return { success: true, url: `/uploads/${filename}` };
+      return { success: true, url };
     }
 
     if (type === "skill-logo") {
-      const ext = path.extname(file.name) || ".jpg";
-      const timestamp = Date.now();
-      const filename = `skill-logo-${timestamp}${ext}`;
-      const uploadDir = path.join(publicDir, "uploads", "logos");
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-      const filePath = path.join(uploadDir, filename);
-      fs.writeFileSync(filePath, buffer);
-
       revalidatePath("/");
       revalidatePath("/admin");
-      return { success: true, url: `/uploads/logos/${filename}` };
+      return { success: true, url };
     }
 
     return { success: false, message: "Invalid upload type." };
