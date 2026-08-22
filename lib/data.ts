@@ -164,7 +164,7 @@ export async function getSettings(): Promise<Settings> {
   if (!record) {
     return {
       theme: { primary: "#2563EB", secondary: "#06B6D4", accent: "#8B5CF6", darkBg: "#0F172A", lightBg: "#F8FAFC" },
-      admin: { username: "admin", passwordHash: "" },
+      admin: { username: "admin", passwordHash: "$2a$10$7R9jKz2J44pW5mK9.0Jk1u70uC5g3K4rXz6aD5p0h3y5fK5j5.gKu" },
       emailConfig: { smtpHost: "smtp.gmail.com", smtpPort: 465, smtpUser: "", smtpPass: "", toEmail: "thennakoonghm@gmail.com" }
     };
   }
@@ -310,7 +310,12 @@ export async function getHero(): Promise<HeroInfo> {
       headline: "Building Scalable Software Solutions with Modern Technologies",
       subheadline: "Passionate Software Engineer specializing in full-stack development, cloud technologies, AI-powered applications, and modern web solutions.",
       roles: ["Software Engineer", "Full-Stack Developer", "AI Engineer"],
-      stats: [],
+      stats: [
+        { label: "Projects Completed", value: "10+" },
+        { label: "Learning & Development", value: "4+ Years" },
+        { label: "Internship Experience", value: "1" },
+        { label: "Leadership Roles", value: "Multiple" }
+      ],
       resumeUrl: "/resume.pdf",
       profileImg: "/profile.jpg",
       availabilityStatus: "open",

@@ -1,6 +1,6 @@
 # ✨ Dynamic Software Engineering Portfolio & Admin Workspace
 
-A premium, fully dynamic, production-ready developer portfolio and case study showcase built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, and Prisma ORM with MySQL. 
+A premium, fully dynamic, production-ready developer portfolio and case study showcase built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, and Prisma ORM with POstgreSQL. 
 
 This repository features a public-facing developer landing page alongside a private, secure administrative dashboard to customize every single item of content—including images, stats, availability states, projects, and recommendation letters—in real-time.
 
@@ -29,7 +29,7 @@ This repository features a public-facing developer landing page alongside a priv
 
 * **Framework**: Next.js 16.2 (App Router & Server Actions)
 * **Frontend**: React 19, TypeScript, Tailwind CSS 4 (PostCSS variant), Framer Motion, Lucide Icons, Sonner
-* **Database & ORM**: MySQL Database, Prisma ORM
+* **Database & ORM**: PostgreSQL Database, Prisma ORM
 * **Authentication**: Session cookies and bcryptjs credential encryption
 * **Mail Dispatcher**: Nodemailer
 
@@ -88,7 +88,7 @@ JWT_SECRET="your-super-secret-jwt-key"
 ### 4. Database Setup & Synchronization
 Execute Prisma to configure database tables, relationships, and generate the typescript client helper:
 ```bash
-# Push schema structure to MySQL
+# Push schema structure to Database
 npx prisma db push
 
 # Generate Prisma Client
