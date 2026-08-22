@@ -10,13 +10,20 @@ import { GlassCard } from "@/components/shared/GlassCard";
 export default function AdminAchievementsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [data, setData] = useState<Achievements | null>(null);
+
+  const [leadershipText, setLeadershipText] = useState("");
+  const [sportsText, setSportsText] = useState("");
+  const [professionalText, setProfessionalText] = useState("");
 
   useEffect(() => {
     async function loadData() {
       try {
         const ach = await getAchievementsAction();
-        setData(ach);
+        if (ach) {
+          setLeadershipText(ach.leadership ? ach.leadership.join("\n") : "");
+          setSportsText(ach.sports ? ach.sports.join("\n") : "");
+          setProfessionalText(ach.professional ? ach.professional.join("\n") : "");
+        }
       } catch (err) {
         toast.error("Failed to load achievements.");
       } finally {
@@ -26,22 +33,24 @@ export default function AdminAchievementsPage() {
     loadData();
   }, []);
 
-  const handleListChange = (category: keyof Achievements, value: string) => {
-    if (!data) return;
-    const list = value.split("\n").map((item) => item.trim()).filter((item) => item.length > 0);
-    setData({
-      ...data,
-      [category]: list,
-    });
-  };
-
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!data) return;
+
+    const parseList = (text: string) =>
+      text
+        .split("\n")
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0);
+
+    const updatedData: Achievements = {
+      leadership: parseList(leadershipText),
+      sports: parseList(sportsText),
+      professional: parseList(professionalText),
+    };
 
     setSaving(true);
     try {
-      const res = await updateAchievementsAction(data);
+      const res = await updateAchievementsAction(updatedData);
       if (res.success) {
         toast.success(res.message);
       } else {
@@ -54,7 +63,7 @@ export default function AdminAchievementsPage() {
     }
   };
 
-  if (loading || !data) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[300px]">
         <Loader2 className="animate-spin text-primary" size={32} />
@@ -85,8 +94,8 @@ export default function AdminAchievementsPage() {
             <textarea
               id="ach-leadership"
               rows={5}
-              value={data.leadership.join("\n")}
-              onChange={(e) => handleListChange("leadership", e.target.value)}
+              value={leadershipText}
+              onChange={(e) => setLeadershipText(e.target.value)}
               placeholder="Captain - University Carrom Team..."
               className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
             />
@@ -99,8 +108,8 @@ export default function AdminAchievementsPage() {
             <textarea
               id="ach-sports"
               rows={5}
-              value={data.sports.join("\n")}
-              onChange={(e) => handleListChange("sports", e.target.value)}
+              value={sportsText}
+              onChange={(e) => setSportsText(e.target.value)}
               placeholder="Quarter Finalist - SLUG XV..."
               className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
             />
@@ -113,8 +122,8 @@ export default function AdminAchievementsPage() {
             <textarea
               id="ach-prof"
               rows={5}
-              value={data.professional.join("\n")}
-              onChange={(e) => handleListChange("professional", e.target.value)}
+              value={professionalText}
+              onChange={(e) => setProfessionalText(e.target.value)}
               placeholder="Participant - Eminence 4.0..."
               className="bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none rounded-xl px-4 py-3 text-sm text-foreground transition-all resize-none leading-relaxed"
             />
